@@ -1,7 +1,12 @@
+import ProfileAndSettings from "../../../modules/dentist/settings/Profile-and-settings";
+
 export default function SettingsManage() {
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-gray-800">Settings Manage</h1>
-    </div>
+    <main className="">
+      <div className="">
+        <ProfileAndSettings />
+      </div>
+    </main>
   );
 }
+
