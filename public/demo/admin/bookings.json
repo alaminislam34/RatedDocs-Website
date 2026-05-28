@@ -1,0 +1,1038 @@
+{
+  "meta": {
+    "total_bookings": 312,
+    "cancellations": 38,
+    "completed_mtd": 964
+  },
+  "bookings": [
+    {
+      "id": "b-2041",
+      "booking_id": "B-2041",
+      "patient": {
+        "id": "pat-001",
+        "name": "Olivia Martinez",
+        "patient_ref": "PAT-001",
+        "initials": "OM",
+        "avatar_color": "#7C3AED",
+        "email": "olivia@gmail.com",
+        "phone": "+1 415 555 0188",
+        "location": "San Francisco, CA"
+      },
+      "dentist": {
+        "name": "Dr. Maya Patel",
+        "initials": "DM",
+        "avatar_color": "#16A34A",
+        "specialty": "Orthodontics",
+        "rating": 4.9,
+        "review_count": 184,
+        "verified": true,
+        "rdv_score": 98,
+        "location": "San Francisco, CA"
+      },
+      "procedure": "All-on-4 Full Arch",
+      "status": "In Progress",
+      "escrow_status": "In Escrow",
+      "amount": 1075,
+      "date": "May 6, 2026",
+      "date_iso": "2026-05-06",
+      "created_date": "Apr 22, 2026",
+      "created_date_iso": "2026-04-22",
+      "appointment_type": "In-person · Multi-day",
+      "treatment_duration": "4-5 days",
+      "scheduled_dates": "Jun 15 – 20, 2026",
+      "scheduled_start": "2026-06-15",
+      "scheduled_end": "2026-06-20",
+      "booking_stage": "In Travel",
+      "journey": [
+        { "step": "Consultation", "date": "Apr 18, 2026", "completed": true },
+        { "step": "Estimate Sent", "date": "Apr 20, 2026", "completed": true },
+        { "step": "Plan Accepted", "date": "Apr 28, 2026", "completed": true },
+        { "step": "Payment Confirmed", "date": "Apr 28, 2026", "completed": true },
+        { "step": "In Travel", "date": "Jun 15, 2026", "completed": true, "current": true },
+        { "step": "Day 1 Treatment", "date": null, "completed": false },
+        { "step": "Treatment Complete", "date": null, "completed": false },
+        { "step": "Payment Released", "date": null, "completed": false }
+      ],
+      "platform_fee": {
+        "gross_amount": 1075,
+        "fee_pct": 10,
+        "fee_amount": 107.50,
+        "net_to_dentist": 967.50
+      },
+      "payment": {
+        "escrow_message": "$1,075 held in Escrow",
+        "escrow_detail": "Protected by the No Surprise Guarantee. Funds release automatically after treatment is confirmed complete.",
+        "estimate_amount": 1075,
+        "final_amount": null,
+        "escrow_status": "In Escrow",
+        "escrow_type": "in_escrow"
+      },
+      "treatment_plan": {
+        "label": "Estimate",
+        "items": [
+          { "name": "Initial examination", "price": null, "included": true },
+          { "name": "CBCT scan (if needed)", "price": 693 },
+          { "name": "Temporary prosthesis", "price": 1039 },
+          { "name": "Temporary prosthesis", "price": 1200 },
+          { "name": "Final fitting & adjustments", "price": 346 }
+        ],
+        "estimate_total": 1075,
+        "guarantee_pct": 15,
+        "max_charge": 1236,
+        "signed_by": "Olivia Martinez",
+        "signed_date": "Apr 28, 2026",
+        "final_plan": null
+      },
+      "review": null
+    },
+    {
+      "id": "b-2042",
+      "booking_id": "B-2042",
+      "patient": {
+        "id": "pat-002",
+        "name": "Ethan Wright",
+        "patient_ref": "PAT-002",
+        "initials": "EW",
+        "avatar_color": "#1E3A5F",
+        "email": "ethan.w@mail.com",
+        "phone": "+1 212 555 0142",
+        "location": "New York, NY"
+      },
+      "dentist": {
+        "name": "Dr. Brian Lee",
+        "initials": "DB",
+        "avatar_color": "#2563EB",
+        "specialty": "Endodontics",
+        "rating": 4.8,
+        "review_count": 142,
+        "verified": true,
+        "rdv_score": 93,
+        "location": "New York, NY"
+      },
+      "procedure": "Root Canal Therapy",
+      "status": "Completed",
+      "escrow_status": "Released",
+      "amount": 980,
+      "date": "Apr 30, 2026",
+      "date_iso": "2026-04-30",
+      "created_date": "Apr 20, 2026",
+      "created_date_iso": "2026-04-20",
+      "appointment_type": "In-person · Single day",
+      "treatment_duration": "1 day",
+      "scheduled_dates": "Apr 30, 2026",
+      "scheduled_start": "2026-04-30",
+      "scheduled_end": "2026-04-30",
+      "booking_stage": "Payment Released",
+      "journey": [
+        { "step": "Consultation", "date": "Apr 18, 2026", "completed": true },
+        { "step": "Estimate Sent", "date": "Apr 20, 2026", "completed": true },
+        { "step": "Plan Accepted", "date": "Apr 25, 2026", "completed": true },
+        { "step": "Payment Confirmed", "date": "Apr 25, 2026", "completed": true },
+        { "step": "Appointment Day", "date": "Apr 30, 2026", "completed": true },
+        { "step": "Treatment Complete", "date": "Apr 30, 2026", "completed": true },
+        { "step": "Payment Released", "date": "Apr 30, 2026", "completed": true }
+      ],
+      "platform_fee": {
+        "gross_amount": 980,
+        "fee_pct": 10,
+        "fee_amount": 98,
+        "net_to_dentist": 882
+      },
+      "payment": {
+        "escrow_message": "Payment released · $980",
+        "escrow_detail": "Net to dentist: $882 · Platform fee: $98 (10%)",
+        "estimate_amount": 980,
+        "final_amount": 980,
+        "escrow_status": "Released",
+        "escrow_type": "released"
+      },
+      "treatment_plan": {
+        "label": "Estimate",
+        "items": [
+          { "name": "Initial examination", "price": null, "included": true },
+          { "name": "Root Canal Therapy", "price": 980 }
+        ],
+        "estimate_total": 980,
+        "guarantee_pct": 15,
+        "max_charge": 1127,
+        "signed_by": "Ethan Wright",
+        "signed_date": "Apr 25, 2026",
+        "final_plan": {
+          "label": "Final treatment plan",
+          "items": [
+            { "name": "Initial examination", "price": null, "included": true },
+            { "name": "Root Canal Therapy", "price": 980 }
+          ],
+          "final_total": 980
+        }
+      },
+      "review": {
+        "status": "Live",
+        "reviewer_name": "Ethan Wright",
+        "reviewer_initials": "EW",
+        "reviewer_avatar_color": "#1E3A5F",
+        "review_date": "Apr 30, 2026",
+        "overall_rating": 5.0,
+        "categories": [
+          { "name": "Communication", "rating": 5 },
+          { "name": "Value for money", "rating": 5 },
+          { "name": "Follow through", "rating": 5 }
+        ],
+        "written_review": "Dr. Lee was incredibly professional and made the procedure completely comfortable. The clinic was spotless, the team were warm and attentive, and I felt informed at every step. Would absolutely recommend to anyone considering dental treatment in New York.",
+        "procedure": "Root Canal Therapy",
+        "dentist": "Dr. Brian Lee",
+        "before_after": {
+          "caption": "Root canal therapy — patient reported full relief within 48 hours.",
+          "has_images": true
+        }
+      }
+    },
+    {
+      "id": "b-2043",
+      "booking_id": "B-2043",
+      "patient": {
+        "id": "pat-004",
+        "name": "Daniel Nguyen",
+        "patient_ref": "PAT-004",
+        "initials": "DN",
+        "avatar_color": "#2563EB",
+        "email": "dnguyen@mail.com",
+        "phone": "+1 206 555 0144",
+        "location": "Seattle, WA"
+      },
+      "dentist": {
+        "name": "Dr. Noah Kim",
+        "initials": "DN",
+        "avatar_color": "#0891B2",
+        "specialty": "Cosmetic",
+        "rating": 4.7,
+        "review_count": 96,
+        "verified": true,
+        "rdv_score": 91,
+        "location": "Seattle, WA"
+      },
+      "procedure": "Teeth Whitening",
+      "status": "In Progress",
+      "escrow_status": null,
+      "amount": 350,
+      "date": "Apr 30, 2026",
+      "date_iso": "2026-04-30",
+      "created_date": "Apr 18, 2026",
+      "created_date_iso": "2026-04-18",
+      "appointment_type": "In-person · Single day",
+      "treatment_duration": "1 day",
+      "scheduled_dates": "Apr 30, 2026",
+      "scheduled_start": "2026-04-30",
+      "scheduled_end": "2026-04-30",
+      "booking_stage": "Payment Confirmed",
+      "journey": [
+        { "step": "Consultation", "date": "Apr 15, 2026", "completed": true },
+        { "step": "Estimate Sent", "date": "Apr 18, 2026", "completed": true },
+        { "step": "Plan Accepted", "date": "Apr 22, 2026", "completed": true },
+        { "step": "Payment Confirmed", "date": "Apr 22, 2026", "completed": true, "current": true },
+        { "step": "Appointment Day", "date": null, "completed": false },
+        { "step": "Treatment Complete", "date": null, "completed": false },
+        { "step": "Payment Released", "date": null, "completed": false }
+      ],
+      "platform_fee": {
+        "gross_amount": 350,
+        "fee_pct": 10,
+        "fee_amount": 35,
+        "net_to_dentist": 315
+      },
+      "payment": {
+        "escrow_message": null,
+        "escrow_detail": null,
+        "estimate_amount": 350,
+        "final_amount": null,
+        "escrow_status": null,
+        "escrow_type": "none"
+      },
+      "treatment_plan": {
+        "label": "Estimate",
+        "items": [
+          { "name": "Initial examination", "price": null, "included": true },
+          { "name": "Teeth Whitening (full arch)", "price": 350 }
+        ],
+        "estimate_total": 350,
+        "guarantee_pct": 15,
+        "max_charge": 403,
+        "signed_by": "Daniel Nguyen",
+        "signed_date": "Apr 22, 2026",
+        "final_plan": null
+      },
+      "review": null
+    },
+    {
+      "id": "b-2044",
+      "booking_id": "B-2044",
+      "patient": {
+        "id": "pat-003",
+        "name": "Sophie Bennett",
+        "patient_ref": "PAT-003",
+        "initials": "SB",
+        "avatar_color": "#0D9488",
+        "email": "sophie@mail.com",
+        "phone": "+1 512 555 0119",
+        "location": "Austin, TX"
+      },
+      "dentist": {
+        "name": "Dr. Maya Patel",
+        "initials": "DM",
+        "avatar_color": "#16A34A",
+        "specialty": "Orthodontics",
+        "rating": 4.9,
+        "review_count": 184,
+        "verified": true,
+        "rdv_score": 98,
+        "location": "Austin, TX"
+      },
+      "procedure": "Braces Consultation",
+      "status": "In Progress",
+      "escrow_status": "In Escrow",
+      "amount": 90,
+      "date": "May 1, 2026",
+      "date_iso": "2026-05-01",
+      "created_date": "Apr 24, 2026",
+      "created_date_iso": "2026-04-24",
+      "appointment_type": "In-person · Single day",
+      "treatment_duration": "1 day",
+      "scheduled_dates": "May 1, 2026",
+      "scheduled_start": "2026-05-01",
+      "scheduled_end": "2026-05-01",
+      "booking_stage": "Appointment Day",
+      "journey": [
+        { "step": "Consultation", "date": "Apr 20, 2026", "completed": true },
+        { "step": "Estimate Sent", "date": "Apr 24, 2026", "completed": true },
+        { "step": "Plan Accepted", "date": "Apr 27, 2026", "completed": true },
+        { "step": "Payment Confirmed", "date": "Apr 27, 2026", "completed": true },
+        { "step": "Appointment Day", "date": "May 1, 2026", "completed": true, "current": true },
+        { "step": "Treatment Complete", "date": null, "completed": false },
+        { "step": "Payment Released", "date": null, "completed": false }
+      ],
+      "platform_fee": {
+        "gross_amount": 90,
+        "fee_pct": 10,
+        "fee_amount": 9,
+        "net_to_dentist": 81
+      },
+      "payment": {
+        "escrow_message": "$90 held in Escrow",
+        "escrow_detail": "Protected by the No Surprise Guarantee. Funds release automatically after treatment is confirmed complete.",
+        "estimate_amount": 90,
+        "final_amount": null,
+        "escrow_status": "In Escrow",
+        "escrow_type": "in_escrow"
+      },
+      "treatment_plan": {
+        "label": "Estimate",
+        "items": [
+          { "name": "Initial consultation & x-ray review", "price": null, "included": true },
+          { "name": "Braces Consultation fee", "price": 90 }
+        ],
+        "estimate_total": 90,
+        "guarantee_pct": 15,
+        "max_charge": 104,
+        "signed_by": "Sophie Bennett",
+        "signed_date": "Apr 27, 2026",
+        "final_plan": null
+      },
+      "review": null
+    },
+    {
+      "id": "b-2045",
+      "booking_id": "B-2045",
+      "patient": {
+        "id": "pat-005",
+        "name": "Zoe Robinson",
+        "patient_ref": "PAT-005",
+        "initials": "ZR",
+        "avatar_color": "#D97706",
+        "email": "zoe.r@mail.com",
+        "phone": "+1 617 555 0133",
+        "location": "Boston, MA"
+      },
+      "dentist": {
+        "name": "Dr. Priya Shah",
+        "initials": "DP",
+        "avatar_color": "#9333EA",
+        "specialty": "Periodontics",
+        "rating": 3.9,
+        "review_count": 58,
+        "verified": true,
+        "rdv_score": 64,
+        "location": "Boston, MA"
+      },
+      "procedure": "Gum Treatment",
+      "status": "Cancelled",
+      "escrow_status": "Refunded",
+      "amount": 520,
+      "date": "May 1, 2026",
+      "date_iso": "2026-05-01",
+      "created_date": "Apr 25, 2026",
+      "created_date_iso": "2026-04-25",
+      "appointment_type": "In-person · Single day",
+      "treatment_duration": "1 day",
+      "scheduled_dates": "May 10, 2026",
+      "scheduled_start": "2026-05-10",
+      "scheduled_end": "2026-05-10",
+      "booking_stage": "Cancelled",
+      "journey": [
+        { "step": "Consultation", "date": "Apr 23, 2026", "completed": true },
+        { "step": "Estimate Sent", "date": "Apr 25, 2026", "completed": true },
+        { "step": "Plan Accepted", "date": "Apr 28, 2026", "completed": true },
+        { "step": "Payment Confirmed", "date": "Apr 28, 2026", "completed": true },
+        { "step": "Cancelled", "date": "May 1, 2026", "completed": true, "cancelled": true }
+      ],
+      "platform_fee": {
+        "gross_amount": 520,
+        "fee_pct": 10,
+        "fee_amount": null,
+        "net_to_dentist": null
+      },
+      "payment": {
+        "escrow_message": "Refund Issued · $520",
+        "escrow_detail": "Refunded to Visa ending 3391",
+        "estimate_amount": 520,
+        "final_amount": null,
+        "escrow_status": "Refunded",
+        "escrow_type": "refunded"
+      },
+      "treatment_plan": {
+        "label": "Estimate",
+        "items": [
+          { "name": "Initial examination", "price": null, "included": true },
+          { "name": "Gum Treatment (scaling & root planing)", "price": 520 }
+        ],
+        "estimate_total": 520,
+        "guarantee_pct": 15,
+        "max_charge": 598,
+        "signed_by": "Zoe Robinson",
+        "signed_date": "Apr 28, 2026",
+        "final_plan": null
+      },
+      "cancellation": {
+        "cancelled_on": "May 1, 2026",
+        "cancelled_by": "Patient",
+        "stage_at_cancel": "Plan Accepted",
+        "refund_status": "Issued",
+        "reason": "Personal scheduling conflict — unable to travel on the planned dates.",
+        "initiated_by": "Patient Initiated"
+      },
+      "review": null
+    },
+    {
+      "id": "b-2046",
+      "booking_id": "B-2046",
+      "patient": {
+        "id": "pat-006",
+        "name": "Lucas Diaz",
+        "patient_ref": "PAT-006",
+        "initials": "LD",
+        "avatar_color": "#1D4ED8",
+        "email": "lucas.d@gmail.com",
+        "phone": "+1 312 555 0144",
+        "location": "Chicago, IL"
+      },
+      "dentist": {
+        "name": "Dr. Liam O'Connor",
+        "initials": "DL",
+        "avatar_color": "#059669",
+        "specialty": "Oral Surgery",
+        "rating": 4.6,
+        "review_count": 110,
+        "verified": true,
+        "rdv_score": 88,
+        "location": "Chicago, IL"
+      },
+      "procedure": "Tooth Extraction",
+      "status": "Completed",
+      "escrow_status": "Released",
+      "amount": 240,
+      "date": "May 2, 2026",
+      "date_iso": "2026-05-02",
+      "created_date": "Apr 22, 2026",
+      "created_date_iso": "2026-04-22",
+      "appointment_type": "In-person · Single day",
+      "treatment_duration": "1 day",
+      "scheduled_dates": "May 2, 2026",
+      "scheduled_start": "2026-05-02",
+      "scheduled_end": "2026-05-02",
+      "booking_stage": "Payment Released",
+      "journey": [
+        { "step": "Consultation", "date": "Apr 20, 2026", "completed": true },
+        { "step": "Estimate Sent", "date": "Apr 22, 2026", "completed": true },
+        { "step": "Plan Accepted", "date": "Apr 26, 2026", "completed": true },
+        { "step": "Payment Confirmed", "date": "Apr 26, 2026", "completed": true },
+        { "step": "Appointment Day", "date": "May 2, 2026", "completed": true },
+        { "step": "Treatment Complete", "date": "May 2, 2026", "completed": true },
+        { "step": "Payment Released", "date": "May 2, 2026", "completed": true }
+      ],
+      "platform_fee": {
+        "gross_amount": 240,
+        "fee_pct": 10,
+        "fee_amount": 24,
+        "net_to_dentist": 216
+      },
+      "payment": {
+        "escrow_message": "Payment released · $240",
+        "escrow_detail": "Net to dentist: $216 · Platform fee: $24 (10%)",
+        "estimate_amount": 240,
+        "final_amount": 240,
+        "escrow_status": "Released",
+        "escrow_type": "released"
+      },
+      "treatment_plan": {
+        "label": "Estimate",
+        "items": [
+          { "name": "Initial examination", "price": null, "included": true },
+          { "name": "Simple tooth extraction", "price": 240 }
+        ],
+        "estimate_total": 240,
+        "guarantee_pct": 15,
+        "max_charge": 276,
+        "signed_by": "Lucas Diaz",
+        "signed_date": "Apr 26, 2026",
+        "final_plan": {
+          "label": "Final treatment plan",
+          "items": [
+            { "name": "Initial examination", "price": null, "included": true },
+            { "name": "Simple tooth extraction", "price": 240 }
+          ],
+          "final_total": 240
+        }
+      },
+      "review": {
+        "status": "Live",
+        "reviewer_name": "Lucas Diaz",
+        "reviewer_initials": "LD",
+        "reviewer_avatar_color": "#1D4ED8",
+        "review_date": "May 2, 2026",
+        "overall_rating": 5.0,
+        "categories": [
+          { "name": "Communication", "rating": 5 },
+          { "name": "Value for money", "rating": 5 },
+          { "name": "Follow through", "rating": 5 }
+        ],
+        "written_review": "Extremely smooth experience. Dr. O'Connor was gentle and efficient — the extraction took less than 10 minutes and I felt no pain. Highly recommend this clinic for any oral surgery needs.",
+        "procedure": "Tooth Extraction",
+        "dentist": "Dr. Liam O'Connor",
+        "before_after": {
+          "caption": "Simple extraction completed without complications.",
+          "has_images": false
+        }
+      }
+    },
+    {
+      "id": "b-2047",
+      "booking_id": "B-2047",
+      "patient": {
+        "id": "pat-007",
+        "name": "Mia Thompson",
+        "patient_ref": "PAT-007",
+        "initials": "MT",
+        "avatar_color": "#DC2626",
+        "email": "mia.t@gmail.com",
+        "phone": "+1 213 555 0133",
+        "location": "Los Angeles, CA"
+      },
+      "dentist": {
+        "name": "Dr. Marcus Hall",
+        "initials": "DM2",
+        "avatar_color": "#7C3AED",
+        "specialty": "Prosthodontics",
+        "rating": 4.5,
+        "review_count": 73,
+        "verified": true,
+        "rdv_score": 86,
+        "location": "Los Angeles, CA"
+      },
+      "procedure": "Crown Fitting",
+      "status": "In Progress",
+      "escrow_status": null,
+      "amount": 750,
+      "date": "May 2, 2026",
+      "date_iso": "2026-05-02",
+      "created_date": "Apr 26, 2026",
+      "created_date_iso": "2026-04-26",
+      "appointment_type": "In-person · Single day",
+      "treatment_duration": "1 day",
+      "scheduled_dates": "May 2, 2026",
+      "scheduled_start": "2026-05-02",
+      "scheduled_end": "2026-05-02",
+      "booking_stage": "Estimate Sent",
+      "journey": [
+        { "step": "Consultation", "date": "Apr 24, 2026", "completed": true },
+        { "step": "Estimate Sent", "date": "Apr 26, 2026", "completed": true, "current": true },
+        { "step": "Plan Accepted", "date": null, "completed": false },
+        { "step": "Payment Confirmed", "date": null, "completed": false },
+        { "step": "Appointment Day", "date": null, "completed": false },
+        { "step": "Treatment Complete", "date": null, "completed": false },
+        { "step": "Payment Released", "date": null, "completed": false }
+      ],
+      "platform_fee": {
+        "gross_amount": 750,
+        "fee_pct": 10,
+        "fee_amount": 75,
+        "net_to_dentist": 675
+      },
+      "payment": {
+        "escrow_message": null,
+        "escrow_detail": null,
+        "estimate_amount": 750,
+        "final_amount": null,
+        "escrow_status": null,
+        "escrow_type": "none"
+      },
+      "treatment_plan": {
+        "label": "Estimate",
+        "items": [
+          { "name": "Initial examination", "price": null, "included": true },
+          { "name": "Ceramic crown fabrication & fitting", "price": 750 }
+        ],
+        "estimate_total": 750,
+        "guarantee_pct": 15,
+        "max_charge": 863,
+        "signed_by": null,
+        "signed_date": null,
+        "final_plan": null
+      },
+      "review": null
+    },
+    {
+      "id": "b-2048",
+      "booking_id": "B-2048",
+      "patient": {
+        "id": "pat-001",
+        "name": "Olivia Martinez",
+        "patient_ref": "PAT-001",
+        "initials": "OM",
+        "avatar_color": "#7C3AED",
+        "email": "olivia@gmail.com",
+        "phone": "+1 415 555 0188",
+        "location": "San Francisco, CA"
+      },
+      "dentist": {
+        "name": "Dr. Brian Lee",
+        "initials": "DB",
+        "avatar_color": "#2563EB",
+        "specialty": "Endodontics",
+        "rating": 4.8,
+        "review_count": 142,
+        "verified": true,
+        "rdv_score": 93,
+        "location": "San Francisco, CA"
+      },
+      "procedure": "Follow-up Consultation",
+      "status": "In Progress",
+      "escrow_status": "In Escrow",
+      "amount": 60,
+      "date": "May 3, 2026",
+      "date_iso": "2026-05-03",
+      "created_date": "Apr 28, 2026",
+      "created_date_iso": "2026-04-28",
+      "appointment_type": "Video · Single day",
+      "treatment_duration": "1 day",
+      "scheduled_dates": "May 3, 2026",
+      "scheduled_start": "2026-05-03",
+      "scheduled_end": "2026-05-03",
+      "booking_stage": "Payment Confirmed",
+      "journey": [
+        { "step": "Consultation", "date": "Apr 26, 2026", "completed": true },
+        { "step": "Estimate Sent", "date": "Apr 28, 2026", "completed": true },
+        { "step": "Plan Accepted", "date": "Apr 30, 2026", "completed": true },
+        { "step": "Payment Confirmed", "date": "Apr 30, 2026", "completed": true, "current": true },
+        { "step": "Appointment Day", "date": null, "completed": false },
+        { "step": "Treatment Complete", "date": null, "completed": false },
+        { "step": "Payment Released", "date": null, "completed": false }
+      ],
+      "platform_fee": {
+        "gross_amount": 60,
+        "fee_pct": 10,
+        "fee_amount": 6,
+        "net_to_dentist": 54
+      },
+      "payment": {
+        "escrow_message": "$60 held in Escrow",
+        "escrow_detail": "Protected by the No Surprise Guarantee. Funds release automatically after treatment is confirmed complete.",
+        "estimate_amount": 60,
+        "final_amount": null,
+        "escrow_status": "In Escrow",
+        "escrow_type": "in_escrow"
+      },
+      "treatment_plan": {
+        "label": "Estimate",
+        "items": [
+          { "name": "Follow-up consultation (30 min)", "price": 60 }
+        ],
+        "estimate_total": 60,
+        "guarantee_pct": 15,
+        "max_charge": 69,
+        "signed_by": "Olivia Martinez",
+        "signed_date": "Apr 30, 2026",
+        "final_plan": null
+      },
+      "review": null
+    },
+    {
+      "id": "b-2049",
+      "booking_id": "B-2049",
+      "patient": {
+        "id": "pat-008",
+        "name": "Carlos Reyes",
+        "patient_ref": "PAT-008",
+        "initials": "CR",
+        "avatar_color": "#6D28D9",
+        "email": "carlos.r@gmail.com",
+        "phone": "+1 720 555 0177",
+        "location": "Denver, CO"
+      },
+      "dentist": {
+        "name": "Dr. Liam O'Connor",
+        "initials": "DL",
+        "avatar_color": "#059669",
+        "specialty": "Oral Surgery",
+        "rating": 4.6,
+        "review_count": 110,
+        "verified": true,
+        "rdv_score": 88,
+        "location": "Denver, CO"
+      },
+      "procedure": "Wisdom Tooth Removal",
+      "status": "Completed",
+      "escrow_status": "Released",
+      "amount": 640,
+      "date": "Apr 28, 2026",
+      "date_iso": "2026-04-28",
+      "created_date": "Apr 14, 2026",
+      "created_date_iso": "2026-04-14",
+      "appointment_type": "In-person · Single day",
+      "treatment_duration": "1 day",
+      "scheduled_dates": "Apr 28, 2026",
+      "scheduled_start": "2026-04-28",
+      "scheduled_end": "2026-04-28",
+      "booking_stage": "Payment Released",
+      "journey": [
+        { "step": "Consultation", "date": "Apr 12, 2026", "completed": true },
+        { "step": "Estimate Sent", "date": "Apr 14, 2026", "completed": true },
+        { "step": "Plan Accepted", "date": "Apr 18, 2026", "completed": true },
+        { "step": "Payment Confirmed", "date": "Apr 18, 2026", "completed": true },
+        { "step": "Appointment Day", "date": "Apr 28, 2026", "completed": true },
+        { "step": "Treatment Complete", "date": "Apr 28, 2026", "completed": true },
+        { "step": "Payment Released", "date": "Apr 28, 2026", "completed": true }
+      ],
+      "platform_fee": {
+        "gross_amount": 640,
+        "fee_pct": 10,
+        "fee_amount": 64,
+        "net_to_dentist": 576
+      },
+      "payment": {
+        "escrow_message": "Payment released · $640",
+        "escrow_detail": "Net to dentist: $576 · Platform fee: $64 (10%)",
+        "estimate_amount": 640,
+        "final_amount": 640,
+        "escrow_status": "Released",
+        "escrow_type": "released"
+      },
+      "treatment_plan": {
+        "label": "Estimate",
+        "items": [
+          { "name": "Initial examination", "price": null, "included": true },
+          { "name": "Wisdom tooth extraction (surgical)", "price": 640 }
+        ],
+        "estimate_total": 640,
+        "guarantee_pct": 15,
+        "max_charge": 736,
+        "signed_by": "Carlos Reyes",
+        "signed_date": "Apr 18, 2026",
+        "final_plan": {
+          "label": "Final treatment plan",
+          "items": [
+            { "name": "Initial examination", "price": null, "included": true },
+            { "name": "Wisdom tooth extraction (surgical)", "price": 640 }
+          ],
+          "final_total": 640
+        }
+      },
+      "review": {
+        "status": "Live",
+        "reviewer_name": "Carlos Reyes",
+        "reviewer_initials": "CR",
+        "reviewer_avatar_color": "#6D28D9",
+        "review_date": "Apr 28, 2026",
+        "overall_rating": 4.8,
+        "categories": [
+          { "name": "Communication", "rating": 5 },
+          { "name": "Value for money", "rating": 5 },
+          { "name": "Follow through", "rating": 4 }
+        ],
+        "written_review": "Great experience overall. Dr. O'Connor walked me through every step and the recovery has been smooth. A little wait time at the clinic but worth it for the quality of care.",
+        "procedure": "Wisdom Tooth Removal",
+        "dentist": "Dr. Liam O'Connor",
+        "before_after": {
+          "caption": "Surgical wisdom tooth extraction — patient recovered within 5 days.",
+          "has_images": false
+        }
+      }
+    },
+    {
+      "id": "b-2050",
+      "booking_id": "B-2050",
+      "patient": {
+        "id": "pat-002",
+        "name": "Ethan Wright",
+        "patient_ref": "PAT-002",
+        "initials": "EW",
+        "avatar_color": "#1E3A5F",
+        "email": "ethan.w@mail.com",
+        "phone": "+1 212 555 0142",
+        "location": "New York, NY"
+      },
+      "dentist": {
+        "name": "Dr. Maya Patel",
+        "initials": "DM",
+        "avatar_color": "#16A34A",
+        "specialty": "Orthodontics",
+        "rating": 4.9,
+        "review_count": 184,
+        "verified": true,
+        "rdv_score": 98,
+        "location": "New York, NY"
+      },
+      "procedure": "Implant Consultation",
+      "status": "Cancelled",
+      "escrow_status": "Refunded",
+      "amount": 150,
+      "date": "Apr 29, 2026",
+      "date_iso": "2026-04-29",
+      "created_date": "Apr 20, 2026",
+      "created_date_iso": "2026-04-20",
+      "appointment_type": "In-person · Single day",
+      "treatment_duration": "1 day",
+      "scheduled_dates": "Apr 29, 2026",
+      "scheduled_start": "2026-04-29",
+      "scheduled_end": "2026-04-29",
+      "booking_stage": "Cancelled",
+      "journey": [
+        { "step": "Consultation", "date": "Apr 18, 2026", "completed": true },
+        { "step": "Estimate Sent", "date": "Apr 20, 2026", "completed": true },
+        { "step": "Plan Accepted", "date": "Apr 24, 2026", "completed": true },
+        { "step": "Payment Confirmed", "date": "Apr 24, 2026", "completed": true },
+        { "step": "Cancelled", "date": "Apr 27, 2026", "completed": true, "cancelled": true }
+      ],
+      "platform_fee": {
+        "gross_amount": 150,
+        "fee_pct": 10,
+        "fee_amount": null,
+        "net_to_dentist": null
+      },
+      "payment": {
+        "escrow_message": "Refund Issued · $150",
+        "escrow_detail": "Refunded to Mastercard ending 7821",
+        "estimate_amount": 150,
+        "final_amount": null,
+        "escrow_status": "Refunded",
+        "escrow_type": "refunded"
+      },
+      "treatment_plan": {
+        "label": "Estimate",
+        "items": [
+          { "name": "Implant consultation & assessment", "price": 150 }
+        ],
+        "estimate_total": 150,
+        "guarantee_pct": 15,
+        "max_charge": 173,
+        "signed_by": "Ethan Wright",
+        "signed_date": "Apr 24, 2026",
+        "final_plan": null
+      },
+      "cancellation": {
+        "cancelled_on": "Apr 27, 2026",
+        "cancelled_by": "Patient",
+        "stage_at_cancel": "Payment Confirmed",
+        "refund_status": "Issued",
+        "reason": "Patient decided to pursue a different treatment option.",
+        "initiated_by": "Patient Initiated"
+      },
+      "review": null
+    },
+    {
+      "id": "b-2051",
+      "booking_id": "B-2051",
+      "patient": {
+        "id": "pat-006",
+        "name": "Lucas Diaz",
+        "patient_ref": "PAT-006",
+        "initials": "LD",
+        "avatar_color": "#1D4ED8",
+        "email": "lucas.d@gmail.com",
+        "phone": "+1 312 555 0144",
+        "location": "Chicago, IL"
+      },
+      "dentist": {
+        "name": "Dr. Noah Kim",
+        "initials": "DN",
+        "avatar_color": "#0891B2",
+        "specialty": "Cosmetic",
+        "rating": 4.7,
+        "review_count": 96,
+        "verified": true,
+        "rdv_score": 91,
+        "location": "Chicago, IL"
+      },
+      "procedure": "Veneer Consultation",
+      "status": "In Progress",
+      "escrow_status": "In Escrow",
+      "amount": 120,
+      "date": "May 4, 2026",
+      "date_iso": "2026-05-04",
+      "created_date": "Apr 29, 2026",
+      "created_date_iso": "2026-04-29",
+      "appointment_type": "Video · Single day",
+      "treatment_duration": "1 day",
+      "scheduled_dates": "May 4, 2026",
+      "scheduled_start": "2026-05-04",
+      "scheduled_end": "2026-05-04",
+      "booking_stage": "Payment Confirmed",
+      "journey": [
+        { "step": "Consultation", "date": "Apr 27, 2026", "completed": true },
+        { "step": "Estimate Sent", "date": "Apr 29, 2026", "completed": true },
+        { "step": "Plan Accepted", "date": "May 1, 2026", "completed": true },
+        { "step": "Payment Confirmed", "date": "May 1, 2026", "completed": true, "current": true },
+        { "step": "Appointment Day", "date": null, "completed": false },
+        { "step": "Treatment Complete", "date": null, "completed": false },
+        { "step": "Payment Released", "date": null, "completed": false }
+      ],
+      "platform_fee": {
+        "gross_amount": 120,
+        "fee_pct": 10,
+        "fee_amount": 12,
+        "net_to_dentist": 108
+      },
+      "payment": {
+        "escrow_message": "$120 held in Escrow",
+        "escrow_detail": "Protected by the No Surprise Guarantee. Funds release automatically after treatment is confirmed complete.",
+        "estimate_amount": 120,
+        "final_amount": null,
+        "escrow_status": "In Escrow",
+        "escrow_type": "in_escrow"
+      },
+      "treatment_plan": {
+        "label": "Estimate",
+        "items": [
+          { "name": "Veneer consultation & smile design", "price": 120 }
+        ],
+        "estimate_total": 120,
+        "guarantee_pct": 15,
+        "max_charge": 138,
+        "signed_by": "Lucas Diaz",
+        "signed_date": "May 1, 2026",
+        "final_plan": null
+      },
+      "review": null
+    },
+    {
+      "id": "b-2052",
+      "booking_id": "B-2052",
+      "patient": {
+        "id": "pat-004",
+        "name": "Daniel Nguyen",
+        "patient_ref": "PAT-004",
+        "initials": "DN",
+        "avatar_color": "#2563EB",
+        "email": "dnguyen@mail.com",
+        "phone": "+1 206 555 0144",
+        "location": "Seattle, WA"
+      },
+      "dentist": {
+        "name": "Dr. Brian Lee",
+        "initials": "DB",
+        "avatar_color": "#2563EB",
+        "specialty": "Endodontics",
+        "rating": 4.8,
+        "review_count": 142,
+        "verified": true,
+        "rdv_score": 93,
+        "location": "Seattle, WA"
+      },
+      "procedure": "Ceramic Crown",
+      "status": "Completed",
+      "escrow_status": "Released",
+      "amount": 900,
+      "date": "Apr 26, 2026",
+      "date_iso": "2026-04-26",
+      "created_date": "Apr 10, 2026",
+      "created_date_iso": "2026-04-10",
+      "appointment_type": "In-person · Single day",
+      "treatment_duration": "1 day",
+      "scheduled_dates": "Apr 26, 2026",
+      "scheduled_start": "2026-04-26",
+      "scheduled_end": "2026-04-26",
+      "booking_stage": "Payment Released",
+      "journey": [
+        { "step": "Consultation", "date": "Apr 8, 2026", "completed": true },
+        { "step": "Estimate Sent", "date": "Apr 10, 2026", "completed": true },
+        { "step": "Plan Accepted", "date": "Apr 14, 2026", "completed": true },
+        { "step": "Payment Confirmed", "date": "Apr 14, 2026", "completed": true },
+        { "step": "Appointment Day", "date": "Apr 26, 2026", "completed": true },
+        { "step": "Treatment Complete", "date": "Apr 26, 2026", "completed": true },
+        { "step": "Payment Released", "date": "Apr 26, 2026", "completed": true }
+      ],
+      "platform_fee": {
+        "gross_amount": 900,
+        "fee_pct": 10,
+        "fee_amount": 90,
+        "net_to_dentist": 810
+      },
+      "payment": {
+        "escrow_message": "Payment released · $900",
+        "escrow_detail": "Net to dentist: $810 · Platform fee: $90 (10%)",
+        "estimate_amount": 900,
+        "final_amount": 900,
+        "escrow_status": "Released",
+        "escrow_type": "released"
+      },
+      "treatment_plan": {
+        "label": "Estimate",
+        "items": [
+          { "name": "Initial examination", "price": null, "included": true },
+          { "name": "Ceramic crown (E.max)", "price": 900 }
+        ],
+        "estimate_total": 900,
+        "guarantee_pct": 15,
+        "max_charge": 1035,
+        "signed_by": "Daniel Nguyen",
+        "signed_date": "Apr 14, 2026",
+        "final_plan": {
+          "label": "Final treatment plan",
+          "items": [
+            { "name": "Initial examination", "price": null, "included": true },
+            { "name": "Ceramic crown (E.max)", "price": 900 }
+          ],
+          "final_total": 900
+        }
+      },
+      "review": {
+        "status": "Live",
+        "reviewer_name": "Daniel Nguyen",
+        "reviewer_initials": "DN",
+        "reviewer_avatar_color": "#2563EB",
+        "review_date": "Apr 26, 2026",
+        "overall_rating": 4.5,
+        "categories": [
+          { "name": "Communication", "rating": 5 },
+          { "name": "Value for money", "rating": 4 },
+          { "name": "Follow through", "rating": 5 }
+        ],
+        "written_review": "Very happy with the ceramic crown. Dr. Lee was thorough and the fit was perfect on the first attempt. Would definitely return for future work.",
+        "procedure": "Ceramic Crown",
+        "dentist": "Dr. Brian Lee",
+        "before_after": {
+          "caption": "Ceramic crown placed — patient reported excellent comfort and aesthetics.",
+          "has_images": false
+        }
+      }
+    }
+  ]
+}

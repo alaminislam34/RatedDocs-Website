@@ -1,0 +1,740 @@
+{
+  "meta": {
+    "total_dentists": 9,
+    "pending_review": 4,
+    "fully_approved": 3,
+    "rejected": 2
+  },
+  "dentists": [
+    {
+      "id": "vq-001",
+      "name": "Dr. Sara Chen",
+      "initials": "SC",
+      "avatar_color": "#1E3A5F",
+      "specialty": "General",
+      "specialty_color": "gray",
+      "location": "Los Angeles, CA",
+      "experience_years": 4,
+      "submitted_ago": "5h ago",
+      "queue_status": "pending",
+      "current_phase": 2,
+      "current_phase_label": "Phase 2 — Operations",
+      "summary": ["Video walkthrough", "4 procedures listed", "No Surprise signed"],
+      "phases": {
+        "ph1": { "status": "approved", "label": "Ph.1 Identity" },
+        "ph2": { "status": "pending", "label": "Ph.2 Operations" },
+        "ph3": { "status": "locked", "label": "Ph.3 Clinical" }
+      },
+      "ph1_data": {
+        "auto_approved": true,
+        "auto_approved_message": "Phase 1 identity documents were verified automatically against state board records on Apr 11, 2026.",
+        "license": {
+          "number": "CA-DDS-29471",
+          "issuing_state": "California",
+          "status": "Verified"
+        },
+        "government_id": {
+          "file_name": "drivers_license.pdf",
+          "file_size": "1.4 MB",
+          "verified_note": "Identity confirmed — matches license records"
+        },
+        "selfie": {
+          "file_name": "selfie_photo.jpg",
+          "ai_match_score": 97.2,
+          "confidence": "High confidence"
+        }
+      },
+      "ph2_data": {
+        "sterilization_evidence": {
+          "video_walkthrough": {
+            "file_name": "Clinic walkthrough.mp4",
+            "file_size": "5.8 MB"
+          }
+        },
+        "procedure_pricing": [
+          { "procedure": "Routine check-up & clean", "price": 180, "notes": "Includes X-rays and scale & polish" },
+          { "procedure": "White composite filling", "price": 220, "notes": "Per surface, tooth-coloured resin" },
+          { "procedure": "Fluoride treatment", "price": 60, "notes": "In-chair application, all ages" },
+          { "procedure": "Nightguard", "price": 420, "notes": "Custom-fitted occlusal splint" }
+        ],
+        "no_surprise_guarantee": {
+          "description": "The 15% rule means patients should not receive surprise increases beyond the disclosed starting price unless clearly explained and approved before treatment.",
+          "signer_name": "Sara Chen",
+          "typed_signature": "Sara Chen",
+          "agreed_at": "16/04/2026 at 09:42 AM"
+        }
+      },
+      "ph3_data": null
+    },
+    {
+      "id": "vq-002",
+      "name": "Dr. Ravi Verma",
+      "initials": "RV",
+      "avatar_color": "#4C1D95",
+      "specialty": "Endodontics",
+      "specialty_color": "purple",
+      "location": "New York, NY",
+      "experience_years": 9,
+      "submitted_ago": "1d ago",
+      "queue_status": "pending",
+      "current_phase": 2,
+      "current_phase_label": "Phase 2 — Operations",
+      "summary": ["JCI certificate", "6 procedures listed", "No Surprise signed"],
+      "phases": {
+        "ph1": { "status": "approved", "label": "Ph.1 Identity" },
+        "ph2": { "status": "pending", "label": "Ph.2 Operations" },
+        "ph3": { "status": "locked", "label": "Ph.3 Clinical" }
+      },
+      "ph1_data": {
+        "auto_approved": true,
+        "auto_approved_message": "Phase 1 identity documents were verified automatically against state board records on Mar 28, 2026.",
+        "license": {
+          "number": "NY-DDS-48812",
+          "issuing_state": "New York",
+          "status": "Verified"
+        },
+        "government_id": {
+          "file_name": "passport_scan.pdf",
+          "file_size": "2.1 MB",
+          "verified_note": "Identity confirmed — matches license records"
+        },
+        "selfie": {
+          "file_name": "selfie_photo.jpg",
+          "ai_match_score": 98.8,
+          "confidence": "High confidence"
+        }
+      },
+      "ph2_data": {
+        "sterilization_evidence": {
+          "video_walkthrough": {
+            "file_name": "Clinic walkthrough.mp4",
+            "file_size": "7.2 MB"
+          },
+          "jci_certificate": {
+            "file_name": "JCI_certificate.pdf",
+            "file_size": "1.1 MB"
+          }
+        },
+        "procedure_pricing": [
+          { "procedure": "Root Canal (single canal)", "price": 850, "notes": "Includes rubber dam & temp filling" },
+          { "procedure": "Root Canal (molar)", "price": 1200, "notes": "Up to 3 canals included" },
+          { "procedure": "Retreatment", "price": 950, "notes": "Previously treated tooth" },
+          { "procedure": "Pulpotomy", "price": 380, "notes": "Emergency pulp therapy" },
+          { "procedure": "Apicoectomy", "price": 1100, "notes": "Surgical root tip removal" },
+          { "procedure": "Consultation & X-ray", "price": 140, "notes": "Diagnosis and imaging" }
+        ],
+        "no_surprise_guarantee": {
+          "description": "The 15% rule means patients should not receive surprise increases beyond the disclosed starting price unless clearly explained and approved before treatment.",
+          "signer_name": "Ravi Verma",
+          "typed_signature": "Ravi Verma",
+          "agreed_at": "02/04/2026 at 11:15 AM"
+        }
+      },
+      "ph3_data": null
+    },
+    {
+      "id": "vq-003",
+      "name": "Dr. Amelia Garcia",
+      "initials": "AG",
+      "avatar_color": "#0D9488",
+      "specialty": "Pediatric",
+      "specialty_color": "teal",
+      "location": "Austin, TX",
+      "experience_years": 6,
+      "submitted_ago": "2h ago",
+      "queue_status": "pending",
+      "current_phase": 3,
+      "current_phase_label": "Phase 3 — Clinical Depth",
+      "summary": ["2 specialties", "6/8 docs uploaded", "⚠ 2 missing"],
+      "has_warning": true,
+      "missing_docs": 2,
+      "phases": {
+        "ph1": { "status": "approved", "label": "Ph.1 Identity" },
+        "ph2": { "status": "approved", "label": "Ph.2 Operations" },
+        "ph3": { "status": "pending", "label": "Ph.3 Clinical" }
+      },
+      "ph1_data": {
+        "auto_approved": true,
+        "auto_approved_message": "Phase 1 identity documents were verified automatically against state board records on Apr 8, 2026.",
+        "license": {
+          "number": "TX-DDS-61094",
+          "issuing_state": "Texas",
+          "status": "Verified"
+        },
+        "government_id": {
+          "file_name": "drivers_license.pdf",
+          "file_size": "1.6 MB",
+          "verified_note": "Identity confirmed — matches license records"
+        },
+        "selfie": {
+          "file_name": "selfie_photo.jpg",
+          "ai_match_score": 96.5,
+          "confidence": "High confidence"
+        }
+      },
+      "ph2_data": {
+        "sterilization_evidence": {
+          "video_walkthrough": {
+            "file_name": "Clinic walkthrough.mp4",
+            "file_size": "4.9 MB"
+          }
+        },
+        "procedure_pricing": [
+          { "procedure": "Pediatric exam & clean", "price": 110, "notes": "Under 12 years" },
+          { "procedure": "Fissure sealants", "price": 55, "notes": "Per tooth" },
+          { "procedure": "Fluoride varnish", "price": 45, "notes": "In-chair application" },
+          { "procedure": "Space maintainer", "price": 320, "notes": "Fixed band & loop" }
+        ],
+        "no_surprise_guarantee": {
+          "description": "The 15% rule means patients should not receive surprise increases beyond the disclosed starting price unless clearly explained and approved before treatment.",
+          "signer_name": "Amelia Garcia",
+          "typed_signature": "Amelia Garcia",
+          "agreed_at": "10/04/2026 at 14:22 PM"
+        }
+      },
+      "ph3_data": {
+        "clinic_location": "4801 S Lamar Blvd, Suite 320, Austin, TX 78745",
+        "specialties": [
+          {
+            "name": "Pediatric Exams",
+            "doc_count": 4,
+            "status": "complete",
+            "documents": [
+              { "label": "CE certificate", "file_name": "CE_cert.pdf", "file_size": "1.8 MB", "missing": false },
+              { "label": "Material brands", "file_name": "Materials.pdf", "file_size": "0.9 MB", "missing": false },
+              { "label": "Invoice", "file_name": "Invoice.pdf", "file_size": "0.7 MB", "missing": false },
+              { "label": "Protocol PDF", "file_name": "Protocol.pdf", "file_size": "1.2 MB", "missing": false }
+            ]
+          },
+          {
+            "name": "Fissure Sealants",
+            "doc_count": 4,
+            "status": "missing",
+            "missing_count": 2,
+            "documents": [
+              { "label": "CE certificate", "file_name": "CE_cert.pdf", "file_size": "1.4 MB", "missing": false },
+              { "label": "Material brands", "file_name": "Materials.pdf", "file_size": "0.8 MB", "missing": false },
+              { "label": "Invoice", "file_name": null, "file_size": null, "missing": true, "missing_label": "Invoice — Not uploaded", "missing_note": "Document not submitted" },
+              { "label": "Protocol PDF", "file_name": null, "file_size": null, "missing": true, "missing_label": "Protocol PDF — Not uploaded", "missing_note": "Document not submitted" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "vq-004",
+      "name": "Dr. Kai Nakamura",
+      "initials": "KN",
+      "avatar_color": "#1D4ED8",
+      "specialty": "Orthodontics",
+      "specialty_color": "blue",
+      "location": "Boston, MA",
+      "experience_years": 11,
+      "submitted_ago": "3h ago",
+      "queue_status": "pending",
+      "current_phase": 3,
+      "current_phase_label": "Phase 3 — Clinical Depth",
+      "summary": ["3 specialties", "10/12 docs uploaded", "⚠ 2 missing"],
+      "has_warning": true,
+      "missing_docs": 2,
+      "phases": {
+        "ph1": { "status": "approved", "label": "Ph.1 Identity" },
+        "ph2": { "status": "approved", "label": "Ph.2 Operations" },
+        "ph3": { "status": "pending", "label": "Ph.3 Clinical" }
+      },
+      "ph1_data": {
+        "auto_approved": true,
+        "auto_approved_message": "Phase 1 identity documents were verified automatically against state board records on Apr 5, 2026.",
+        "license": {
+          "number": "MA-DDS-33291",
+          "issuing_state": "Massachusetts",
+          "status": "Verified"
+        },
+        "government_id": {
+          "file_name": "passport_scan.pdf",
+          "file_size": "2.3 MB",
+          "verified_note": "Identity confirmed — matches license records"
+        },
+        "selfie": {
+          "file_name": "selfie_photo.jpg",
+          "ai_match_score": 99.1,
+          "confidence": "High confidence"
+        }
+      },
+      "ph2_data": {
+        "sterilization_evidence": {
+          "video_walkthrough": {
+            "file_name": "Clinic walkthrough.mp4",
+            "file_size": "6.4 MB"
+          }
+        },
+        "procedure_pricing": [
+          { "procedure": "Braces (full arch)", "price": 4500, "notes": "Metal or ceramic, 18-24 months" },
+          { "procedure": "Invisalign comprehensive", "price": 5800, "notes": "Unlimited refinements" },
+          { "procedure": "Retainer (per arch)", "price": 280, "notes": "Hawley or Essix" },
+          { "procedure": "Orthodontic consultation", "price": 120, "notes": "Includes records & photos" }
+        ],
+        "no_surprise_guarantee": {
+          "description": "The 15% rule means patients should not receive surprise increases beyond the disclosed starting price unless clearly explained and approved before treatment.",
+          "signer_name": "Kai Nakamura",
+          "typed_signature": "Kai Nakamura",
+          "agreed_at": "08/04/2026 at 09:05 AM"
+        }
+      },
+      "ph3_data": {
+        "clinic_location": "88 Tremont St, Suite 400, Boston, MA 02108",
+        "specialties": [
+          {
+            "name": "Braces",
+            "doc_count": 4,
+            "status": "complete",
+            "documents": [
+              { "label": "CE certificate", "file_name": "CE_cert.pdf", "file_size": "2.0 MB", "missing": false },
+              { "label": "Material brands", "file_name": "Materials.pdf", "file_size": "1.1 MB", "missing": false },
+              { "label": "Invoice", "file_name": "Invoice.pdf", "file_size": "0.6 MB", "missing": false },
+              { "label": "Protocol PDF", "file_name": "Protocol.pdf", "file_size": "1.5 MB", "missing": false }
+            ]
+          },
+          {
+            "name": "Invisalign",
+            "doc_count": 4,
+            "status": "complete",
+            "documents": [
+              { "label": "CE certificate", "file_name": "CE_cert.pdf", "file_size": "1.7 MB", "missing": false },
+              { "label": "Material brands", "file_name": "Materials.pdf", "file_size": "1.0 MB", "missing": false },
+              { "label": "Invoice", "file_name": "Invoice.pdf", "file_size": "0.8 MB", "missing": false },
+              { "label": "Protocol PDF", "file_name": "Protocol.pdf", "file_size": "1.3 MB", "missing": false }
+            ]
+          },
+          {
+            "name": "Retainers",
+            "doc_count": 4,
+            "status": "missing",
+            "missing_count": 2,
+            "documents": [
+              { "label": "CE certificate", "file_name": "CE_cert.pdf", "file_size": "1.2 MB", "missing": false },
+              { "label": "Material brands", "file_name": "Materials.pdf", "file_size": "0.9 MB", "missing": false },
+              { "label": "Invoice", "file_name": null, "file_size": null, "missing": true, "missing_label": "Invoice — Not uploaded", "missing_note": "Document not submitted" },
+              { "label": "Protocol PDF", "file_name": null, "file_size": null, "missing": true, "missing_label": "Protocol PDF — Not uploaded", "missing_note": "Document not submitted" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "vq-005",
+      "name": "Dr. Eli Brooks",
+      "initials": "EB",
+      "avatar_color": "#C2410C",
+      "specialty": "Oral Surgery",
+      "specialty_color": "orange",
+      "location": "Chicago, IL",
+      "experience_years": 14,
+      "submitted_ago": null,
+      "approved_ago": "4d ago",
+      "rdv_score": 100,
+      "queue_status": "approved",
+      "current_phase": 3,
+      "current_phase_label": "Fully Approved",
+      "phases": {
+        "ph1": { "status": "approved", "label": "Ph.1 Identity" },
+        "ph2": { "status": "approved", "label": "Ph.2 Operations" },
+        "ph3": { "status": "approved", "label": "Ph.3 Clinical" }
+      },
+      "ph1_data": {
+        "auto_approved": true,
+        "auto_approved_message": "Phase 1 identity documents were verified automatically against state board records on Mar 10, 2026.",
+        "license": {
+          "number": "IL-DDS-72291",
+          "issuing_state": "Illinois",
+          "status": "Verified"
+        },
+        "government_id": {
+          "file_name": "drivers_license.pdf",
+          "file_size": "1.9 MB",
+          "verified_note": "Identity confirmed — matches license records"
+        },
+        "selfie": {
+          "file_name": "selfie_photo.jpg",
+          "ai_match_score": 98.4,
+          "confidence": "High confidence"
+        }
+      },
+      "ph2_data": {
+        "sterilization_evidence": {
+          "video_walkthrough": {
+            "file_name": "Clinic walkthrough.mp4",
+            "file_size": "8.1 MB"
+          }
+        },
+        "procedure_pricing": [
+          { "procedure": "Simple extraction", "price": 240, "notes": "Local anaesthetic included" },
+          { "procedure": "Surgical extraction", "price": 480, "notes": "Wisdom teeth / impacted" },
+          { "procedure": "Bone graft", "price": 680, "notes": "Socket preservation" },
+          { "procedure": "Implant placement", "price": 1800, "notes": "Titanium, excludes crown" }
+        ],
+        "no_surprise_guarantee": {
+          "description": "The 15% rule means patients should not receive surprise increases beyond the disclosed starting price unless clearly explained and approved before treatment.",
+          "signer_name": "Eli Brooks",
+          "typed_signature": "Eli Brooks",
+          "agreed_at": "12/03/2026 at 08:30 AM"
+        }
+      },
+      "ph3_data": {
+        "clinic_location": "225 W Wacker Dr, Suite 1800, Chicago, IL 60606",
+        "specialties": [
+          {
+            "name": "Implants",
+            "doc_count": 4,
+            "status": "complete",
+            "documents": [
+              { "label": "CE certificate", "file_name": "CE cert.pdf", "file_size": "2.1 MB", "missing": false },
+              { "label": "Material brands", "file_name": "Materials.pdf", "file_size": "1.3 MB", "missing": false },
+              { "label": "Invoice", "file_name": "Invoice.pdf", "file_size": "0.9 MB", "missing": false },
+              { "label": "Protocol PDF", "file_name": "Protocol.pdf", "file_size": "1.8 MB", "missing": false }
+            ]
+          },
+          {
+            "name": "Extractions",
+            "doc_count": 4,
+            "status": "complete",
+            "documents": [
+              { "label": "CE certificate", "file_name": "CE cert.pdf", "file_size": "1.6 MB", "missing": false },
+              { "label": "Material brands", "file_name": "Materials.pdf", "file_size": "1.0 MB", "missing": false },
+              { "label": "Invoice", "file_name": "Invoice.pdf", "file_size": "0.7 MB", "missing": false },
+              { "label": "Protocol PDF", "file_name": "Protocol.pdf", "file_size": "1.4 MB", "missing": false }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "vq-006",
+      "name": "Dr. Maya Patel",
+      "initials": "MP",
+      "avatar_color": "#16A34A",
+      "specialty": "Orthodontics",
+      "specialty_color": "blue",
+      "location": "San Francisco, CA",
+      "experience_years": 10,
+      "submitted_ago": null,
+      "approved_ago": "6d ago",
+      "rdv_score": 100,
+      "queue_status": "approved",
+      "current_phase": 3,
+      "current_phase_label": "Fully Approved",
+      "phases": {
+        "ph1": { "status": "approved", "label": "Ph.1 Identity" },
+        "ph2": { "status": "approved", "label": "Ph.2 Operations" },
+        "ph3": { "status": "approved", "label": "Ph.3 Clinical" }
+      },
+      "ph1_data": {
+        "auto_approved": true,
+        "auto_approved_message": "Phase 1 identity documents were verified automatically against state board records on Mar 5, 2026.",
+        "license": {
+          "number": "CA-DDS-55118",
+          "issuing_state": "California",
+          "status": "Verified"
+        },
+        "government_id": {
+          "file_name": "drivers_license.pdf",
+          "file_size": "1.5 MB",
+          "verified_note": "Identity confirmed — matches license records"
+        },
+        "selfie": {
+          "file_name": "selfie_photo.jpg",
+          "ai_match_score": 97.8,
+          "confidence": "High confidence"
+        }
+      },
+      "ph2_data": {
+        "sterilization_evidence": {
+          "video_walkthrough": {
+            "file_name": "Clinic walkthrough.mp4",
+            "file_size": "6.8 MB"
+          }
+        },
+        "procedure_pricing": [
+          { "procedure": "Braces full arch", "price": 4200, "notes": "Metal brackets, 18-24 months" },
+          { "procedure": "Invisalign lite", "price": 3800, "notes": "Up to 14 aligners" },
+          { "procedure": "Retainer", "price": 250, "notes": "Essix clear retainer" },
+          { "procedure": "Ortho consultation", "price": 100, "notes": "Records & photos included" }
+        ],
+        "no_surprise_guarantee": {
+          "description": "The 15% rule means patients should not receive surprise increases beyond the disclosed starting price unless clearly explained and approved before treatment.",
+          "signer_name": "Maya Patel",
+          "typed_signature": "Maya Patel",
+          "agreed_at": "07/03/2026 at 10:00 AM"
+        }
+      },
+      "ph3_data": {
+        "clinic_location": "490 Post St, Suite 700, San Francisco, CA 94102",
+        "specialties": [
+          {
+            "name": "Braces",
+            "doc_count": 4,
+            "status": "complete",
+            "documents": [
+              { "label": "CE certificate", "file_name": "CE cert.pdf", "file_size": "1.9 MB", "missing": false },
+              { "label": "Material brands", "file_name": "Materials.pdf", "file_size": "1.1 MB", "missing": false },
+              { "label": "Invoice", "file_name": "Invoice.pdf", "file_size": "0.8 MB", "missing": false },
+              { "label": "Protocol PDF", "file_name": "Protocol.pdf", "file_size": "1.6 MB", "missing": false }
+            ]
+          },
+          {
+            "name": "Invisalign",
+            "doc_count": 4,
+            "status": "complete",
+            "documents": [
+              { "label": "CE certificate", "file_name": "CE cert.pdf", "file_size": "1.7 MB", "missing": false },
+              { "label": "Material brands", "file_name": "Materials.pdf", "file_size": "0.9 MB", "missing": false },
+              { "label": "Invoice", "file_name": "Invoice.pdf", "file_size": "0.6 MB", "missing": false },
+              { "label": "Protocol PDF", "file_name": "Protocol.pdf", "file_size": "1.3 MB", "missing": false }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "vq-007",
+      "name": "Dr. Brian Lee",
+      "initials": "BL",
+      "avatar_color": "#7C3AED",
+      "specialty": "Endodontics",
+      "specialty_color": "purple",
+      "location": "New York, NY",
+      "experience_years": 12,
+      "submitted_ago": null,
+      "approved_ago": "12d ago",
+      "rdv_score": 100,
+      "queue_status": "approved",
+      "current_phase": 3,
+      "current_phase_label": "Fully Approved",
+      "phases": {
+        "ph1": { "status": "approved", "label": "Ph.1 Identity" },
+        "ph2": { "status": "approved", "label": "Ph.2 Operations" },
+        "ph3": { "status": "approved", "label": "Ph.3 Clinical" }
+      },
+      "ph1_data": {
+        "auto_approved": true,
+        "auto_approved_message": "Phase 1 identity documents were verified automatically against state board records on Feb 28, 2026.",
+        "license": {
+          "number": "NY-DDS-81234",
+          "issuing_state": "New York",
+          "status": "Verified"
+        },
+        "government_id": {
+          "file_name": "drivers_license.pdf",
+          "file_size": "1.7 MB",
+          "verified_note": "Identity confirmed — matches license records"
+        },
+        "selfie": {
+          "file_name": "selfie_photo.jpg",
+          "ai_match_score": 96.9,
+          "confidence": "High confidence"
+        }
+      },
+      "ph2_data": {
+        "sterilization_evidence": {
+          "video_walkthrough": {
+            "file_name": "Clinic walkthrough.mp4",
+            "file_size": "7.5 MB"
+          }
+        },
+        "procedure_pricing": [
+          { "procedure": "Root Canal (anterior)", "price": 780, "notes": "Single canal" },
+          { "procedure": "Root Canal (molar)", "price": 1150, "notes": "Up to 4 canals" },
+          { "procedure": "Retreatment", "price": 920, "notes": "Previously treated tooth" },
+          { "procedure": "Emergency consultation", "price": 150, "notes": "Includes diagnosis x-ray" }
+        ],
+        "no_surprise_guarantee": {
+          "description": "The 15% rule means patients should not receive surprise increases beyond the disclosed starting price unless clearly explained and approved before treatment.",
+          "signer_name": "Brian Lee",
+          "typed_signature": "Brian Lee",
+          "agreed_at": "01/03/2026 at 16:40 PM"
+        }
+      },
+      "ph3_data": {
+        "clinic_location": "30 Broad St, Floor 14, New York, NY 10004",
+        "specialties": [
+          {
+            "name": "Root Canal",
+            "doc_count": 4,
+            "status": "complete",
+            "documents": [
+              { "label": "CE certificate", "file_name": "CE cert.pdf", "file_size": "2.2 MB", "missing": false },
+              { "label": "Material brands", "file_name": "Materials.pdf", "file_size": "1.2 MB", "missing": false },
+              { "label": "Invoice", "file_name": "Invoice.pdf", "file_size": "1.0 MB", "missing": false },
+              { "label": "Protocol PDF", "file_name": "Protocol.pdf", "file_size": "1.9 MB", "missing": false }
+            ]
+          },
+          {
+            "name": "Retreatment",
+            "doc_count": 4,
+            "status": "complete",
+            "documents": [
+              { "label": "CE certificate", "file_name": "CE cert.pdf", "file_size": "1.8 MB", "missing": false },
+              { "label": "Material brands", "file_name": "Materials.pdf", "file_size": "1.1 MB", "missing": false },
+              { "label": "Invoice", "file_name": "Invoice.pdf", "file_size": "0.9 MB", "missing": false },
+              { "label": "Protocol PDF", "file_name": "Protocol.pdf", "file_size": "1.5 MB", "missing": false }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "vq-008",
+      "name": "Dr. Jamie Tao",
+      "initials": "JT",
+      "avatar_color": "#0C4A6E",
+      "specialty": "Cosmetic",
+      "specialty_color": "blue",
+      "location": "Seattle, WA",
+      "experience_years": 7,
+      "submitted_ago": null,
+      "rejected_ago": "5d ago",
+      "rejected_phase": 2,
+      "rejected_phase_label": "Rejected · Phase 2",
+      "rejection_reason": "Sterilization video doesn't clearly show autoclave brand. Ultrasonic cleaner footage missing. Please re-record and resubmit.",
+      "queue_status": "rejected",
+      "current_phase": 2,
+      "phases": {
+        "ph1": { "status": "approved", "label": "Ph.1 Identity" },
+        "ph2": { "status": "rejected", "label": "Ph.2 Operations" },
+        "ph3": { "status": "locked", "label": "Ph.3 Clinical" }
+      },
+      "ph1_data": {
+        "auto_approved": true,
+        "auto_approved_message": "Phase 1 identity documents were verified automatically against state board records on Apr 1, 2026.",
+        "license": {
+          "number": "WA-DDS-44591",
+          "issuing_state": "Washington",
+          "status": "Verified"
+        },
+        "government_id": {
+          "file_name": "drivers_license.pdf",
+          "file_size": "1.3 MB",
+          "verified_note": "Identity confirmed — matches license records"
+        },
+        "selfie": {
+          "file_name": "selfie_photo.jpg",
+          "ai_match_score": 95.6,
+          "confidence": "High confidence"
+        }
+      },
+      "ph2_data": {
+        "rejection_reason": "Sterilization video doesn't clearly show autoclave brand. Ultrasonic cleaner footage missing. Please re-record and resubmit.",
+        "sterilization_evidence": {
+          "video_walkthrough": {
+            "file_name": "Clinic walkthrough.mp4",
+            "file_size": "3.2 MB"
+          }
+        },
+        "procedure_pricing": [
+          { "procedure": "Teeth whitening", "price": 350, "notes": "In-chair, 1 hour session" },
+          { "procedure": "Veneer (per tooth)", "price": 980, "notes": "Porcelain E.max" },
+          { "procedure": "Composite bonding", "price": 280, "notes": "Per tooth" },
+          { "procedure": "Smile consultation", "price": 80, "notes": "Digital smile preview" }
+        ],
+        "no_surprise_guarantee": {
+          "description": "The 15% rule means patients should not receive surprise increases beyond the disclosed starting price unless clearly explained and approved before treatment.",
+          "signer_name": "Jamie Tao",
+          "typed_signature": "Jamie Tao",
+          "agreed_at": "03/04/2026 at 13:20 PM"
+        }
+      },
+      "ph3_data": null
+    },
+    {
+      "id": "vq-009",
+      "name": "Dr. Alex Kim",
+      "initials": "AK",
+      "avatar_color": "#374151",
+      "specialty": "General",
+      "specialty_color": "gray",
+      "location": "Miami, FL",
+      "experience_years": 8,
+      "submitted_ago": null,
+      "rejected_ago": "2d ago",
+      "rejected_phase": 3,
+      "rejected_phase_label": "Rejected · Phase 3",
+      "rejection_reason": "Protocol PDFs missing for Implants and Whitening categories. CE certificates are expired (issued 2019). Please upload current documentation.",
+      "queue_status": "rejected",
+      "current_phase": 3,
+      "phases": {
+        "ph1": { "status": "approved", "label": "Ph.1 Identity" },
+        "ph2": { "status": "approved", "label": "Ph.2 Operations" },
+        "ph3": { "status": "rejected", "label": "Ph.3 Clinical" }
+      },
+      "ph1_data": {
+        "auto_approved": true,
+        "auto_approved_message": "Phase 1 identity documents were verified automatically against state board records on Mar 22, 2026.",
+        "license": {
+          "number": "FL-DDS-28847",
+          "issuing_state": "Florida",
+          "status": "Verified"
+        },
+        "government_id": {
+          "file_name": "passport_scan.pdf",
+          "file_size": "2.0 MB",
+          "verified_note": "Identity confirmed — matches license records"
+        },
+        "selfie": {
+          "file_name": "selfie_photo.jpg",
+          "ai_match_score": 97.0,
+          "confidence": "High confidence"
+        }
+      },
+      "ph2_data": {
+        "sterilization_evidence": {
+          "video_walkthrough": {
+            "file_name": "Clinic walkthrough.mp4",
+            "file_size": "5.5 MB"
+          }
+        },
+        "procedure_pricing": [
+          { "procedure": "Routine check-up", "price": 150, "notes": "Exam & bitewings" },
+          { "procedure": "Scale & polish", "price": 120, "notes": "Includes stain removal" },
+          { "procedure": "Composite filling", "price": 190, "notes": "Per surface" },
+          { "procedure": "Extraction (simple)", "price": 220, "notes": "Local anaesthetic included" }
+        ],
+        "no_surprise_guarantee": {
+          "description": "The 15% rule means patients should not receive surprise increases beyond the disclosed starting price unless clearly explained and approved before treatment.",
+          "signer_name": "Alex Kim",
+          "typed_signature": "Alex Kim",
+          "agreed_at": "25/03/2026 at 11:55 AM"
+        }
+      },
+      "ph3_data": {
+        "rejection_reason": "Protocol PDFs missing for Implants and Whitening categories. CE certificates are expired (issued 2019). Please upload current documentation.",
+        "clinic_location": "1111 Brickell Ave, Suite 900, Miami, FL 33131",
+        "specialties": [
+          {
+            "name": "Implants",
+            "doc_count": 4,
+            "status": "missing",
+            "missing_count": 1,
+            "documents": [
+              { "label": "CE certificate", "file_name": "CE cert (2019).pdf", "file_size": "1.5 MB", "missing": false, "expired": true },
+              { "label": "Material brands", "file_name": "Materials.pdf", "file_size": "1.0 MB", "missing": false },
+              { "label": "Invoice", "file_name": "Invoice.pdf", "file_size": "0.8 MB", "missing": false },
+              { "label": "Protocol PDF", "file_name": null, "file_size": null, "missing": true, "missing_label": "Protocol PDF — Not uploaded", "missing_note": "Document not submitted" }
+            ]
+          },
+          {
+            "name": "Whitening",
+            "doc_count": 4,
+            "status": "missing",
+            "missing_count": 1,
+            "documents": [
+              { "label": "CE certificate", "file_name": "CE cert (2019).pdf", "file_size": "1.2 MB", "missing": false, "expired": true },
+              { "label": "Material brands", "file_name": "Materials.pdf", "file_size": "0.9 MB", "missing": false },
+              { "label": "Invoice", "file_name": "Invoice.pdf", "file_size": "0.7 MB", "missing": false },
+              { "label": "Protocol PDF", "file_name": null, "file_size": null, "missing": true, "missing_label": "Protocol PDF — Not uploaded", "missing_note": "Document not submitted" }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

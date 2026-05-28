@@ -1,0 +1,927 @@
+{
+  "meta": {
+    "total_patients": 28491,
+    "weekly_growth": 412,
+    "active_90d": 18204,
+    "active_engagement_pct": "63.9%",
+    "new_today": 94,
+    "avg_per_day": 81,
+    "inactive_today": 23,
+    "inactive_pct": "0.08%",
+    "active_count": 27070,
+    "inactive_count": 1421
+  },
+  "patients": [
+    {
+      "id": "pat-001",
+      "initials": "OM",
+      "avatar_color": "#7C3AED",
+      "name": "Olivia Martinez",
+      "email": "olivia@gmail.com",
+      "phone": "+1 415 555 0188",
+      "city": "San Francisco, CA",
+      "status": "Active",
+      "total_bookings": 8,
+      "last_booking": "2026-04-30",
+      "joined": "2025-02-14",
+      "profile": {
+        "patient_id": "PAT-001",
+        "date_of_birth": "1992-05-14",
+        "gender": "Female",
+        "last_visit": "2026-04-30",
+        "referral_credits": 50,
+        "referral_code": "RD-OM1001",
+        "stats": {
+          "total_bookings": { "count": 8, "growth_this_month": 2 },
+          "amount_spent": 2310,
+          "reviews_written": { "count": 3, "avg_rating": 4.8 },
+          "referrals_made": { "total": 3, "credited": 2 },
+          "last_active": "2026-04-30"
+        },
+        "engagement": {
+          "show_up_rate": 87.5,
+          "reviews_ratio": "3 of 8",
+          "documents_count": 4
+        },
+        "referrals": {
+          "code": "RD-OM1001",
+          "available_credits": 50,
+          "total": 3,
+          "credited": 2
+        },
+        "activity": {
+          "total_bookings": 8,
+          "amount_spent": 2310,
+          "avg_rating": 4.8,
+          "last_visit": "2026-04-30"
+        },
+        "bookings": [
+          { "id": "B-2041", "dentist": "Dr. Maya Patel", "procedure": "Cleaning & Checkup", "date": "2026-04-30", "status": "In Progress", "amount": 120 },
+          { "id": "B-2042", "dentist": "Dr. Brian Lee", "procedure": "Root Canal Therapy", "date": "2026-04-30", "status": "Completed", "amount": 980 },
+          { "id": "B-2043", "dentist": "Dr. Noah Kim", "procedure": "Teeth Whitening", "date": "2026-04-30", "status": "In Progress", "amount": 350 },
+          { "id": "B-2044", "dentist": "Dr. Maya Patel", "procedure": "Braces Consultation", "date": "2026-05-01", "status": "Completed", "amount": 90 },
+          { "id": "B-2038", "dentist": "Dr. Brian Lee", "procedure": "Cavity Filling", "date": "2026-03-18", "status": "Completed", "amount": 220 },
+          { "id": "B-2037", "dentist": "Dr. Maya Patel", "procedure": "Scaling & Polish", "date": "2026-02-10", "status": "Completed", "amount": 110 },
+          { "id": "B-2035", "dentist": "Dr. Noah Kim", "procedure": "Teeth Whitening", "date": "2026-01-22", "status": "In Progress", "amount": 350 },
+          { "id": "B-2030", "dentist": "Dr. Liao O'Connor", "procedure": "Oral Surgery Consult", "date": "2025-12-05", "status": "Cancelled", "amount": 180 }
+        ],
+        "consultations": [
+          {
+            "id": "CON-101",
+            "dentist_name": "Dr. Eliza Mick",
+            "dentist_image": null,
+            "specialty": "Orthodontist",
+            "rating": 5,
+            "review_count": 8,
+            "verified": true,
+            "rdv_score": 100,
+            "procedure": "All-on-4 Full Arch",
+            "date": "2025-04-29",
+            "time": "10:30 AM EST",
+            "duration": "15-minute video call",
+            "tab": "upcoming",
+            "estimate_min": 3760,
+            "estimate_max": 4300
+          },
+          {
+            "id": "CON-102",
+            "dentist_name": "Dr. Eliza Mick",
+            "dentist_image": null,
+            "specialty": "Orthodontist",
+            "rating": 5,
+            "review_count": 8,
+            "verified": true,
+            "rdv_score": 100,
+            "procedure": "All-on-4 Full Arch",
+            "date": "2025-04-29",
+            "time": "10:30 AM EST",
+            "duration": "15-minute video call",
+            "tab": "active",
+            "estimate_min": 3760,
+            "estimate_max": 4300
+          },
+          {
+            "id": "CON-103",
+            "dentist_name": "Dr. Eliza Mick",
+            "dentist_image": null,
+            "specialty": "Orthodontist",
+            "rating": 5,
+            "review_count": 8,
+            "verified": true,
+            "rdv_score": 100,
+            "procedure": "All-on-4 Full Arch",
+            "date": null,
+            "time": null,
+            "duration": null,
+            "tab": "estimate_updates",
+            "estimate_status": "pending",
+            "time_remaining": "12:59:20",
+            "estimate_message": "Dr. Mick is reviewing your case. Estimate expected within 24 hours."
+          },
+          {
+            "id": "CON-104",
+            "dentist_name": "Dr. Eliza Mick",
+            "dentist_image": null,
+            "specialty": "Orthodontist",
+            "rating": 5,
+            "review_count": 8,
+            "verified": true,
+            "rdv_score": 100,
+            "procedure": "All-on-4 Full Arch",
+            "date": null,
+            "time": null,
+            "duration": null,
+            "tab": "estimate_updates",
+            "estimate_status": "received",
+            "estimate_min": 1200,
+            "estimate_max": 1200,
+            "estimate_message": "Final price will be within 15% of this estimate. This estimate is protected by the No Surprise Guarantee."
+          }
+        ],
+        "documents": [
+          { "id": "doc-101", "name": "X-Rays.pdf", "category": "Pre-treatment", "size": "4.2 MB", "date": "2026-04-10" },
+          { "id": "doc-102", "name": "Consent Form.pdf", "category": "Pre-treatment", "size": "128 KB", "date": "2026-04-11" },
+          { "id": "doc-103", "name": "Pre-op Forms.pdf", "category": "Pre-treatment", "size": "340 KB", "date": "2026-04-09" },
+          { "id": "doc-104", "name": "CT Scan.pdf", "category": "Diagnostic", "size": "6.1 MB", "date": "2026-04-08" }
+        ]
+      }
+    },
+    {
+      "id": "pat-002",
+      "initials": "EW",
+      "avatar_color": "#1E3A5F",
+      "name": "Ethan Wright",
+      "email": "ethan.w@mail.com",
+      "phone": "+1 212 555 0142",
+      "city": "New York, NY",
+      "status": "Active",
+      "total_bookings": 9,
+      "last_booking": "2026-04-26",
+      "joined": "2024-11-02",
+      "profile": {
+        "patient_id": "PAT-002",
+        "date_of_birth": "1988-03-15",
+        "gender": "Male",
+        "last_visit": "2026-04-26",
+        "referral_credits": 75,
+        "referral_code": "RD-EW1002",
+        "stats": {
+          "total_bookings": { "count": 9, "growth_this_month": 1 },
+          "amount_spent": 3450,
+          "reviews_written": { "count": 5, "avg_rating": 4.6 },
+          "referrals_made": { "total": 4, "credited": 3 },
+          "last_active": "2026-04-26"
+        },
+        "engagement": {
+          "show_up_rate": 92.0,
+          "reviews_ratio": "5 of 9",
+          "documents_count": 5
+        },
+        "referrals": {
+          "code": "RD-EW1002",
+          "available_credits": 75,
+          "total": 4,
+          "credited": 3
+        },
+        "activity": {
+          "total_bookings": 9,
+          "amount_spent": 3450,
+          "avg_rating": 4.6,
+          "last_visit": "2026-04-26"
+        },
+        "bookings": [
+          { "id": "B-2098", "dentist": "Dr. Noah Kim", "procedure": "Invisalign Consultation", "date": "2026-04-26", "status": "Completed", "amount": 150 },
+          { "id": "B-2089", "dentist": "Dr. Maya Patel", "procedure": "Dental Crown", "date": "2026-04-10", "status": "Completed", "amount": 1200 },
+          { "id": "B-2076", "dentist": "Dr. Brian Lee", "procedure": "Root Canal", "date": "2026-03-22", "status": "Completed", "amount": 980 },
+          { "id": "B-2060", "dentist": "Dr. Noah Kim", "procedure": "Teeth Whitening", "date": "2026-03-01", "status": "In Progress", "amount": 350 },
+          { "id": "B-2045", "dentist": "Dr. Maya Patel", "procedure": "Cleaning & Checkup", "date": "2026-02-14", "status": "Completed", "amount": 120 },
+          { "id": "B-2031", "dentist": "Dr. Brian Lee", "procedure": "Cavity Filling", "date": "2026-01-18", "status": "Completed", "amount": 220 },
+          { "id": "B-2018", "dentist": "Dr. Noah Kim", "procedure": "Scaling & Polish", "date": "2025-12-10", "status": "Completed", "amount": 110 },
+          { "id": "B-2005", "dentist": "Dr. Maya Patel", "procedure": "Orthodontic Checkup", "date": "2025-11-20", "status": "Completed", "amount": 150 },
+          { "id": "B-1990", "dentist": "Dr. Brian Lee", "procedure": "Emergency Exam", "date": "2025-11-02", "status": "Cancelled", "amount": 170 }
+        ],
+        "consultations": [
+          {
+            "id": "CON-201",
+            "dentist_name": "Dr. Sarah Chen",
+            "dentist_image": null,
+            "specialty": "Prosthodontist",
+            "rating": 5,
+            "review_count": 12,
+            "verified": true,
+            "rdv_score": 98,
+            "procedure": "Full Mouth Reconstruction",
+            "date": "2026-05-05",
+            "time": "2:00 PM EST",
+            "duration": "30-minute video call",
+            "tab": "upcoming",
+            "estimate_min": 8500,
+            "estimate_max": 10000
+          },
+          {
+            "id": "CON-202",
+            "dentist_name": "Dr. Sarah Chen",
+            "dentist_image": null,
+            "specialty": "Prosthodontist",
+            "rating": 5,
+            "review_count": 12,
+            "verified": true,
+            "rdv_score": 98,
+            "procedure": "Full Mouth Reconstruction",
+            "date": "2026-04-20",
+            "time": "2:00 PM EST",
+            "duration": "30-minute video call",
+            "tab": "active",
+            "estimate_min": 8500,
+            "estimate_max": 10000
+          },
+          {
+            "id": "CON-203",
+            "dentist_name": "Dr. Sarah Chen",
+            "dentist_image": null,
+            "specialty": "Prosthodontist",
+            "rating": 5,
+            "review_count": 12,
+            "verified": true,
+            "rdv_score": 98,
+            "procedure": "Full Mouth Reconstruction",
+            "date": null,
+            "time": null,
+            "duration": null,
+            "tab": "estimate_updates",
+            "estimate_status": "pending",
+            "time_remaining": "08:45:00",
+            "estimate_message": "Dr. Chen is reviewing your case. Estimate expected within 24 hours."
+          },
+          {
+            "id": "CON-204",
+            "dentist_name": "Dr. Sarah Chen",
+            "dentist_image": null,
+            "specialty": "Prosthodontist",
+            "rating": 5,
+            "review_count": 12,
+            "verified": true,
+            "rdv_score": 98,
+            "procedure": "Full Mouth Reconstruction",
+            "date": null,
+            "time": null,
+            "duration": null,
+            "tab": "estimate_updates",
+            "estimate_status": "received",
+            "estimate_min": 9200,
+            "estimate_max": 9200,
+            "estimate_message": "Final price will be within 15% of this estimate. This estimate is protected by the No Surprise Guarantee."
+          }
+        ],
+        "documents": [
+          { "id": "doc-201", "name": "Panoramic X-Ray.pdf", "category": "Diagnostic", "size": "5.8 MB", "date": "2026-04-08" },
+          { "id": "doc-202", "name": "Treatment Plan.pdf", "category": "Pre-treatment", "size": "210 KB", "date": "2026-04-09" },
+          { "id": "doc-203", "name": "Insurance Form.pdf", "category": "Admin", "size": "95 KB", "date": "2026-04-10" },
+          { "id": "doc-204", "name": "Bite Analysis.pdf", "category": "Diagnostic", "size": "2.1 MB", "date": "2026-04-11" },
+          { "id": "doc-205", "name": "Post-op Instructions.pdf", "category": "Post-treatment", "size": "180 KB", "date": "2026-04-12" }
+        ]
+      }
+    },
+    {
+      "id": "pat-003",
+      "initials": "SB",
+      "avatar_color": "#0D9488",
+      "name": "Sophie Bennett",
+      "email": "sophie@mail.com",
+      "phone": "+1 512 555 0119",
+      "city": "Austin, TX",
+      "status": "Inactive",
+      "total_bookings": 1,
+      "last_booking": "2025-09-04",
+      "joined": "2025-08-30",
+      "profile": {
+        "patient_id": "PAT-003",
+        "date_of_birth": "1996-07-22",
+        "gender": "Female",
+        "last_visit": "2025-09-04",
+        "referral_credits": 0,
+        "referral_code": "RD-SB1003",
+        "stats": {
+          "total_bookings": { "count": 1, "growth_this_month": 0 },
+          "amount_spent": 120,
+          "reviews_written": { "count": 0, "avg_rating": 0 },
+          "referrals_made": { "total": 0, "credited": 0 },
+          "last_active": "2025-09-04"
+        },
+        "engagement": {
+          "show_up_rate": 100.0,
+          "reviews_ratio": "0 of 1",
+          "documents_count": 1
+        },
+        "referrals": {
+          "code": "RD-SB1003",
+          "available_credits": 0,
+          "total": 0,
+          "credited": 0
+        },
+        "activity": {
+          "total_bookings": 1,
+          "amount_spent": 120,
+          "avg_rating": 0,
+          "last_visit": "2025-09-04"
+        },
+        "bookings": [
+          { "id": "B-1701", "dentist": "Dr. Maya Patel", "procedure": "Initial Cleaning & Checkup", "date": "2025-09-04", "status": "Completed", "amount": 120 }
+        ],
+        "consultations": [
+          {
+            "id": "CON-301",
+            "dentist_name": "Dr. James Park",
+            "dentist_image": null,
+            "specialty": "General Dentist",
+            "rating": 4,
+            "review_count": 5,
+            "verified": true,
+            "rdv_score": 85,
+            "procedure": "Teeth Alignment Assessment",
+            "date": "2025-10-15",
+            "time": "11:00 AM CST",
+            "duration": "15-minute video call",
+            "tab": "upcoming",
+            "estimate_min": 2500,
+            "estimate_max": 3200
+          },
+          {
+            "id": "CON-302",
+            "dentist_name": "Dr. James Park",
+            "dentist_image": null,
+            "specialty": "General Dentist",
+            "rating": 4,
+            "review_count": 5,
+            "verified": true,
+            "rdv_score": 85,
+            "procedure": "Teeth Alignment Assessment",
+            "date": null,
+            "time": null,
+            "duration": null,
+            "tab": "estimate_updates",
+            "estimate_status": "received",
+            "estimate_min": 2800,
+            "estimate_max": 2800,
+            "estimate_message": "Final price will be within 15% of this estimate. This estimate is protected by the No Surprise Guarantee."
+          }
+        ],
+        "documents": [
+          { "id": "doc-301", "name": "New Patient Form.pdf", "category": "Admin", "size": "145 KB", "date": "2025-09-03" }
+        ]
+      }
+    },
+    {
+      "id": "pat-004",
+      "initials": "DN",
+      "avatar_color": "#2563EB",
+      "name": "Daniel Nguyen",
+      "email": "dnguyen@mail.com",
+      "phone": "+1 206 555 0144",
+      "city": "Seattle, WA",
+      "status": "Active",
+      "total_bookings": 6,
+      "last_booking": "2026-04-12",
+      "joined": "2025-01-22",
+      "profile": {
+        "patient_id": "PAT-004",
+        "date_of_birth": "1990-11-08",
+        "gender": "Male",
+        "last_visit": "2026-04-12",
+        "referral_credits": 25,
+        "referral_code": "RD-DN1004",
+        "stats": {
+          "total_bookings": { "count": 6, "growth_this_month": 1 },
+          "amount_spent": 1870,
+          "reviews_written": { "count": 2, "avg_rating": 4.5 },
+          "referrals_made": { "total": 2, "credited": 1 },
+          "last_active": "2026-04-12"
+        },
+        "engagement": {
+          "show_up_rate": 83.3,
+          "reviews_ratio": "2 of 6",
+          "documents_count": 3
+        },
+        "referrals": {
+          "code": "RD-DN1004",
+          "available_credits": 25,
+          "total": 2,
+          "credited": 1
+        },
+        "activity": {
+          "total_bookings": 6,
+          "amount_spent": 1870,
+          "avg_rating": 4.5,
+          "last_visit": "2026-04-12"
+        },
+        "bookings": [
+          { "id": "B-2088", "dentist": "Dr. Noah Kim", "procedure": "Dental Implant Consultation", "date": "2026-04-12", "status": "Completed", "amount": 150 },
+          { "id": "B-2070", "dentist": "Dr. Brian Lee", "procedure": "Periodontal Treatment", "date": "2026-03-15", "status": "Completed", "amount": 680 },
+          { "id": "B-2055", "dentist": "Dr. Maya Patel", "procedure": "Teeth Whitening", "date": "2026-02-20", "status": "In Progress", "amount": 350 },
+          { "id": "B-2040", "dentist": "Dr. Noah Kim", "procedure": "Cleaning & Checkup", "date": "2026-01-28", "status": "Completed", "amount": 120 },
+          { "id": "B-2022", "dentist": "Dr. Brian Lee", "procedure": "Cavity Filling", "date": "2025-12-12", "status": "Completed", "amount": 220 },
+          { "id": "B-2010", "dentist": "Dr. Maya Patel", "procedure": "Emergency Exam", "date": "2025-11-05", "status": "Cancelled", "amount": 150 }
+        ],
+        "consultations": [
+          {
+            "id": "CON-401",
+            "dentist_name": "Dr. Kevin Torres",
+            "dentist_image": null,
+            "specialty": "Oral Surgeon",
+            "rating": 5,
+            "review_count": 15,
+            "verified": true,
+            "rdv_score": 96,
+            "procedure": "Dental Implant Placement",
+            "date": "2026-05-10",
+            "time": "9:00 AM PST",
+            "duration": "20-minute video call",
+            "tab": "upcoming",
+            "estimate_min": 4200,
+            "estimate_max": 5000
+          },
+          {
+            "id": "CON-402",
+            "dentist_name": "Dr. Kevin Torres",
+            "dentist_image": null,
+            "specialty": "Oral Surgeon",
+            "rating": 5,
+            "review_count": 15,
+            "verified": true,
+            "rdv_score": 96,
+            "procedure": "Dental Implant Placement",
+            "date": "2026-04-25",
+            "time": "9:00 AM PST",
+            "duration": "20-minute video call",
+            "tab": "active",
+            "estimate_min": 4200,
+            "estimate_max": 5000
+          },
+          {
+            "id": "CON-403",
+            "dentist_name": "Dr. Kevin Torres",
+            "dentist_image": null,
+            "specialty": "Oral Surgeon",
+            "rating": 5,
+            "review_count": 15,
+            "verified": true,
+            "rdv_score": 96,
+            "procedure": "Dental Implant Placement",
+            "date": null,
+            "time": null,
+            "duration": null,
+            "tab": "estimate_updates",
+            "estimate_status": "received",
+            "estimate_min": 4600,
+            "estimate_max": 4600,
+            "estimate_message": "Final price will be within 15% of this estimate. This estimate is protected by the No Surprise Guarantee."
+          }
+        ],
+        "documents": [
+          { "id": "doc-401", "name": "CBCT Scan.pdf", "category": "Diagnostic", "size": "8.3 MB", "date": "2026-04-05" },
+          { "id": "doc-402", "name": "Implant Consent.pdf", "category": "Pre-treatment", "size": "205 KB", "date": "2026-04-06" },
+          { "id": "doc-403", "name": "Medical History.pdf", "category": "Admin", "size": "88 KB", "date": "2025-01-22" }
+        ]
+      }
+    },
+    {
+      "id": "pat-005",
+      "initials": "ZR",
+      "avatar_color": "#D97706",
+      "name": "Zoe Robinson",
+      "email": "zoe.r@mail.com",
+      "phone": "+1 617 555 0133",
+      "city": "Boston, MA",
+      "status": "Active",
+      "total_bookings": 3,
+      "last_booking": "2026-03-29",
+      "joined": "2025-12-01",
+      "profile": {
+        "patient_id": "PAT-005",
+        "date_of_birth": "1999-02-14",
+        "gender": "Female",
+        "last_visit": "2026-03-29",
+        "referral_credits": 0,
+        "referral_code": "RD-ZR1005",
+        "stats": {
+          "total_bookings": { "count": 3, "growth_this_month": 1 },
+          "amount_spent": 590,
+          "reviews_written": { "count": 1, "avg_rating": 5.0 },
+          "referrals_made": { "total": 1, "credited": 0 },
+          "last_active": "2026-03-29"
+        },
+        "engagement": {
+          "show_up_rate": 100.0,
+          "reviews_ratio": "1 of 3",
+          "documents_count": 2
+        },
+        "referrals": {
+          "code": "RD-ZR1005",
+          "available_credits": 0,
+          "total": 1,
+          "credited": 0
+        },
+        "activity": {
+          "total_bookings": 3,
+          "amount_spent": 590,
+          "avg_rating": 5.0,
+          "last_visit": "2026-03-29"
+        },
+        "bookings": [
+          { "id": "B-2072", "dentist": "Dr. Maya Patel", "procedure": "Cleaning & Checkup", "date": "2026-03-29", "status": "Completed", "amount": 120 },
+          { "id": "B-2050", "dentist": "Dr. Brian Lee", "procedure": "Teeth Whitening", "date": "2026-02-28", "status": "Completed", "amount": 350 },
+          { "id": "B-2025", "dentist": "Dr. Maya Patel", "procedure": "Initial Exam", "date": "2025-12-15", "status": "Completed", "amount": 120 }
+        ],
+        "consultations": [
+          {
+            "id": "CON-501",
+            "dentist_name": "Dr. Lisa Wong",
+            "dentist_image": null,
+            "specialty": "Cosmetic Dentist",
+            "rating": 5,
+            "review_count": 9,
+            "verified": true,
+            "rdv_score": 99,
+            "procedure": "Porcelain Veneer Set",
+            "date": "2026-04-20",
+            "time": "1:00 PM EST",
+            "duration": "15-minute video call",
+            "tab": "upcoming",
+            "estimate_min": 5500,
+            "estimate_max": 6500
+          },
+          {
+            "id": "CON-502",
+            "dentist_name": "Dr. Lisa Wong",
+            "dentist_image": null,
+            "specialty": "Cosmetic Dentist",
+            "rating": 5,
+            "review_count": 9,
+            "verified": true,
+            "rdv_score": 99,
+            "procedure": "Porcelain Veneer Set",
+            "date": null,
+            "time": null,
+            "duration": null,
+            "tab": "estimate_updates",
+            "estimate_status": "pending",
+            "time_remaining": "05:30:00",
+            "estimate_message": "Dr. Wong is reviewing your case. Estimate expected within 24 hours."
+          }
+        ],
+        "documents": [
+          { "id": "doc-501", "name": "Smile Analysis.pdf", "category": "Diagnostic", "size": "3.4 MB", "date": "2026-03-20" },
+          { "id": "doc-502", "name": "Veneer Consent.pdf", "category": "Pre-treatment", "size": "160 KB", "date": "2026-03-21" }
+        ]
+      }
+    },
+    {
+      "id": "pat-006",
+      "initials": "LD",
+      "avatar_color": "#1D4ED8",
+      "name": "Lucas Diaz",
+      "email": "lucas.d@gmail.com",
+      "phone": "+1 312 555 0144",
+      "city": "Chicago, IL",
+      "status": "Active",
+      "total_bookings": 12,
+      "last_booking": "2026-04-28",
+      "joined": "2024-04-08",
+      "profile": {
+        "patient_id": "PAT-006",
+        "date_of_birth": "1985-09-30",
+        "gender": "Male",
+        "last_visit": "2026-04-28",
+        "referral_credits": 100,
+        "referral_code": "RD-LD1006",
+        "stats": {
+          "total_bookings": { "count": 12, "growth_this_month": 2 },
+          "amount_spent": 5280,
+          "reviews_written": { "count": 8, "avg_rating": 4.9 },
+          "referrals_made": { "total": 6, "credited": 5 },
+          "last_active": "2026-04-28"
+        },
+        "engagement": {
+          "show_up_rate": 95.8,
+          "reviews_ratio": "8 of 12",
+          "documents_count": 9
+        },
+        "referrals": {
+          "code": "RD-LD1006",
+          "available_credits": 100,
+          "total": 6,
+          "credited": 5
+        },
+        "activity": {
+          "total_bookings": 12,
+          "amount_spent": 5280,
+          "avg_rating": 4.9,
+          "last_visit": "2026-04-28"
+        },
+        "bookings": [
+          { "id": "B-2095", "dentist": "Dr. Brian Lee", "procedure": "Veneer Maintenance", "date": "2026-04-28", "status": "Completed", "amount": 280 },
+          { "id": "B-2082", "dentist": "Dr. Noah Kim", "procedure": "Night Guard Fitting", "date": "2026-04-10", "status": "Completed", "amount": 450 },
+          { "id": "B-2068", "dentist": "Dr. Maya Patel", "procedure": "Cleaning & Checkup", "date": "2026-03-20", "status": "Completed", "amount": 120 },
+          { "id": "B-2058", "dentist": "Dr. Brian Lee", "procedure": "Periodontal Scaling", "date": "2026-03-05", "status": "Completed", "amount": 680 },
+          { "id": "B-2044", "dentist": "Dr. Noah Kim", "procedure": "Teeth Whitening", "date": "2026-02-12", "status": "Completed", "amount": 350 },
+          { "id": "B-2033", "dentist": "Dr. Maya Patel", "procedure": "Composite Filling", "date": "2026-01-25", "status": "Completed", "amount": 210 },
+          { "id": "B-2019", "dentist": "Dr. Brian Lee", "procedure": "Crown Placement", "date": "2025-12-18", "status": "Completed", "amount": 1200 },
+          { "id": "B-2008", "dentist": "Dr. Noah Kim", "procedure": "Root Canal", "date": "2025-11-22", "status": "Completed", "amount": 980 },
+          { "id": "B-1998", "dentist": "Dr. Maya Patel", "procedure": "Extraction", "date": "2025-10-30", "status": "Completed", "amount": 280 },
+          { "id": "B-1980", "dentist": "Dr. Brian Lee", "procedure": "Emergency Consultation", "date": "2025-09-12", "status": "Completed", "amount": 150 },
+          { "id": "B-1965", "dentist": "Dr. Noah Kim", "procedure": "Cleaning & Checkup", "date": "2025-08-05", "status": "Completed", "amount": 120 },
+          { "id": "B-1950", "dentist": "Dr. Maya Patel", "procedure": "Orthodontic Records", "date": "2025-07-14", "status": "Cancelled", "amount": 260 }
+        ],
+        "consultations": [
+          {
+            "id": "CON-601",
+            "dentist_name": "Dr. Mark Stevens",
+            "dentist_image": null,
+            "specialty": "Endodontist",
+            "rating": 5,
+            "review_count": 20,
+            "verified": true,
+            "rdv_score": 100,
+            "procedure": "Full Arch Rehabilitation",
+            "date": "2026-05-12",
+            "time": "3:30 PM CST",
+            "duration": "30-minute video call",
+            "tab": "upcoming",
+            "estimate_min": 12000,
+            "estimate_max": 15000
+          },
+          {
+            "id": "CON-602",
+            "dentist_name": "Dr. Mark Stevens",
+            "dentist_image": null,
+            "specialty": "Endodontist",
+            "rating": 5,
+            "review_count": 20,
+            "verified": true,
+            "rdv_score": 100,
+            "procedure": "Full Arch Rehabilitation",
+            "date": "2026-04-28",
+            "time": "3:30 PM CST",
+            "duration": "30-minute video call",
+            "tab": "active",
+            "estimate_min": 12000,
+            "estimate_max": 15000
+          },
+          {
+            "id": "CON-603",
+            "dentist_name": "Dr. Mark Stevens",
+            "dentist_image": null,
+            "specialty": "Endodontist",
+            "rating": 5,
+            "review_count": 20,
+            "verified": true,
+            "rdv_score": 100,
+            "procedure": "Full Arch Rehabilitation",
+            "date": null,
+            "time": null,
+            "duration": null,
+            "tab": "estimate_updates",
+            "estimate_status": "pending",
+            "time_remaining": "18:22:10",
+            "estimate_message": "Dr. Stevens is reviewing your case. Estimate expected within 24 hours."
+          },
+          {
+            "id": "CON-604",
+            "dentist_name": "Dr. Mark Stevens",
+            "dentist_image": null,
+            "specialty": "Endodontist",
+            "rating": 5,
+            "review_count": 20,
+            "verified": true,
+            "rdv_score": 100,
+            "procedure": "Full Arch Rehabilitation",
+            "date": null,
+            "time": null,
+            "duration": null,
+            "tab": "estimate_updates",
+            "estimate_status": "received",
+            "estimate_min": 13500,
+            "estimate_max": 13500,
+            "estimate_message": "Final price will be within 15% of this estimate. This estimate is protected by the No Surprise Guarantee."
+          }
+        ],
+        "documents": [
+          { "id": "doc-601", "name": "Full Mouth X-Rays.pdf", "category": "Diagnostic", "size": "9.1 MB", "date": "2026-04-20" },
+          { "id": "doc-602", "name": "Periodontal Chart.pdf", "category": "Diagnostic", "size": "1.2 MB", "date": "2026-04-21" },
+          { "id": "doc-603", "name": "Treatment Plan.pdf", "category": "Pre-treatment", "size": "320 KB", "date": "2026-04-22" },
+          { "id": "doc-604", "name": "Insurance Pre-Auth.pdf", "category": "Admin", "size": "145 KB", "date": "2026-04-22" },
+          { "id": "doc-605", "name": "Consent Forms.pdf", "category": "Pre-treatment", "size": "280 KB", "date": "2026-04-23" },
+          { "id": "doc-606", "name": "Medical History.pdf", "category": "Admin", "size": "88 KB", "date": "2024-04-08" },
+          { "id": "doc-607", "name": "Before Photos.pdf", "category": "Diagnostic", "size": "4.5 MB", "date": "2026-04-25" },
+          { "id": "doc-608", "name": "Post-op Plan.pdf", "category": "Post-treatment", "size": "190 KB", "date": "2026-04-28" },
+          { "id": "doc-609", "name": "Referral Letter.pdf", "category": "Admin", "size": "72 KB", "date": "2026-04-28" }
+        ]
+      }
+    },
+    {
+      "id": "pat-007",
+      "initials": "MT",
+      "avatar_color": "#DC2626",
+      "name": "Mia Thompson",
+      "email": "mia.t@gmail.com",
+      "phone": "+1 213 555 0133",
+      "city": "Los Angeles, CA",
+      "status": "Inactive",
+      "total_bookings": 2,
+      "last_booking": "2025-11-15",
+      "joined": "2025-10-04",
+      "profile": {
+        "patient_id": "PAT-007",
+        "date_of_birth": "1997-04-18",
+        "gender": "Female",
+        "last_visit": "2025-11-15",
+        "referral_credits": 0,
+        "referral_code": "RD-MT1007",
+        "stats": {
+          "total_bookings": { "count": 2, "growth_this_month": 0 },
+          "amount_spent": 240,
+          "reviews_written": { "count": 1, "avg_rating": 3.5 },
+          "referrals_made": { "total": 0, "credited": 0 },
+          "last_active": "2025-11-15"
+        },
+        "engagement": {
+          "show_up_rate": 50.0,
+          "reviews_ratio": "1 of 2",
+          "documents_count": 1
+        },
+        "referrals": {
+          "code": "RD-MT1007",
+          "available_credits": 0,
+          "total": 0,
+          "credited": 0
+        },
+        "activity": {
+          "total_bookings": 2,
+          "amount_spent": 240,
+          "avg_rating": 3.5,
+          "last_visit": "2025-11-15"
+        },
+        "bookings": [
+          { "id": "B-1940", "dentist": "Dr. Maya Patel", "procedure": "Cleaning & Checkup", "date": "2025-11-15", "status": "Completed", "amount": 120 },
+          { "id": "B-1920", "dentist": "Dr. Brian Lee", "procedure": "Initial Exam", "date": "2025-10-20", "status": "Cancelled", "amount": 120 }
+        ],
+        "consultations": [
+          {
+            "id": "CON-701",
+            "dentist_name": "Dr. Amy Foster",
+            "dentist_image": null,
+            "specialty": "General Dentist",
+            "rating": 4,
+            "review_count": 6,
+            "verified": true,
+            "rdv_score": 82,
+            "procedure": "Braces Assessment",
+            "date": "2026-01-10",
+            "time": "10:00 AM PST",
+            "duration": "15-minute video call",
+            "tab": "upcoming",
+            "estimate_min": 3500,
+            "estimate_max": 4200
+          },
+          {
+            "id": "CON-702",
+            "dentist_name": "Dr. Amy Foster",
+            "dentist_image": null,
+            "specialty": "General Dentist",
+            "rating": 4,
+            "review_count": 6,
+            "verified": true,
+            "rdv_score": 82,
+            "procedure": "Braces Assessment",
+            "date": null,
+            "time": null,
+            "duration": null,
+            "tab": "estimate_updates",
+            "estimate_status": "pending",
+            "time_remaining": "20:10:00",
+            "estimate_message": "Dr. Foster is reviewing your case. Estimate expected within 24 hours."
+          }
+        ],
+        "documents": [
+          { "id": "doc-701", "name": "Patient Intake Form.pdf", "category": "Admin", "size": "102 KB", "date": "2025-10-04" }
+        ]
+      }
+    },
+    {
+      "id": "pat-008",
+      "initials": "CR",
+      "avatar_color": "#6D28D9",
+      "name": "Carlos Reyes",
+      "email": "carlos.r@gmail.com",
+      "phone": "+1 720 555 0177",
+      "city": "Denver, CO",
+      "status": "Active",
+      "total_bookings": 7,
+      "last_booking": "2026-04-30",
+      "joined": "2024-06-15",
+      "profile": {
+        "patient_id": "PAT-008",
+        "date_of_birth": "1983-12-25",
+        "gender": "Male",
+        "last_visit": "2026-04-30",
+        "referral_credits": 50,
+        "referral_code": "RD-CR1008",
+        "stats": {
+          "total_bookings": { "count": 7, "growth_this_month": 1 },
+          "amount_spent": 2890,
+          "reviews_written": { "count": 4, "avg_rating": 4.7 },
+          "referrals_made": { "total": 3, "credited": 2 },
+          "last_active": "2026-04-30"
+        },
+        "engagement": {
+          "show_up_rate": 88.6,
+          "reviews_ratio": "4 of 7",
+          "documents_count": 5
+        },
+        "referrals": {
+          "code": "RD-CR1008",
+          "available_credits": 50,
+          "total": 3,
+          "credited": 2
+        },
+        "activity": {
+          "total_bookings": 7,
+          "amount_spent": 2890,
+          "avg_rating": 4.7,
+          "last_visit": "2026-04-30"
+        },
+        "bookings": [
+          { "id": "B-2100", "dentist": "Dr. Noah Kim", "procedure": "Implant Follow-up", "date": "2026-04-30", "status": "Completed", "amount": 180 },
+          { "id": "B-2085", "dentist": "Dr. Brian Lee", "procedure": "Implant Placement", "date": "2026-04-08", "status": "Completed", "amount": 1800 },
+          { "id": "B-2066", "dentist": "Dr. Noah Kim", "procedure": "Bone Graft", "date": "2026-03-10", "status": "Completed", "amount": 600 },
+          { "id": "B-2051", "dentist": "Dr. Maya Patel", "procedure": "Pre-op Cleaning", "date": "2026-02-22", "status": "Completed", "amount": 120 },
+          { "id": "B-2036", "dentist": "Dr. Noah Kim", "procedure": "Extraction", "date": "2026-01-30", "status": "Completed", "amount": 280 },
+          { "id": "B-2020", "dentist": "Dr. Brian Lee", "procedure": "Implant Consultation", "date": "2025-12-20", "status": "Completed", "amount": 150 },
+          { "id": "B-1980", "dentist": "Dr. Maya Patel", "procedure": "Emergency Toothache", "date": "2025-10-08", "status": "Cancelled", "amount": 200 }
+        ],
+        "consultations": [
+          {
+            "id": "CON-801",
+            "dentist_name": "Dr. Rachel Green",
+            "dentist_image": null,
+            "specialty": "Periodontist",
+            "rating": 5,
+            "review_count": 11,
+            "verified": true,
+            "rdv_score": 97,
+            "procedure": "Sinus Lift & Implant",
+            "date": "2026-05-08",
+            "time": "11:00 AM MST",
+            "duration": "20-minute video call",
+            "tab": "upcoming",
+            "estimate_min": 6500,
+            "estimate_max": 8000
+          },
+          {
+            "id": "CON-802",
+            "dentist_name": "Dr. Rachel Green",
+            "dentist_image": null,
+            "specialty": "Periodontist",
+            "rating": 5,
+            "review_count": 11,
+            "verified": true,
+            "rdv_score": 97,
+            "procedure": "Sinus Lift & Implant",
+            "date": "2026-04-28",
+            "time": "11:00 AM MST",
+            "duration": "20-minute video call",
+            "tab": "active",
+            "estimate_min": 6500,
+            "estimate_max": 8000
+          },
+          {
+            "id": "CON-803",
+            "dentist_name": "Dr. Rachel Green",
+            "dentist_image": null,
+            "specialty": "Periodontist",
+            "rating": 5,
+            "review_count": 11,
+            "verified": true,
+            "rdv_score": 97,
+            "procedure": "Sinus Lift & Implant",
+            "date": null,
+            "time": null,
+            "duration": null,
+            "tab": "estimate_updates",
+            "estimate_status": "received",
+            "estimate_min": 7200,
+            "estimate_max": 7200,
+            "estimate_message": "Final price will be within 15% of this estimate. This estimate is protected by the No Surprise Guarantee."
+          }
+        ],
+        "documents": [
+          { "id": "doc-801", "name": "CBCT Scan.pdf", "category": "Diagnostic", "size": "7.8 MB", "date": "2026-04-01" },
+          { "id": "doc-802", "name": "Implant Plan.pdf", "category": "Pre-treatment", "size": "280 KB", "date": "2026-04-02" },
+          { "id": "doc-803", "name": "Surgical Consent.pdf", "category": "Pre-treatment", "size": "175 KB", "date": "2026-04-03" },
+          { "id": "doc-804", "name": "Post-op Care.pdf", "category": "Post-treatment", "size": "140 KB", "date": "2026-04-08" },
+          { "id": "doc-805", "name": "Follow-up Notes.pdf", "category": "Post-treatment", "size": "95 KB", "date": "2026-04-30" }
+        ]
+      }
+    }
+  ]
+}
