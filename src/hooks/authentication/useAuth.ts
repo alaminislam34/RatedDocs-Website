@@ -86,7 +86,7 @@ export default function useAuth() {
     logoutMutation,
     isRegisterLoading: registerMutation.isPending,
     isLoginLoading: loginMutation.isPending,
-    FisOtpVerifyLoading: otpVerifyMutation.isPending,
+    isOtpVerifyLoading: otpVerifyMutation.isPending,
     isResendOtpLoading: resendOtpMutation.isPending,
     isLogoutLoading: logoutMutation.isPending,
     isRegisterError: registerMutation.isError,

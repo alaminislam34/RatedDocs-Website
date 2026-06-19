@@ -11,7 +11,7 @@ import {
   formSchema,
   FormInputValues,
   FormValues,
-} from "@/validation/Verification-doctor-phase/phase-form";
+} from "@/validation/verification-doctor-phase/phase-form";
 import useDentist from "@/hooks/dentist/useDentist";
 import toast from "react-hot-toast";
 import { Loader2 } from "lucide-react";

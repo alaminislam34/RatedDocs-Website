@@ -1,27 +1,12 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { API_BASE_URL, endpoints } from "@/lib/api/endpoints";
 import {
   LOGIN_PATH_BY_ROLE,
   normalizeRole,
   ROLE_HOME,
   type UserRole,
 } from "@/lib/auth/roles";
-
-type VerifyResult =
-  | { status: "valid"; role: UserRole }
-  | { status: "invalid" }
-  | { status: "unavailable" };
-
-interface VerifyTokenResponse {
-  success?: boolean;
-  message?: string;
-  data?: {
-    user_id?: number;
-    email?: string;
-    type?: string;
-  };
-}
+import { getRoleFromToken, isTokenExpired } from "@/lib/auth/session-decoder";
 
 const ACCESS_TOKEN_COOKIE = "rateddocs_access_token";
 const USER_COOKIE = "rateddocs_user";
@@ -46,32 +31,6 @@ function redirectTo(request: NextRequest, pathname: string) {
   return NextResponse.redirect(new URL(pathname, request.url));
 }
 
-function decodeBase64Url(value: string) {
-  const base64 = value.replace(/-/g, "+").replace(/_/g, "/");
-  const padded = base64.padEnd(
-    base64.length + ((4 - (base64.length % 4)) % 4),
-    "=",
-  );
-  return atob(padded);
-}
-
-function getRoleFromToken(token: string) {
-  try {
-    const [, payload] = token.split(".");
-    if (!payload) return null;
-
-    const decoded = JSON.parse(decodeBase64Url(payload)) as {
-      type: string;
-      user_id: number;
-      email: string;
-    };
-
-    return normalizeRole(decoded.type);
-  } catch {
-    return null;
-  }
-}
-
 function getRoleFromUserCookie(request: NextRequest) {
   const userCookie = request.cookies.get(USER_COOKIE)?.value;
   if (!userCookie) return null;
@@ -86,42 +45,6 @@ function getRoleFromUserCookie(request: NextRequest) {
     return normalizeRole(user.type);
   } catch {
     return null;
-  }
-}
-
-function getFallbackRole(request: NextRequest, token: string) {
-  return getRoleFromUserCookie(request) ?? getRoleFromToken(token);
-}
-
-async function verifyToken(token: string): Promise<VerifyResult> {
-  console.log("token verify call");
-  try {
-    const response = await fetch(
-      `${API_BASE_URL}${endpoints.auth.verifyToken}`,
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        cache: "no-store",
-      },
-    );
-
-    console.log("verify token response:", response);
-    if (!response.ok) return { status: "invalid" };
-
-    const payload = (await response.json()) as VerifyTokenResponse;
-    if (payload.success === false) return { status: "invalid" };
-
-    const role = normalizeRole(payload.data?.type);
-
-    if (!role) return { status: "unavailable" };
-
-    return { status: "valid", role };
-  } catch {
-    return { status: "unavailable" };
   }
 }
 
@@ -149,38 +72,47 @@ export async function middleware(request: NextRequest) {
     ? undefined
     : getRequiredRole(pathname);
 
+  // If the route doesn't require a specific role, and it's not a public auth route, allow it
   if (!requiredRole && !isPublicAuthRoute) {
     return NextResponse.next();
   }
 
+  // If there is no token:
+  // - If it requires a role, redirect to login page for that role.
+  // - If it's a public auth route, let the user load the login page.
   if (!token) {
     if (requiredRole) {
       return redirectTo(request, LOGIN_PATH_BY_ROLE[requiredRole]);
     }
-
     return NextResponse.next();
   }
 
-  const fallbackRole = getFallbackRole(request, token);
-  const tokenVerification = await verifyToken(token);
-
-  if (tokenVerification.status === "invalid") {
-    return requiredRole
+  // If token is expired, treat as no token
+  if (isTokenExpired(token)) {
+    const redirectResponse = requiredRole
       ? redirectTo(request, LOGIN_PATH_BY_ROLE[requiredRole])
       : NextResponse.next();
+    
+    // Clear cookies on redirect
+    redirectResponse.cookies.delete(ACCESS_TOKEN_COOKIE);
+    redirectResponse.cookies.delete(USER_COOKIE);
+    return redirectResponse;
   }
 
-  if (tokenVerification.status === "unavailable") {
-    if (fallbackRole) {
-      return resolveRoleAccess(request, fallbackRole, requiredRole);
-    }
+  // Determine user's role from JWT or fallback cookie
+  const role = getRoleFromToken(token) ?? getRoleFromUserCookie(request);
 
-    return requiredRole
+  if (!role) {
+    const redirectResponse = requiredRole
       ? redirectTo(request, LOGIN_PATH_BY_ROLE[requiredRole])
       : NextResponse.next();
+    redirectResponse.cookies.delete(ACCESS_TOKEN_COOKIE);
+    redirectResponse.cookies.delete(USER_COOKIE);
+    return redirectResponse;
   }
 
-  return resolveRoleAccess(request, tokenVerification.role, requiredRole);
+  // Resolve access based on user role and the route requirements
+  return resolveRoleAccess(request, role, requiredRole);
 }
 
 export const config = {
