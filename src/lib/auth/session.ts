@@ -66,7 +66,7 @@ export function setAuthSession(session: AuthSession, options?: SetCookieOptions)
 export function clearAuthSession(options?: DeleteCookieOptions) {
   const mergedOptions = { ...getCookieOptions(), ...options };
   deleteCookie(ACCESS_TOKEN_KEY, mergedOptions);
-  // deleteCookie(REFRESH_TOKEN_KEY, mergedOptions);
+  deleteCookie(REFRESH_TOKEN_KEY, mergedOptions);
   deleteCookie(USER_KEY, mergedOptions);
 }
 
