@@ -7,10 +7,15 @@ import {
   useRef,
   Suspense,
 } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useAppStore } from "@/store/useAppStore";
 import { initializeDentistData } from "@/lib/storage/dentistData";
-import { initializeBookingData } from "@/lib/storage/bookingService";
+import {
+  clearBookingResumeState,
+  getBookingDraftContext,
+  initializeBookingData,
+  setBookingDraftDentist,
+} from "@/lib/storage/bookingService";
 import type { Dentist } from "@/app/(marketing)/_components/module/DentistAllComponents/types";
 
 // Re-export store hooks for direct access
@@ -39,6 +44,8 @@ interface StateContextType {
   prevStep: () => void;
   showSignupModal: boolean;
   setShowSignupModal: (show: boolean) => void;
+  showSigninModal: boolean;
+  setShowSigninModal: (show: boolean) => void;
   showPersonalizeModal: boolean;
   setShowPersonalizeModal: (show: boolean) => void;
   showCompareModal: boolean;
@@ -46,7 +53,11 @@ interface StateContextType {
   compareModalPurpose: "compare" | "postBooking" | null;
   setCompareModalPurpose: (purpose: "compare" | "postBooking" | null) => void;
   showBookingModal: string | null;
-  setShowBookingModal: (dentistId: string | null) => void;
+  setShowBookingModal: (stageOrDentistId: string | null) => void;
+  bookingStep: number;
+  bookingDraftId: string | null;
+  setBookingStep: (step: number | ((prev: number) => number)) => void;
+  advanceBookingStep: () => void;
   selectedDentistId: string | null;
   setSelectedDentistId: (id: string | null) => void;
   setSchedule: (schedule: boolean) => void;
@@ -63,8 +74,10 @@ interface StateContextType {
   setSearchQuery: (query: string) => void;
   isNewestFirst: boolean;
   setIsNewestFirst: (isNewest: boolean | ((prev: boolean) => boolean)) => void;
-  showSigninModal: boolean;
-  setShowSigninModal: (show: boolean) => void;
+  openSignupFlow: (reason?: "compare" | "booking") => void;
+  openSigninFlow: (reason?: "compare" | "booking") => void;
+  openCompareFlow: (purpose?: "compare" | "postBooking") => void;
+  openBookingFlow: (dentistId: string) => string;
 }
 
 export const StateContext = createContext<StateContextType | undefined>(
@@ -82,6 +95,8 @@ function StepSync() {
   const hasInitializedStep = useRef(false);
 
   // Initialize the step once from the URL or persisted value.
+  // can you please check it here is always show ?step=1 why ?
+
   useEffect(() => {
     if (hasInitializedStep.current) return;
     hasInitializedStep.current = true;
@@ -95,12 +110,12 @@ function StepSync() {
       if (savedStep) {
         const parsedStep = Number(savedStep);
         if (parsedStep >= 1 && parsedStep <= 3) {
-          setVerificationStep(parsedStep);
-          router.replace(`?step=${parsedStep}`);
+          setVerificationStep(parsedStep + 1);
+          router.replace(`?step=${parsedStep + 1}`);
           return;
         }
       }
-      router.replace("?step=1");
+      router.replace("");
     }
   }, [urlStep, verificationStep, router, setVerificationStep]);
 
@@ -111,6 +126,53 @@ function StepSync() {
       router.push(`?step=${verificationStep}`);
     }
   }, [verificationStep, urlStep, router]);
+
+  return null;
+}
+
+function BookingDraftSync() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const store = useAppStore();
+  const currentBookingId =
+    store.flow.kind === "booking" ? store.flow.bookingId : null;
+  const searchBookingId = searchParams.get("bookingId");
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    const activeBookingResumeId =
+      typeof window !== "undefined"
+        ? localStorage.getItem("booking_active_id")
+        : null;
+
+    if (
+      store.flow.kind === "idle" &&
+      searchBookingId &&
+      searchBookingId === activeBookingResumeId
+    ) {
+      const draft = getBookingDraftContext(searchBookingId);
+      if (draft?.dentistId) {
+        store.setSelectedDentistId(draft.dentistId);
+        store.resumeBooking(draft.dentistId, draft.bookingId, draft.step);
+        return;
+      }
+    }
+
+    if (currentBookingId) {
+      if (searchBookingId !== currentBookingId) {
+        params.set("bookingId", currentBookingId);
+        router.replace(`${pathname}?${params.toString()}`);
+      }
+      return;
+    }
+
+    if (searchBookingId) {
+      params.delete("bookingId");
+      const next = params.toString();
+      router.replace(next ? `${pathname}?${next}` : pathname);
+    }
+  }, [currentBookingId, pathname, router, searchBookingId, searchParams, store.flow.kind, store]);
 
   return null;
 }
@@ -152,25 +214,70 @@ export const StateProvider: React.FC<{ children: React.ReactNode }> = ({
     prevStep: store.prevStep,
 
     // Modals mapping
-    showSignupModal: store.activeModal === "signup",
-    setShowSignupModal: (show) => store.openModal(show ? "signup" : null),
-    showSigninModal: store.activeModal === "signin",
-    setShowSigninModal: (show) => store.openModal(show ? "signin" : null),
-    showPersonalizeModal: store.activeModal === "personalize",
-    setShowPersonalizeModal: (show) => store.openModal(show ? "personalize" : null),
-    showCompareModal: store.activeModal === "compare",
-    setShowCompareModal: (show) => store.openModal(show ? "compare" : null),
-    
-    // Booking modal uses selectedDentistId and activeModal
-    showBookingModal: store.activeModal === "booking" ? store.selectedDentistId : null,
-    setShowBookingModal: (dentistId) => {
-      if (dentistId) {
-        store.setSelectedDentistId(dentistId);
-        store.openModal("booking");
-      } else {
-        store.openModal(null);
+    showSignupModal: store.flow.kind === "auth" && store.flow.modal === "signup",
+    setShowSignupModal: (show) => {
+      if (show) {
+        store.openSignup("compare");
+      } else if (store.flow.kind === "auth" && store.flow.modal === "signup") {
+        store.resetFlow();
       }
     },
+    showSigninModal: store.flow.kind === "auth" && store.flow.modal === "signin",
+    setShowSigninModal: (show) => {
+      if (show) {
+        store.openSignin("compare");
+      } else if (store.flow.kind === "auth" && store.flow.modal === "signin") {
+        store.resetFlow();
+      }
+    },
+    showPersonalizeModal: store.flow.kind === "personalize",
+    setShowPersonalizeModal: (show) => {
+      if (show) {
+        store.openPersonalize("compare");
+      } else if (store.flow.kind === "personalize") {
+        store.resetFlow();
+      }
+    },
+    showCompareModal: store.flow.kind === "compare",
+    setShowCompareModal: (show) => {
+      if (show) {
+        store.openCompare(store.compareModalPurpose ?? "compare");
+      } else if (store.flow.kind === "compare") {
+        store.resetFlow();
+      }
+    },
+
+    showBookingModal:
+      store.flow.kind === "booking"
+        ? store.flow.stage === "start"
+          ? "startBooking"
+          : "book"
+        : null,
+    bookingStep: store.flow.kind === "booking" ? store.flow.step : 1,
+    bookingDraftId: store.flow.kind === "booking" ? store.flow.bookingId : null,
+    setShowBookingModal: (stageOrDentistId) => {
+      if (!stageOrDentistId) {
+        if (store.flow.kind === "booking") {
+          clearBookingResumeState();
+          store.resetFlow();
+        }
+        return;
+      }
+
+      if (stageOrDentistId === "startBooking") {
+        const dentistId = store.selectedDentistId;
+        if (!dentistId) return;
+        const bookingId = store.startBooking(dentistId);
+        setBookingDraftDentist(bookingId, dentistId);
+        return;
+      }
+
+      if (stageOrDentistId === "book") {
+        store.setBookingStage("book");
+      }
+    },
+    setBookingStep: store.setBookingStep,
+    advanceBookingStep: store.advanceBookingStep,
 
     compareModalPurpose: store.compareModalPurpose,
     setCompareModalPurpose: store.setCompareModalPurpose,
@@ -190,12 +297,23 @@ export const StateProvider: React.FC<{ children: React.ReactNode }> = ({
     setSearchQuery: store.setSearchQuery,
     isNewestFirst: store.isNewestFirst,
     setIsNewestFirst: store.setIsNewestFirst,
+
+    openSignupFlow: store.openSignup,
+    openSigninFlow: store.openSignin,
+    openCompareFlow: store.openCompare,
+    openBookingFlow: (dentistId: string) => {
+      store.setSelectedDentistId(dentistId);
+      const bookingId = store.startBooking(dentistId);
+      setBookingDraftDentist(bookingId, dentistId);
+      return bookingId;
+    },
   };
 
   return (
     <StateContext.Provider value={value}>
       <Suspense fallback={null}>
         <StepSync />
+        <BookingDraftSync />
       </Suspense>
       {children}
     </StateContext.Provider>

@@ -1,8 +1,12 @@
 "use client";
-import { useState } from "react";
+import { useEffect } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useStateContext } from "@/providers/StateProvider";
-import { submitBooking, getBookingData } from "@/lib/storage/bookingService";
+import {
+  submitBooking,
+  getBookingData,
+  updateBookingStep,
+} from "@/lib/storage/bookingService";
 import toast from "react-hot-toast";
 import PersonalInfoForm from "./BookingIntakeForm/PersonalInfoForm";
 import ProcedureSelectionForm from "./BookingIntakeForm/ProcedureSelectionForm";
@@ -14,7 +18,6 @@ import XRayUploadForm from "./BookingIntakeForm/XRayUploadForm";
 const TOTAL_STEPS = 6;
 
 export default function IntakeModal() {
-  const [step, setStep] = useState(1);
   const {
     showBookingModal,
     setShowBookingModal,
@@ -22,14 +25,24 @@ export default function IntakeModal() {
     setCompareModalPurpose,
     selectedDentistId,
     setSchedule,
+    bookingStep,
+    bookingDraftId,
+    setBookingStep,
+    advanceBookingStep,
   } = useStateContext();
 
-  const progress = (step / TOTAL_STEPS) * 100;
+  const progress = (bookingStep / TOTAL_STEPS) * 100;
+
+  useEffect(() => {
+    if (bookingDraftId) {
+      updateBookingStep(bookingDraftId, bookingStep);
+    }
+  }, [bookingDraftId, bookingStep]);
 
   const validateStep = (): boolean => {
     const data = getBookingData();
 
-    switch (step) {
+    switch (bookingStep) {
       case 1: {
         const { firstName, lastName, email, dateOfBirth, country } =
           data.personalInfo;
@@ -65,8 +78,8 @@ export default function IntakeModal() {
   const handleNext = () => {
     if (!validateStep()) return;
 
-    if (step < TOTAL_STEPS) {
-      setStep((s) => s + 1);
+    if (bookingStep < TOTAL_STEPS) {
+      advanceBookingStep();
       return;
     }
 
@@ -77,7 +90,7 @@ export default function IntakeModal() {
     }
 
     try {
-      submitBooking(selectedDentistId);
+      submitBooking(selectedDentistId, bookingDraftId ?? undefined);
       toast.success("Your booking has been submitted successfully!");
       setShowBookingModal(null);
       setCompareModalPurpose("postBooking");
@@ -89,12 +102,11 @@ export default function IntakeModal() {
   };
 
   const handleBack = () => {
-    if (step > 1) setStep((s) => s - 1);
+    if (bookingStep > 1) setBookingStep((s) => s - 1);
   };
 
   const handleClose = () => {
     setShowBookingModal(null);
-    setStep(1);
   };
 
   return (
@@ -117,23 +129,23 @@ export default function IntakeModal() {
               />
             </div>
             <span className="text-[#6B7280] font-medium text-[14px] whitespace-nowrap">
-              Step {step} of {TOTAL_STEPS}
+              Step {bookingStep} of {TOTAL_STEPS}
             </span>
           </div>
 
           {/* Step content */}
           <div>
-            {step === 1 && <PersonalInfoForm />}
-            {step === 2 && <ProcedureSelectionForm />}
-            {step === 3 && <TreatmentDetailsForm />}
-            {step === 4 && <DentalHistoryForm />}
-            {step === 5 && <PhotoUploadForm />}
-            {step === 6 && <XRayUploadForm />}
+            {bookingStep === 1 && <PersonalInfoForm />}
+            {bookingStep === 2 && <ProcedureSelectionForm />}
+            {bookingStep === 3 && <TreatmentDetailsForm />}
+            {bookingStep === 4 && <DentalHistoryForm />}
+            {bookingStep === 5 && <PhotoUploadForm />}
+            {bookingStep === 6 && <XRayUploadForm />}
           </div>
 
           {/* Navigation */}
           <div className="flex justify-between mt-10 pt-6 border-t border-[#F3F4F6]">
-            {step > 1 ? (
+            {bookingStep > 1 ? (
               <button
                 type="button"
                 onClick={handleBack}
@@ -149,7 +161,7 @@ export default function IntakeModal() {
               onClick={handleNext}
               className="px-12 py-3.5 bg-[#113254] hover:bg-[#0d2844] text-white font-semibold text-[16px] rounded-xl active:scale-95 transition-all"
             >
-              {step === TOTAL_STEPS ? "Submit and Get Estimates" : "Continue"}
+              {bookingStep === TOTAL_STEPS ? "Submit and Get Estimates" : "Continue"}
             </button>
           </div>
         </div>

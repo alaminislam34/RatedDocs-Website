@@ -9,10 +9,8 @@ import useDentist from "@/hooks/dentist/useDentist";
 import toast from "react-hot-toast";
 import useVerificationProgress from "@/hooks/dentist/useStepProgress";
 import { useVerificationStore } from "@/lib/hooks/verification-store-hooks";
-/*
-Type 'SubmittedLicence | null | undefined' is not assignable to type 'Partial<{ country: string; city: string; authority: number; regNo: string; }> | undefined'.
-  Type 'null' is not assignable to type 'Partial<{ country: string; city: string; authority: number; regNo: string; }> | undefined'.
-*/
+
+
 type SubmittedLicence = {
   country: string;
   city: string;
@@ -116,6 +114,7 @@ export default function Phase1() {
       {
         onSuccess: () => {
           toast.success("License verification details submitted!");
+          setVerificationStep(2);
           setVerificationCompletedStep(1);
         },
         onError: (error: unknown) => {
