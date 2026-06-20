@@ -1,29 +1,96 @@
-import { BasicDetailsCard } from "../../../modules/dentist/profile/basic-details-card";
-import { PricingPlaceholder } from "../../../modules/dentist/profile/pricing-placeholder";
-import { ReviewsPlaceholder } from "../../../modules/dentist/profile/reviews-placeholder";
-import { ProfileHeader } from "../../../modules/dentist/profile/profile-header";
-import { VerificationSidebar } from "../../../modules/dentist/profile/verification-sidebar";
+"use client";
+
+import {
+  BasicDetailsCard,
+  BasicDetailsCardSkeleton,
+} from "../../../modules/dentist/profile/basic-details-card";
+import {
+  PricingPlaceholder,
+  PricingPlaceholderSkeleton,
+} from "../../../modules/dentist/profile/pricing-placeholder";
+import {
+  ReviewsPlaceholder,
+  ReviewsPlaceholderSkeleton,
+} from "../../../modules/dentist/profile/reviews-placeholder";
+import {
+  ProfileHeader,
+  ProfileHeaderSkeleton,
+} from "../../../modules/dentist/profile/profile-header";
+import {
+  VerificationSidebar,
+  VerificationSidebarSkeleton,
+} from "../../../modules/dentist/profile/verification-sidebar";
+import useDentist from "@/hooks/dentist/useDentist";
 
 export default function ProfilePage() {
+  const {
+    dentistProfileQuery,
+    isDentistProfileGetLoading,
+    isDentistProfileError,
+    dentistProfileError,
+  } = useDentist();
+
+  // Unified Loading State with Skeletons
+  if (isDentistProfileGetLoading) {
+    return (
+      <div className="flex flex-col gap-6">
+        <ProfileHeaderSkeleton />
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 items-start">
+          <div className="flex flex-col gap-6">
+            <BasicDetailsCardSkeleton />
+            <PricingPlaceholderSkeleton />
+            <ReviewsPlaceholderSkeleton />
+          </div>
+          <aside className="sticky top-6">
+            <VerificationSidebarSkeleton />
+          </aside>
+        </div>
+      </div>
+    );
+  }
+
+  if (isDentistProfileError) {
+    return (
+      <div className="p-4 text-red-500">
+        Error:{" "}
+        {dentistProfileError instanceof Error
+          ? dentistProfileError.message
+          : "Unknown error"}
+      </div>
+    );
+  }
+
+  const profileData = dentistProfileQuery?.data?.data;
+
+  if (!profileData) {
+    return <div className="p-4 text-gray-500">No profile data available.</div>;
+  }
+
   return (
-    <div className="flex flex-col gap-6 ">
-      {/* Top Section: Full Width Header */}
+    <div className="flex flex-col gap-6">
+      {/* Top Section */}
       <div className="w-full">
-        <ProfileHeader />
+        <ProfileHeader profile={profileData} />
       </div>
 
-      {/* Main Content: Two Column Grid */}
+      {/* Main Content */}
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 items-start">
-        {/* Left Column: Details, Pricing, and Reviews */}
         <div className="flex flex-col gap-6">
-          <BasicDetailsCard />
-          <PricingPlaceholder />
-          <ReviewsPlaceholder />
+          <BasicDetailsCard profile={profileData} />
+          <PricingPlaceholder
+            verificationPhase={profileData.verification_phase}
+          />
+          <ReviewsPlaceholder
+            totalReviews={profileData.total_reviews}
+            ratingAvg={profileData.rating_avg}
+          />
         </div>
 
-        {/* Right Column: Verification Sidebar */}
         <aside className="sticky top-6">
-          <VerificationSidebar />
+          <VerificationSidebar
+            verificationPhase={profileData.verification_phase}
+            isVerified={profileData.is_verified}
+          />
         </aside>
       </div>
     </div>

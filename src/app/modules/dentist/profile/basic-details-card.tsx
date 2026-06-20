@@ -1,13 +1,40 @@
+// modules/dentist/profile/basic-details-card.tsx
 import { Mail, Phone, MapPin, Briefcase, PencilLine } from "lucide-react";
+import { DentistProfile } from "@/hooks/dentist/dentist.interface";
 
-const details = [
-  { icon: Mail, label: "Email", value: "Alexhemsworth@gmail.com" },
-  { icon: Phone, label: "Phone Number", value: "+034-234234" },
-  { icon: MapPin, label: "Location", value: "Newyork, USA" },
-  { icon: Briefcase, label: "Experience", value: "8 Years" },
-];
+interface BasicDetailsCardProps {
+  profile: DentistProfile;
+}
 
-export function BasicDetailsCard() {
+export function BasicDetailsCard({ profile }: BasicDetailsCardProps) {
+  const { user, phone, experience_years, dentist_address } = profile;
+  const location = dentist_address?.[0];
+
+  // Simple capitalization for city/country
+  const formatStr = (str: string) =>
+    str
+      .split("-")
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(" ");
+  const locationStr = location
+    ? `${formatStr(location.city)}, ${formatStr(location.country)}`
+    : "N/A";
+
+  const details = [
+    { icon: Mail, label: "Email", value: user?.email || "N/A" },
+    {
+      icon: Phone,
+      label: "Phone Number",
+      value: user?.phone || phone || "N/A",
+    },
+    { icon: MapPin, label: "Location", value: locationStr },
+    {
+      icon: Briefcase,
+      label: "Experience",
+      value: experience_years ? `${experience_years} Years` : "N/A",
+    },
+  ];
+
   return (
     <div className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm">
       <div className="mb-6 flex items-center justify-between">
@@ -28,6 +55,28 @@ export function BasicDetailsCard() {
               <p className="text-sm font-semibold text-gray-900">
                 {item.value}
               </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export function BasicDetailsCardSkeleton() {
+  return (
+    <div className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm animate-pulse">
+      <div className="mb-6 flex items-center justify-between">
+        <div className="h-6 w-32 bg-gray-200 rounded" />
+        <div className="h-5 w-5 bg-gray-200 rounded" />
+      </div>
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        {[1, 2, 3, 4].map((i) => (
+          <div key={i} className="flex items-center gap-4">
+            <div className="h-12 w-12 rounded-xl bg-gray-200" />
+            <div className="space-y-2 flex-1">
+              <div className="h-3 w-16 bg-gray-200 rounded" />
+              <div className="h-4 w-32 bg-gray-200 rounded" />
             </div>
           </div>
         ))}

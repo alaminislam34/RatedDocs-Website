@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSidebar } from "@/context/sidebar-context";
+import LogoutButton from "./logout-button";
 
 interface NavItem {
   icon: LucideIcon;
@@ -96,7 +97,7 @@ export function Sidebar() {
   const { close } = useSidebar();
 
   const isVerificationPath = pathname === "/dentist/verification";
-  
+
   if (isVerificationPath) {
     return null;
   }
@@ -142,7 +143,7 @@ export function Sidebar() {
                     "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
                     active
                       ? "bg-[#163E5C] text-white"
-                      : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                      : "text-gray-500 hover:bg-gray-50 hover:text-gray-900",
                   )}
                 >
                   <item.icon className="h-4.5 w-4.5 shrink-0" />
@@ -153,7 +154,7 @@ export function Sidebar() {
                         "flex h-5 min-w-5 items-center justify-center rounded-full px-1.5 text-[11px] font-semibold",
                         active
                           ? "bg-white text-[#163E5C]"
-                          : "bg-[#163E5C] text-white"
+                          : "bg-[#163E5C] text-white",
                       )}
                     >
                       {item.badge}
@@ -168,10 +169,7 @@ export function Sidebar() {
 
       {/* Logout */}
       <div className="border-t border-slate-100 p-3">
-        <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-red-500 hover:bg-red-50 transition-colors">
-          <LogOut className="h-4.5 w-4.5" />
-          Log Out
-        </button>
+        <LogoutButton />
       </div>
     </aside>
   );

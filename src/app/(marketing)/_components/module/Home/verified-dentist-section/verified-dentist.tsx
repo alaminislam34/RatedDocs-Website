@@ -16,7 +16,7 @@ export default function VerifiedDentists() {
   const [compareMode, setCompareMode] = useState(false);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [dentists, setDentists] = useState<any[]>([]);
-  const { setShowSignupModal, setShowPersonalizeModal, setDentistsToCompare, setShowCompareModal } = useStateContext();
+  const { setShowPersonalizeModal, setDentistsToCompare, openSignupFlow } = useStateContext();
 
   useEffect(() => {
     const allDentists = getDentistsFromStorage();
@@ -111,14 +111,14 @@ export default function VerifiedDentists() {
                 ))}
               </div>
               <div>
-                <Button
+                  <Button
                   onClick={() => {
                     setDentistsToCompare(selectedDentists);
                     const token = getAccessToken();
                     if (token) {
                       setShowPersonalizeModal(true);
                     } else {
-                      setShowSignupModal(true);
+                      openSignupFlow("compare");
                     }
                   }}
                   className="bg-[#0E3E65] text-white h-12 px-6 rounded-lg cursor-pointer"

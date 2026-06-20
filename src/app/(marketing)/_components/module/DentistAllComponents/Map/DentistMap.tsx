@@ -11,6 +11,7 @@ import type { Dentist } from "../types";
 type DentistMapProps = {
   dentists: Dentist[];
   activeDentistId: string | null;
+  visible: boolean;
   onMarkerClick: (dentist: Dentist) => void;
   onCloseCard: () => void;
 };
@@ -25,9 +26,26 @@ function RecenterMap({ coords }: { coords: [number, number] }) {
   return null;
 }
 
+function InvalidateOnVisible({ visible }: { visible: boolean }) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!visible) return;
+
+    const frame = requestAnimationFrame(() => {
+      map.invalidateSize();
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [map, visible]);
+
+  return null;
+}
+
 export default function DentistMap({
   dentists,
   activeDentistId,
+  visible,
   onMarkerClick,
   onCloseCard,
 }: DentistMapProps) {
@@ -58,6 +76,7 @@ export default function DentistMap({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+        <InvalidateOnVisible visible={visible} />
 
         {dentists.map((dentist) => (
           <Marker

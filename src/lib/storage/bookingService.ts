@@ -25,19 +25,21 @@ export interface BookingFormData {
   xray: File | null;
 }
 
-const BOOKING_STORAGE_KEY = "booking_form_data";
+const DRAFT_SCHEMA_VERSION = 1;
+const BOOKING_DRAFT_PREFIX = "booking_draft";
+const ACTIVE_BOOKING_ID_KEY = "booking_active_id";
 const SELECTED_DENTIST_KEY = "selected_dentist";
 const BOOKINGS_KEY = "submitted_bookings";
 
 const INITIAL_BOOKING_DATA: BookingFormData = {
   personalInfo: {
-    firstName: "James",
-    lastName: "William",
-    email: "james.william@example.com",
-    dateOfBirth: "1991-05-14",
-    country: "United States",
+    firstName: "",
+    lastName: "",
+    email: "",
+    dateOfBirth: "",
+    country: "",
   },
-  procedure: "Porcelain Veneers",
+  procedure: "",
   budget: "",
   travelFrom: "",
   travelTo: "",
@@ -53,38 +55,163 @@ const INITIAL_BOOKING_DATA: BookingFormData = {
   xray: null,
 };
 
-const INITIAL_SUBMITTED_BOOKINGS: SubmittedBooking[] = [
-  {
-    ...INITIAL_BOOKING_DATA,
-    id: "booking_demo_1",
-    dentistId: "dentist-eliza-mick",
-    submittedAt: "2026-05-20T10:30:00.000Z",
+const INITIAL_SUBMITTED_BOOKINGS: SubmittedBooking[] = [];
+
+type BookingDraftMeta = {
+  schemaVersion: typeof DRAFT_SCHEMA_VERSION;
+  bookingId: string;
+  dentistId: string | null;
+  step: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type BookingDraft = BookingFormData & BookingDraftMeta;
+
+const createBookingId = () => {
+  if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
+    return crypto.randomUUID();
+  }
+
+  return `booking_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+};
+
+const cloneInitialData = (): BookingFormData => ({
+  personalInfo: { ...INITIAL_BOOKING_DATA.personalInfo },
+  procedure: INITIAL_BOOKING_DATA.procedure,
+  budget: INITIAL_BOOKING_DATA.budget,
+  travelFrom: INITIAL_BOOKING_DATA.travelFrom,
+  travelTo: INITIAL_BOOKING_DATA.travelTo,
+  dentalHistory: {
+    ...INITIAL_BOOKING_DATA.dentalHistory,
+    conditions: [...INITIAL_BOOKING_DATA.dentalHistory.conditions],
   },
-  {
-    ...INITIAL_BOOKING_DATA,
-    personalInfo: {
-      ...INITIAL_BOOKING_DATA.personalInfo,
-      firstName: "Sophia",
-      lastName: "Turner",
-      email: "sophia.turner@example.com",
-    },
-    procedure: "All-on-4 Full Arch",
-    budget: "$3,500 - $4,500",
-    travelFrom: "London, UK",
-    travelTo: "Cancun, Mexico",
-    id: "booking_demo_2",
-    dentistId: "dentist-lucas-ramos",
-    submittedAt: "2026-05-21T14:15:00.000Z",
+  photos: {
+    required: [...INITIAL_BOOKING_DATA.photos.required],
+    recommended: [...INITIAL_BOOKING_DATA.photos.recommended],
   },
-];
+  xray: INITIAL_BOOKING_DATA.xray,
+});
+
+const getBookingDraftKey = (bookingId: string) => `${BOOKING_DRAFT_PREFIX}:${bookingId}`;
+
+const safeParse = <T,>(raw: string | null): T | null => {
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw) as T;
+  } catch {
+    return null;
+  }
+};
+
+const isDraftPayload = (value: unknown): value is BookingDraft => {
+  if (!value || typeof value !== "object") return false;
+
+  const draft = value as Record<string, unknown>;
+  return (
+    draft.schemaVersion === DRAFT_SCHEMA_VERSION &&
+    typeof draft.bookingId === "string" &&
+    typeof draft.createdAt === "string" &&
+    typeof draft.updatedAt === "string" &&
+    ("dentistId" in draft ? typeof draft.dentistId === "string" || draft.dentistId === null : true)
+  );
+};
+
+const getCurrentBookingId = () => {
+  if (typeof window === "undefined") return null;
+
+  const urlBookingId = new URLSearchParams(window.location.search).get("bookingId");
+  if (urlBookingId) return urlBookingId;
+
+  return localStorage.getItem(ACTIVE_BOOKING_ID_KEY);
+};
+
+const persistDraft = (draft: BookingDraft) => {
+  if (typeof window === "undefined") return draft;
+
+  localStorage.setItem(getBookingDraftKey(draft.bookingId), JSON.stringify(draft));
+  localStorage.setItem(ACTIVE_BOOKING_ID_KEY, draft.bookingId);
+  if (draft.dentistId) {
+    localStorage.setItem(SELECTED_DENTIST_KEY, draft.dentistId);
+  }
+
+  return draft;
+};
+
+const createDraft = (bookingId?: string): BookingDraft => {
+  const resolvedBookingId = bookingId ?? getCurrentBookingId() ?? createBookingId();
+  const now = new Date().toISOString();
+
+  return {
+    ...cloneInitialData(),
+    schemaVersion: DRAFT_SCHEMA_VERSION,
+    bookingId: resolvedBookingId,
+    dentistId: null,
+    step: 1,
+    createdAt: now,
+    updatedAt: now,
+  };
+};
+
+const loadDraft = (bookingId?: string): BookingDraft | null => {
+  if (typeof window === "undefined") return null;
+
+  const resolvedBookingId = bookingId ?? getCurrentBookingId();
+  if (!resolvedBookingId) return null;
+
+  const raw = localStorage.getItem(getBookingDraftKey(resolvedBookingId));
+  const parsed = safeParse<unknown>(raw);
+  if (!isDraftPayload(parsed)) return null;
+
+  return parsed;
+};
+
+const getOrCreateDraft = (bookingId?: string) => {
+  const existing = loadDraft(bookingId);
+  return existing ?? persistDraft(createDraft(bookingId));
+};
+
+const extractBookingData = (draft: BookingDraft): BookingFormData => ({
+  personalInfo: { ...draft.personalInfo },
+  procedure: draft.procedure,
+  budget: draft.budget,
+  travelFrom: draft.travelFrom,
+  travelTo: draft.travelTo,
+  dentalHistory: {
+    ...draft.dentalHistory,
+    conditions: [...draft.dentalHistory.conditions],
+  },
+  photos: {
+    required: [...draft.photos.required],
+    recommended: [...draft.photos.recommended],
+  },
+  xray: draft.xray,
+});
+
+export function getBookingDraftContext(bookingId?: string) {
+  const draft = loadDraft(bookingId);
+  if (!draft) return null;
+
+  return {
+    bookingId: draft.bookingId,
+    dentistId: draft.dentistId,
+    step: draft.step,
+  };
+}
+
+export function setBookingDraftDentist(bookingId: string, dentistId: string) {
+  if (typeof window === "undefined") return;
+
+  const draft = getOrCreateDraft(bookingId);
+  persistDraft({
+    ...draft,
+    dentistId,
+    updatedAt: new Date().toISOString(),
+  });
+}
 
 export function initializeBookingData() {
   if (typeof window !== "undefined") {
-    const existing = localStorage.getItem(BOOKING_STORAGE_KEY);
-    if (!existing) {
-      localStorage.setItem(BOOKING_STORAGE_KEY, JSON.stringify(INITIAL_BOOKING_DATA));
-    }
-
     const submittedBookings = localStorage.getItem(BOOKINGS_KEY);
     if (!submittedBookings) {
       localStorage.setItem(BOOKINGS_KEY, JSON.stringify(INITIAL_SUBMITTED_BOOKINGS));
@@ -93,54 +220,124 @@ export function initializeBookingData() {
 }
 
 export function getBookingData(): BookingFormData {
-  if (typeof window === "undefined") return INITIAL_BOOKING_DATA;
-  try {
-    const data = localStorage.getItem(BOOKING_STORAGE_KEY);
-    return data ? { ...INITIAL_BOOKING_DATA, ...JSON.parse(data) } : INITIAL_BOOKING_DATA;
-  } catch {
-    return INITIAL_BOOKING_DATA;
+  if (typeof window === "undefined") return cloneInitialData();
+
+  const draft = loadDraft();
+  if (draft) return extractBookingData(draft);
+
+  const legacy = safeParse<BookingFormData>(localStorage.getItem("booking_form_data"));
+  if (legacy) {
+    return {
+      ...cloneInitialData(),
+      ...legacy,
+      personalInfo: { ...cloneInitialData().personalInfo, ...legacy.personalInfo },
+      dentalHistory: {
+        ...cloneInitialData().dentalHistory,
+        ...legacy.dentalHistory,
+        conditions: legacy.dentalHistory?.conditions ?? [],
+      },
+      photos: {
+        ...cloneInitialData().photos,
+        ...legacy.photos,
+      },
+    };
   }
+
+  return cloneInitialData();
 }
 
 export function updateBookingData(updates: Partial<BookingFormData>): BookingFormData {
-  if (typeof window === "undefined") return INITIAL_BOOKING_DATA;
-  try {
-    const current = getBookingData();
-    const updated = { ...current, ...updates };
-    localStorage.setItem(BOOKING_STORAGE_KEY, JSON.stringify(updated));
-    return updated;
-  } catch {
-    return INITIAL_BOOKING_DATA;
-  }
+  if (typeof window === "undefined") return cloneInitialData();
+
+  const draft = getOrCreateDraft();
+  const updated: BookingDraft = persistDraft({
+    ...draft,
+    ...updates,
+    personalInfo: {
+      ...draft.personalInfo,
+      ...updates.personalInfo,
+    },
+    dentalHistory: {
+      ...draft.dentalHistory,
+      ...updates.dentalHistory,
+      conditions: updates.dentalHistory?.conditions ?? draft.dentalHistory.conditions,
+    },
+    photos: {
+      ...draft.photos,
+      ...updates.photos,
+    },
+    step: draft.step,
+    updatedAt: new Date().toISOString(),
+  });
+
+  return extractBookingData(updated);
 }
 
 export function updatePersonalInfo(info: Partial<PersonalInfo>) {
-  const current = getBookingData();
-  const updated = { ...current, personalInfo: { ...current.personalInfo, ...info } };
-  localStorage.setItem(BOOKING_STORAGE_KEY, JSON.stringify(updated));
-  return updated;
+  const current = getOrCreateDraft();
+  const updated = persistDraft({
+    ...current,
+    personalInfo: { ...current.personalInfo, ...info },
+    step: current.step,
+    updatedAt: new Date().toISOString(),
+  });
+  return extractBookingData(updated);
 }
 
 export function updateDentalHistory(history: Partial<BookingFormData["dentalHistory"]>) {
-  const current = getBookingData();
-  const updated = { ...current, dentalHistory: { ...current.dentalHistory, ...history } };
-  localStorage.setItem(BOOKING_STORAGE_KEY, JSON.stringify(updated));
-  return updated;
+  const current = getOrCreateDraft();
+  const updated = persistDraft({
+    ...current,
+    dentalHistory: {
+      ...current.dentalHistory,
+      ...history,
+      conditions: history.conditions ?? current.dentalHistory.conditions,
+    },
+    step: current.step,
+    updatedAt: new Date().toISOString(),
+  });
+  return extractBookingData(updated);
 }
 
 export function updateTreatmentDetails(
   details: Partial<Pick<BookingFormData, "procedure" | "budget" | "travelFrom" | "travelTo">>,
 ) {
-  const current = getBookingData();
-  const updated = { ...current, ...details };
-  localStorage.setItem(BOOKING_STORAGE_KEY, JSON.stringify(updated));
-  return updated;
+  const current = getOrCreateDraft();
+  const updated = persistDraft({
+    ...current,
+    ...details,
+    step: current.step,
+    updatedAt: new Date().toISOString(),
+  });
+  return extractBookingData(updated);
 }
 
-export function clearBookingData() {
-  if (typeof window !== "undefined") {
-    localStorage.setItem(BOOKING_STORAGE_KEY, JSON.stringify(INITIAL_BOOKING_DATA));
+export function clearBookingData(bookingId?: string) {
+  if (typeof window === "undefined") return;
+
+  const resolvedBookingId = bookingId ?? getCurrentBookingId();
+  if (resolvedBookingId) {
+    localStorage.removeItem(getBookingDraftKey(resolvedBookingId));
   }
+  localStorage.removeItem(ACTIVE_BOOKING_ID_KEY);
+  localStorage.removeItem("booking_form_data");
+}
+
+export function clearBookingResumeState() {
+  if (typeof window === "undefined") return;
+
+  localStorage.removeItem(ACTIVE_BOOKING_ID_KEY);
+}
+
+export function updateBookingStep(bookingId: string | undefined, step: number) {
+  if (typeof window === "undefined") return;
+
+  const draft = getOrCreateDraft(bookingId);
+  persistDraft({
+    ...draft,
+    step: Math.max(1, step),
+    updatedAt: new Date().toISOString(),
+  });
 }
 
 // Selected Dentist Management
@@ -173,14 +370,14 @@ export interface SubmittedBooking extends BookingFormData {
   submittedAt: string;
 }
 
-export function submitBooking(dentistId: string): SubmittedBooking {
+export function submitBooking(dentistId: string, bookingId?: string): SubmittedBooking {
   if (typeof window === "undefined") {
     throw new Error("Cannot submit booking outside of browser");
   }
 
-  const bookingData = getBookingData();
+  const draft = getOrCreateDraft(bookingId);
   const booking: SubmittedBooking = {
-    ...bookingData,
+    ...extractBookingData(draft),
     id: `booking_${Date.now()}`,
     dentistId,
     submittedAt: new Date().toISOString(),
@@ -191,7 +388,7 @@ export function submitBooking(dentistId: string): SubmittedBooking {
     const bookings: SubmittedBooking[] = existing ? JSON.parse(existing) : [];
     bookings.push(booking);
     localStorage.setItem(BOOKINGS_KEY, JSON.stringify(bookings));
-    clearBookingData();
+    clearBookingData(draft.bookingId);
     clearSelectedDentist();
     return booking;
   } catch {

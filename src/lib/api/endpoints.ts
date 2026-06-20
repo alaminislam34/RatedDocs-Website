@@ -23,7 +23,7 @@ export const endpoints = {
 
   // todo
   dentist: {
-    profile: "/auth/profile",
+    profile: "/dentist/my-profile/",
     professionalDetails: "/dentist/enter-professional-details/",
     verificationProgress: "/dentist/verification-progress/",
     updateVerificationPhase: "/dentist/update-verification-phase/",  // body: { "verification_phase": "COMPLETE"}

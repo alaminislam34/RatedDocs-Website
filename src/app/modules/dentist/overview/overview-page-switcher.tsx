@@ -27,7 +27,6 @@ export function OverviewPageSwitcher() {
 
   const progress = progressData?.data as DentistVerificationProgress | undefined;
 
-  // Dynamically determine completed steps from backend status
   const steps = progress?.steps || [];
   const licenseStep = getStepByPhase(steps, "LICENSE");
   const operationalStep = getStepByPhase(steps, "OPERATIONAL");

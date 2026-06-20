@@ -81,3 +81,36 @@ export interface LicenseVerifyProgressResponse {
     data?: LicenseStepData;
   };
 }
+// types/dentist.ts
+export interface User {
+  id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  is_verified: boolean;
+}
+
+export interface DentistAddress {
+  id: number;
+  city: string;
+  country: string;
+  // Add other fields if needed
+}
+
+export interface DentistProfile {
+  id: number;
+  user: User;
+  full_name: string;
+  phone: string | null;
+  specialty: string;
+  bio: string | null;
+  experience_years: number;
+  rating_avg: number;
+  total_reviews: number;
+  rdv_score: number;
+  response_time_avg: number;
+  verification_phase: string; // e.g., "LICENSE", "OPERATIONS", "CLINICAL"
+  is_verified: boolean;
+  dentist_address: DentistAddress[];
+}

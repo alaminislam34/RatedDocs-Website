@@ -1,6 +1,12 @@
 import { dentistApi } from "@/lib/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ProfessionalDetailsI, StepOneI, StepThreeI, StepTwoI } from "./dentist.interface";
+import {
+  DentistProfile,
+  ProfessionalDetailsI,
+  StepOneI,
+  StepThreeI,
+  StepTwoI,
+} from "./dentist.interface";
 
 export function objectToFormData<T extends object>(obj: T): FormData {
   const formData = new FormData();
@@ -15,9 +21,11 @@ export function objectToFormData<T extends object>(obj: T): FormData {
         append(`${key}[${index}]`, item);
       });
     } else if (typeof value === "object" && value !== null) {
-      Object.entries(value as Record<string, unknown>).forEach(([subKey, subValue]) => {
-        append(`${key}[${subKey}]`, subValue);
-      });
+      Object.entries(value as Record<string, unknown>).forEach(
+        ([subKey, subValue]) => {
+          append(`${key}[${subKey}]`, subValue);
+        },
+      );
     } else if (value !== undefined && value !== null) {
       formData.append(key, String(value));
     }
@@ -44,7 +52,9 @@ export function useUpdateVerificationPhase() {
     mutationFn: (data: { verification_phase: string }) =>
       dentistApi.updateVerificationPhase(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["dentistVerificationProgress"] });
+      queryClient.invalidateQueries({
+        queryKey: ["dentistVerificationProgress"],
+      });
     },
   });
 }
@@ -53,11 +63,14 @@ export default function useDentist() {
   const queryClient = useQueryClient();
 
   const invalidateVerification = () => {
-    queryClient.invalidateQueries({ queryKey: ["dentistVerificationProgress"] });
+    queryClient.invalidateQueries({
+      queryKey: ["dentistVerificationProgress"],
+    });
   };
 
   const professionalDetailsMutation = useMutation({
-    mutationFn: (data: ProfessionalDetailsI) => dentistApi.professionalDetails(data),
+    mutationFn: (data: ProfessionalDetailsI) =>
+      dentistApi.professionalDetails(data),
   });
 
   const stepOneMutation = useMutation({
@@ -71,7 +84,8 @@ export default function useDentist() {
   });
 
   const stepThreeMutation = useMutation({
-    mutationFn: (data: StepThreeI) => dentistApi.stepThree(objectToFormData(data)),
+    mutationFn: (data: StepThreeI) =>
+      dentistApi.stepThree(objectToFormData(data)),
     onSuccess: invalidateVerification,
   });
 
@@ -100,9 +114,12 @@ export default function useDentist() {
     enabled: false,
   });
 
-  // ==========================================
-  // RETURN STATEMENTS
-  // ==========================================
+  // dentist profile get query
+  const dentistProfileQuery = useQuery({
+    queryKey: ["dentistProfile"],
+    queryFn: () => dentistApi.profile<DentistProfile>(),
+  });
+
   return {
     // Mutations
     stepOneMutation,
@@ -127,19 +144,14 @@ export default function useDentist() {
     professionalDetailsError: professionalDetailsMutation.error,
     professionalDetailsSuccess: professionalDetailsMutation.isSuccess,
 
-    // --- রিফ্যাক্টরড কোয়েরি ফাংশন এবং স্টেটসমূহ ---
-
-    // ম্যানুয়াল চ্যাকিং এর জন্য Trigger ফাংশন (আগে যা mutation.mutate ছিল, এখন তা refetch)
     checkStepOne: stepOneCheckQuery.refetch,
     checkStepTwo: stepTwoCheckQuery.refetch,
     checkStepThree: stepThreeCheckQuery.refetch,
 
-    // Check Data (API Response পেতে চাইলে)
     stepOneCheckData: stepOneCheckQuery.data,
     stepTwoCheckData: stepTwoCheckQuery.data,
     stepThreeCheckData: stepThreeCheckQuery.data,
 
-    // Check Loading States (useQuery তে isFetching বা isLoading ব্যবহার করা হয়)
     isStepOneCheckLoading: stepOneCheckQuery.isFetching,
     isStepTwoCheckLoading: stepTwoCheckQuery.isFetching,
     isStepThreeCheckLoading: stepThreeCheckQuery.isFetching,
@@ -151,5 +163,11 @@ export default function useDentist() {
     stepOneCheckError: stepOneCheckQuery.error,
     stepTwoCheckError: stepTwoCheckQuery.error,
     stepThreeCheckError: stepThreeCheckQuery.error,
+
+    // dentist profile hooks
+    dentistProfileQuery,
+    isDentistProfileGetLoading: dentistProfileQuery.isLoading,
+    isDentistProfileError: dentistProfileQuery.isError,
+    dentistProfileError: dentistProfileQuery.error,
   };
 }

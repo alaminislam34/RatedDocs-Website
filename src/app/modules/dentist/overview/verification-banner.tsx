@@ -18,8 +18,11 @@ const getStepByPhase = (
 export function VerificationBanner() {
   const router = useRouter();
   const { data: progressData } = useDentistProgress();
+  console.log(progressData, "data");
 
-  const progress = progressData?.data as DentistVerificationProgress | undefined;
+  const progress = progressData?.data as
+    | DentistVerificationProgress
+    | undefined;
 
   const steps = progress?.steps || [];
   const licenseStep = getStepByPhase(steps, "LICENSE");
