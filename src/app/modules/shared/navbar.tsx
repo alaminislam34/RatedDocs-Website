@@ -21,6 +21,7 @@ export function Navbar() {
     logout();
     router.push("/");
   };
+
   return (
     <header className="border-b border-border/80 bg-white w-full">
       <nav className="px-4 lg:px-8 flex h-20 items-center justify-between">
