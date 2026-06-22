@@ -12,7 +12,7 @@ import {
   FormInputValues,
   FormValues,
 } from "@/validation/Verification-doctor-phase/phase-form";
-import useDentist, { objectToFormData } from "@/hooks/dentist/useDentist";
+import useDentist from "@/hooks/dentist/useDentist";
 import toast from "react-hot-toast";
 import { Loader2 } from "lucide-react";
 import useVerificationProgress from "@/hooks/dentist/useStepProgress";
@@ -60,44 +60,16 @@ export default function MultiStepForm() {
       accepted_terms: data.agreeToGuarantee,
     };
 
-    const payload = {
-      jci_certificate: data.jciCertificate || null,
-      walkthrough_video: data.videoWalkthrough || null,
-      procedures,
-      guarantee,
-    };
 
-    const logPayload = {
-      ...payload,
-      jci_certificate: payload.jci_certificate
-        ? {
-            name: payload.jci_certificate.name,
-            size: payload.jci_certificate.size,
-          }
-        : null,
-      walkthrough_video: payload.walkthrough_video
-        ? {
-            name: payload.walkthrough_video.name,
-            size: payload.walkthrough_video.size,
-          }
-        : null,
-    };
-    console.log("=== SUBMITTED PAYLOAD (JSON FORMAT) ===");
-    console.log(JSON.stringify(logPayload, null, 2));
-
-    const formData = objectToFormData(payload);
-    console.log("=== SUBMITTED FORM DATA (KEYS & VALUES) ===");
-    for (const [key, value] of (formData as any).entries()) {
-      console.log(`${key}:`, value);
-    }
-
-    stepTwoMutation.mutate(
-      {
+const payload =  {
         jci_certificate: data.jciCertificate || null,
         walkthrough_video: data.videoWalkthrough || null,
         procedures,
         guarantee,
-      },
+      }
+      console.log(payload)
+    stepTwoMutation.mutate(
+      payload,
       {
         onSuccess: () => {
           toast.success("Operations verification details submitted!");

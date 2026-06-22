@@ -49,6 +49,23 @@ export function objectToFormData<T extends object>(obj: T): FormData {
   return formData;
 }
 
+function buildStepTwoFormData(data: StepTwoI): FormData {
+  const formData = new FormData();
+
+  if (data.jci_certificate) {
+    formData.append("jci_certificate", data.jci_certificate);
+  }
+
+  if (data.walkthrough_video) {
+    formData.append("walkthrough_video", data.walkthrough_video);
+  }
+
+  formData.append("procedures", JSON.stringify(data.procedures));
+  formData.append("guarantee", JSON.stringify(data.guarantee));
+
+  return formData;
+}
+
 export function useDentistProgress() {
   return useQuery({
     queryKey: ["dentistVerificationProgress"],
@@ -88,14 +105,8 @@ export default function useDentist() {
 
   const stepTwoMutation = useMutation({
     mutationKey: ["dentist", "verification", "stepTwo"],
-    mutationFn: (data: StepTwoI) => {
-      const formData = objectToFormData(data);
-      console.log("Submitting Step Two FormData. Keys being sent:");
-      for (const [key, value] of (formData as any).entries()) {
-        console.log(key, value);
-      }
-      return dentistApi.stepTwo(formData);
-    },
+    mutationFn: (data: StepTwoI) =>
+      dentistApi.stepTwoWithFiles(buildStepTwoFormData(data)),
     onSuccess: invalidateVerification,
   });
 
