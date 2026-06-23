@@ -1,6 +1,5 @@
-export const API_BASE_URL =  "http://10.10.20.11:8004/api/v1";
-  // process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://52.60.153.12:8004/api/v1";
-
+export const API_BASE_URL =  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://52.60.153.12:8004/api/v1";
+"http://10.10.20.11:8004/api/v1";
   
 export const endpoints = {
   auth: {
