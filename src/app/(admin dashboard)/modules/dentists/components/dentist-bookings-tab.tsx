@@ -45,9 +45,9 @@ export function DentistBookingsTab({ bookings }: DentistBookingsTabProps) {
     Cancelled: bookings.filter((b) => b.status === "Cancelled").length,
   };
 
-  const statusTabs = (["All", "In Progress", "Completed", "Cancelled"] as BookingStatus[]).map(
-    (s) => ({ key: s, label: s, count: counts[s] })
-  );
+  const statusTabs = (
+    ["All", "In Progress", "Completed", "Cancelled"] as BookingStatus[]
+  ).map((s) => ({ key: s, label: s, count: counts[s] }));
 
   const filtered =
     activeStatus === "All"
@@ -57,7 +57,7 @@ export function DentistBookingsTab({ bookings }: DentistBookingsTabProps) {
   return (
     <div className="rounded-xl border border-gray-100 bg-white shadow-sm">
       {/* Sub-tabs */}
-      <div className="border-b border-gray-100 px-4 pt-1">
+      <div className="border-b border-gray-100 overflow-x-auto px-4 pt-1">
         <CustomTab
           tabs={statusTabs}
           active={activeStatus}
@@ -70,22 +70,32 @@ export function DentistBookingsTab({ bookings }: DentistBookingsTabProps) {
         <table className="min-w-full">
           <thead>
             <tr className="border-b border-gray-100 bg-gray-50/40">
-              {["Booking ID", "Patient", "Procedure", "Date", "Status", "Payment Status", "Amount", ""].map(
-                (h) => (
-                  <th
-                    key={h}
-                    className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-400"
-                  >
-                    {h}
-                  </th>
-                )
-              )}
+              {[
+                "Booking ID",
+                "Patient",
+                "Procedure",
+                "Date",
+                "Status",
+                "Payment Status",
+                "Amount",
+                "",
+              ].map((h) => (
+                <th
+                  key={h}
+                  className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-400"
+                >
+                  {h}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-50">
             {filtered.length === 0 ? (
               <tr>
-                <td colSpan={8} className="py-12 text-center text-sm text-gray-400">
+                <td
+                  colSpan={8}
+                  className="py-12 text-center text-sm text-gray-400"
+                >
                   No bookings found
                 </td>
               </tr>
@@ -111,13 +121,18 @@ export function DentistBookingsTab({ bookings }: DentistBookingsTabProps) {
                       </span>
                     </div>
                   </td>
-                  <td className="px-4 py-3.5 text-sm text-gray-600">{b.procedure}</td>
-                  <td className="px-4 py-3.5 text-sm text-gray-600">{b.date}</td>
+                  <td className="px-4 py-3.5 text-sm text-gray-600">
+                    {b.procedure}
+                  </td>
+                  <td className="px-4 py-3.5 text-sm text-gray-600">
+                    {b.date}
+                  </td>
                   <td className="px-4 py-3.5">
                     <span
                       className={cn(
                         "inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold",
-                        BOOKING_STATUS_BADGE[b.status] ?? "bg-gray-100 text-gray-500"
+                        BOOKING_STATUS_BADGE[b.status] ??
+                          "bg-gray-100 text-gray-500",
                       )}
                     >
                       {b.status}
@@ -127,7 +142,7 @@ export function DentistBookingsTab({ bookings }: DentistBookingsTabProps) {
                     <span
                       className={cn(
                         "text-sm font-medium",
-                        PAYMENT_BADGE[b.payment_status] ?? "text-gray-600"
+                        PAYMENT_BADGE[b.payment_status] ?? "text-gray-600",
                       )}
                     >
                       {b.payment_status}

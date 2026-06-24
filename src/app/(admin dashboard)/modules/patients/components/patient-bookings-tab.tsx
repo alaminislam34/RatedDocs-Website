@@ -34,7 +34,7 @@ export function PatientBookingsTab({ bookings }: PatientBookingsTabProps) {
     "In Progress": bookings.filter((b) => b.status === "In Progress").length,
     Completed: bookings.filter((b) => b.status === "Completed").length,
     Cancelled: bookings.filter(
-      (b) => b.status === "Cancelled" || b.status === "No Show"
+      (b) => b.status === "Cancelled" || b.status === "No Show",
     ).length,
   };
 
@@ -46,15 +46,15 @@ export function PatientBookingsTab({ bookings }: PatientBookingsTabProps) {
     activeStatus === "All"
       ? bookings
       : activeStatus === "Cancelled"
-      ? bookings.filter(
-          (b) => b.status === "Cancelled" || b.status === "No Show"
-        )
-      : bookings.filter((b) => b.status === activeStatus);
+        ? bookings.filter(
+            (b) => b.status === "Cancelled" || b.status === "No Show",
+          )
+        : bookings.filter((b) => b.status === activeStatus);
 
   return (
     <div className="rounded-xl border border-gray-100 bg-white shadow-sm">
       {/* Sub-tabs */}
-      <div className="border-b border-gray-100 px-4 pt-1">
+      <div className="border-b border-gray-100 overflow-x-auto px-4 pt-1">
         <CustomTab
           tabs={statusTabs}
           active={activeStatus}
@@ -67,16 +67,21 @@ export function PatientBookingsTab({ bookings }: PatientBookingsTabProps) {
         <table className="min-w-full">
           <thead>
             <tr className="border-b border-gray-100 bg-gray-50/40">
-              {["Booking", "Dentist", "Procedure", "Date", "Status", "Amount"].map(
-                (h) => (
-                  <th
-                    key={h}
-                    className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-400"
-                  >
-                    {h}
-                  </th>
-                )
-              )}
+              {[
+                "Booking",
+                "Dentist",
+                "Procedure",
+                "Date",
+                "Status",
+                "Amount",
+              ].map((h) => (
+                <th
+                  key={h}
+                  className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-400"
+                >
+                  {h}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-50">
@@ -111,7 +116,7 @@ export function PatientBookingsTab({ bookings }: PatientBookingsTabProps) {
                     <span
                       className={cn(
                         "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium",
-                        STATUS_BADGE[b.status] ?? "bg-gray-100 text-gray-500"
+                        STATUS_BADGE[b.status] ?? "bg-gray-100 text-gray-500",
                       )}
                     >
                       {b.status === "Completed" && (

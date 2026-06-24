@@ -2,9 +2,22 @@
 
 import { useState, useMemo } from "react";
 import {
-  Bell, Search, CheckCheck, Trash2, Shield, TriangleAlert,
-  DollarSign, Settings, Star, CalendarDays, ChevronLeft,
-  ChevronRight, X, ChevronDown, BellOff, Circle,
+  Bell,
+  Search,
+  CheckCheck,
+  Trash2,
+  Shield,
+  TriangleAlert,
+  DollarSign,
+  Settings,
+  Star,
+  CalendarDays,
+  ChevronLeft,
+  ChevronRight,
+  X,
+  ChevronDown,
+  BellOff,
+  Circle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import toast from "react-hot-toast";
@@ -20,7 +33,14 @@ const PAGE_SIZE = 8;
 
 const TYPE_META: Record<
   NotificationType,
-  { label: string; icon: React.ElementType; iconBg: string; iconColor: string; badgeBg: string; badgeText: string }
+  {
+    label: string;
+    icon: React.ElementType;
+    iconBg: string;
+    iconColor: string;
+    badgeBg: string;
+    badgeText: string;
+  }
 > = {
   verification: {
     label: "Verification",
@@ -76,33 +96,51 @@ const PRIORITY_META: Record<
   NotificationPriority,
   { label: string; dot: string; badge: string }
 > = {
-  low:      { label: "Low",      dot: "bg-gray-300",           badge: "bg-gray-100 text-gray-500" },
-  medium:   { label: "Medium",   dot: "bg-amber-400",          badge: "bg-amber-50 text-amber-700" },
-  high:     { label: "High",     dot: "bg-orange-400",         badge: "bg-orange-50 text-orange-700" },
-  critical: { label: "Critical", dot: "bg-destructive-500",    badge: "bg-destructive-50 text-destructive-700" },
+  low: { label: "Low", dot: "bg-gray-300", badge: "bg-gray-100 text-gray-500" },
+  medium: {
+    label: "Medium",
+    dot: "bg-amber-400",
+    badge: "bg-amber-50 text-amber-700",
+  },
+  high: {
+    label: "High",
+    dot: "bg-orange-400",
+    badge: "bg-orange-50 text-orange-700",
+  },
+  critical: {
+    label: "Critical",
+    dot: "bg-destructive-500",
+    badge: "bg-destructive-50 text-destructive-700",
+  },
 };
 
 /* ─── Helpers ──────────────────────────────────────────────────────────────── */
 function relativeTime(iso: string) {
   const diff = Date.now() - new Date(iso).getTime();
   const mins = Math.floor(diff / 60_000);
-  if (mins < 1)  return "Just now";
+  if (mins < 1) return "Just now";
   if (mins < 60) return `${mins}m ago`;
   const hrs = Math.floor(mins / 60);
-  if (hrs < 24)  return `${hrs}h ago`;
+  if (hrs < 24) return `${hrs}h ago`;
   const days = Math.floor(hrs / 24);
   if (days === 1) return "Yesterday";
   return `${days}d ago`;
 }
 
-function ActorAvatar({ actor, size = "md" }: {
+function ActorAvatar({
+  actor,
+  size = "md",
+}: {
   actor: NonNullable<Notification["actor"]>;
   size?: "sm" | "md";
 }) {
   const sz = size === "sm" ? "h-6 w-6 text-[10px]" : "h-8 w-8 text-xs";
   return (
     <span
-      className={cn("inline-flex shrink-0 items-center justify-center rounded-full font-bold text-white", sz)}
+      className={cn(
+        "inline-flex shrink-0 items-center justify-center rounded-full font-bold text-white",
+        sz,
+      )}
       style={{ backgroundColor: actor.avatarColor }}
     >
       {actor.initials}
@@ -112,7 +150,10 @@ function ActorAvatar({ actor, size = "md" }: {
 
 /* ─── Filter Dropdown ──────────────────────────────────────────────────────── */
 function FilterDropdown<T extends string>({
-  label, options, value, onChange,
+  label,
+  options,
+  value,
+  onChange,
 }: {
   label: string;
   options: { value: T; label: string }[];
@@ -130,29 +171,46 @@ function FilterDropdown<T extends string>({
           "flex h-9 items-center gap-2 rounded-lg border px-3 text-sm font-medium transition-colors",
           value
             ? "border-[#1A1A2E] bg-[#1A1A2E]/5 text-[#1A1A2E]"
-            : "border-gray-200 bg-white text-gray-600 hover:border-gray-300"
+            : "border-gray-200 bg-white text-gray-600 hover:border-gray-300",
         )}
       >
         {current}
-        <ChevronDown className={cn("h-3.5 w-3.5 text-gray-400 transition-transform", open && "rotate-180")} />
+        <ChevronDown
+          className={cn(
+            "h-3.5 w-3.5 text-gray-400 transition-transform",
+            open && "rotate-180",
+          )}
+        />
       </button>
       {open && (
         <>
           <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
           <div className="absolute top-full left-0 z-20 mt-1 min-w-[160px] rounded-xl border border-gray-100 bg-white py-1 shadow-lg">
             <button
-              onClick={() => { onChange(""); setOpen(false); }}
-              className={cn("w-full px-4 py-2 text-left text-sm transition-colors hover:bg-gray-50",
-                !value ? "font-semibold text-[#1A1A2E]" : "text-gray-600")}
+              onClick={() => {
+                onChange("");
+                setOpen(false);
+              }}
+              className={cn(
+                "w-full px-4 py-2 text-left text-sm transition-colors hover:bg-gray-50",
+                !value ? "font-semibold text-[#1A1A2E]" : "text-gray-600",
+              )}
             >
               All
             </button>
             {options.map((opt) => (
               <button
                 key={opt.value}
-                onClick={() => { onChange(opt.value); setOpen(false); }}
-                className={cn("w-full px-4 py-2 text-left text-sm transition-colors hover:bg-gray-50",
-                  value === opt.value ? "font-semibold text-[#1A1A2E]" : "text-gray-600")}
+                onClick={() => {
+                  onChange(opt.value);
+                  setOpen(false);
+                }}
+                className={cn(
+                  "w-full px-4 py-2 text-left text-sm transition-colors hover:bg-gray-50",
+                  value === opt.value
+                    ? "font-semibold text-[#1A1A2E]"
+                    : "text-gray-600",
+                )}
               >
                 {opt.label}
               </button>
@@ -165,7 +223,14 @@ function FilterDropdown<T extends string>({
 }
 
 /* ─── Stat Card ────────────────────────────────────────────────────────────── */
-function StatCard({ icon: Icon, iconBg, iconColor, label, value, valueColor }: {
+function StatCard({
+  icon: Icon,
+  iconBg,
+  iconColor,
+  label,
+  value,
+  valueColor,
+}: {
   icon: React.ElementType;
   iconBg: string;
   iconColor: string;
@@ -175,12 +240,26 @@ function StatCard({ icon: Icon, iconBg, iconColor, label, value, valueColor }: {
 }) {
   return (
     <div className="flex items-center gap-3 rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
-      <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-xl", iconBg)}>
+      <div
+        className={cn(
+          "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl",
+          iconBg,
+        )}
+      >
         <Icon className={cn("h-5 w-5", iconColor)} />
       </div>
       <div>
-        <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">{label}</p>
-        <p className={cn("text-2xl font-bold tracking-tight", valueColor ?? "text-[#1A1A2E]")}>{value}</p>
+        <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+          {label}
+        </p>
+        <p
+          className={cn(
+            "text-2xl font-bold tracking-tight",
+            valueColor ?? "text-[#1A1A2E]",
+          )}
+        >
+          {value}
+        </p>
       </div>
     </div>
   );
@@ -204,7 +283,9 @@ function NotificationRow({
     <div
       className={cn(
         "group flex items-start gap-4 border-b border-gray-50 px-5 py-4 transition-colors last:border-0",
-        !notification.read ? "bg-sky-50/30 hover:bg-sky-50/50" : "hover:bg-gray-50/60"
+        !notification.read
+          ? "bg-sky-50/30 hover:bg-sky-50/50"
+          : "hover:bg-gray-50/60",
       )}
     >
       {/* Unread dot */}
@@ -212,13 +293,18 @@ function NotificationRow({
         <span
           className={cn(
             "mt-1 h-2 w-2 shrink-0 rounded-full transition-all",
-            !notification.read ? "bg-sky-500" : "bg-transparent"
+            !notification.read ? "bg-sky-500" : "bg-transparent",
           )}
         />
       </div>
 
       {/* Type icon */}
-      <div className={cn("flex h-9 w-9 shrink-0 items-center justify-center rounded-xl", typeMeta.iconBg)}>
+      <div
+        className={cn(
+          "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl",
+          typeMeta.iconBg,
+        )}
+      >
         <TypeIcon className={cn("h-4 w-4", typeMeta.iconColor)} />
       </div>
 
@@ -226,21 +312,41 @@ function NotificationRow({
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-start justify-between gap-2">
           <div className="flex flex-wrap items-center gap-2">
-            <p className={cn("text-sm", !notification.read ? "font-bold text-[#1A1A2E]" : "font-semibold text-gray-700")}>
+            <p
+              className={cn(
+                "text-sm",
+                !notification.read
+                  ? "font-bold text-[#1A1A2E]"
+                  : "font-semibold text-gray-700",
+              )}
+            >
               {notification.title}
             </p>
             {/* Priority badge — only medium+ */}
             {notification.priority !== "low" && (
-              <span className={cn("rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide", priorityMeta.badge)}>
+              <span
+                className={cn(
+                  "rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide",
+                  priorityMeta.badge,
+                )}
+              >
                 {priorityMeta.label}
               </span>
             )}
             {/* Type badge */}
-            <span className={cn("rounded-full px-2.5 py-0.5 text-[10px] font-semibold", typeMeta.badgeBg, typeMeta.badgeText)}>
+            <span
+              className={cn(
+                "rounded-full px-2.5 py-0.5 text-[10px] font-semibold",
+                typeMeta.badgeBg,
+                typeMeta.badgeText,
+              )}
+            >
               {typeMeta.label}
             </span>
           </div>
-          <span className="shrink-0 text-xs text-gray-400">{relativeTime(notification.timestamp)}</span>
+          <span className="shrink-0 text-xs text-gray-400">
+            {relativeTime(notification.timestamp)}
+          </span>
         </div>
 
         <p className="mt-1 text-sm leading-relaxed text-gray-500 line-clamp-2">
@@ -253,14 +359,19 @@ function NotificationRow({
             {notification.actor && (
               <>
                 <ActorAvatar actor={notification.actor} size="sm" />
-                <span className="text-xs font-medium text-gray-500">{notification.actor.name}</span>
+                <span className="text-xs font-medium text-gray-500">
+                  {notification.actor.name}
+                </span>
                 <span className="text-gray-200">·</span>
               </>
             )}
             <span className="text-xs text-gray-400">
               {new Date(notification.timestamp).toLocaleDateString("en-GB", {
-                day: "numeric", month: "short", year: "numeric",
-                hour: "2-digit", minute: "2-digit",
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
               })}
             </span>
           </div>
@@ -269,7 +380,9 @@ function NotificationRow({
           <div className="flex items-center gap-1.5 opacity-0 transition-opacity group-hover:opacity-100">
             {notification.actionLabel && (
               <button
-                onClick={() => toast.success(`Navigating to: ${notification.actionLabel}`)}
+                onClick={() =>
+                  toast.success(`Navigating to: ${notification.actionLabel}`)
+                }
                 className="rounded-lg bg-[#1A1A2E] px-3 py-1.5 text-xs font-semibold text-white hover:bg-[#1A1A2E]/90 transition-colors"
               >
                 {notification.actionLabel}
@@ -300,7 +413,12 @@ function NotificationRow({
 }
 
 /* ─── Pagination ───────────────────────────────────────────────────────────── */
-function Pagination({ page, total, pageSize, onChange }: {
+function Pagination({
+  page,
+  total,
+  pageSize,
+  onChange,
+}: {
   page: number;
   total: number;
   pageSize: number;
@@ -310,7 +428,7 @@ function Pagination({ page, total, pageSize, onChange }: {
   if (totalPages <= 1) return null;
 
   const from = (page - 1) * pageSize + 1;
-  const to   = Math.min(page * pageSize, total);
+  const to = Math.min(page * pageSize, total);
 
   const pages: (number | "…")[] = [];
   if (totalPages <= 5) {
@@ -318,7 +436,12 @@ function Pagination({ page, total, pageSize, onChange }: {
   } else {
     pages.push(1);
     if (page > 3) pages.push("…");
-    for (let i = Math.max(2, page - 1); i <= Math.min(totalPages - 1, page + 1); i++) pages.push(i);
+    for (
+      let i = Math.max(2, page - 1);
+      i <= Math.min(totalPages - 1, page + 1);
+      i++
+    )
+      pages.push(i);
     if (page < totalPages - 2) pages.push("…");
     pages.push(totalPages);
   }
@@ -326,8 +449,12 @@ function Pagination({ page, total, pageSize, onChange }: {
   return (
     <div className="flex flex-wrap items-center justify-between gap-3 border-t border-gray-100 px-5 py-3.5">
       <p className="text-xs text-gray-400">
-        Showing <span className="font-semibold text-gray-600">{from}–{to}</span> of{" "}
-        <span className="font-semibold text-gray-600">{total}</span> notifications
+        Showing{" "}
+        <span className="font-semibold text-gray-600">
+          {from}–{to}
+        </span>{" "}
+        of <span className="font-semibold text-gray-600">{total}</span>{" "}
+        notifications
       </p>
       <div className="flex items-center gap-1">
         <button
@@ -339,7 +466,12 @@ function Pagination({ page, total, pageSize, onChange }: {
         </button>
         {pages.map((p, i) =>
           p === "…" ? (
-            <span key={`ellipsis-${i}`} className="w-8 text-center text-sm text-gray-400">…</span>
+            <span
+              key={`ellipsis-${i}`}
+              className="w-8 text-center text-sm text-gray-400"
+            >
+              …
+            </span>
           ) : (
             <button
               key={p}
@@ -348,12 +480,12 @@ function Pagination({ page, total, pageSize, onChange }: {
                 "flex h-8 w-8 items-center justify-center rounded-lg border text-sm font-medium transition-colors",
                 page === p
                   ? "border-[#1A1A2E] bg-[#1A1A2E] text-white"
-                  : "border-gray-200 bg-white text-gray-600 hover:border-gray-300 hover:bg-gray-50"
+                  : "border-gray-200 bg-white text-gray-600 hover:border-gray-300 hover:bg-gray-50",
               )}
             >
               {p}
             </button>
-          )
+          ),
         )}
         <button
           disabled={page === totalPages}
@@ -370,21 +502,39 @@ function Pagination({ page, total, pageSize, onChange }: {
 /* ─── Main Page ────────────────────────────────────────────────────────────── */
 type TabKey = "all" | "unread" | NotificationType;
 
-const TYPE_FILTERS: NotificationType[] = ["verification", "flag", "payment", "review", "booking", "system"];
-const PRIORITY_FILTERS: NotificationPriority[] = ["critical", "high", "medium", "low"];
+const TYPE_FILTERS: NotificationType[] = [
+  "verification",
+  "flag",
+  "payment",
+  "review",
+  "booking",
+  "system",
+];
+const PRIORITY_FILTERS: NotificationPriority[] = [
+  "critical",
+  "high",
+  "medium",
+  "low",
+];
 
 export default function NotificationsPage() {
   const [items, setItems] = useState<Notification[]>(notificationsData);
   const [tab, setTab] = useState<TabKey>("all");
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState<NotificationType | "">("");
-  const [priorityFilter, setPriorityFilter] = useState<NotificationPriority | "">("");
+  const [priorityFilter, setPriorityFilter] = useState<
+    NotificationPriority | ""
+  >("");
   const [page, setPage] = useState(1);
 
   /* ── Derived counts ── */
-  const unreadCount    = items.filter((n) => !n.read).length;
-  const todayCount     = items.filter((n) => new Date(n.timestamp).toDateString() === new Date("2026-05-29").toDateString()).length;
-  const criticalCount  = items.filter((n) => n.priority === "critical").length;
+  const unreadCount = items.filter((n) => !n.read).length;
+  const todayCount = items.filter(
+    (n) =>
+      new Date(n.timestamp).toDateString() ===
+      new Date("2026-05-29").toDateString(),
+  ).length;
+  const criticalCount = items.filter((n) => n.priority === "critical").length;
 
   /* ── Filtered list ── */
   const filtered = useMemo(() => {
@@ -394,7 +544,8 @@ export default function NotificationsPage() {
     else if (tab !== "all") list = list.filter((n) => n.type === tab);
 
     if (typeFilter) list = list.filter((n) => n.type === typeFilter);
-    if (priorityFilter) list = list.filter((n) => n.priority === priorityFilter);
+    if (priorityFilter)
+      list = list.filter((n) => n.priority === priorityFilter);
 
     if (search.trim()) {
       const q = search.toLowerCase();
@@ -402,7 +553,7 @@ export default function NotificationsPage() {
         (n) =>
           n.title.toLowerCase().includes(q) ||
           n.description.toLowerCase().includes(q) ||
-          n.actor?.name.toLowerCase().includes(q)
+          n.actor?.name.toLowerCase().includes(q),
       );
     }
 
@@ -416,30 +567,36 @@ export default function NotificationsPage() {
 
   /* ── Tab counts ── */
   const tabCounts: Record<TabKey, number> = {
-    all:          items.length,
-    unread:       unreadCount,
+    all: items.length,
+    unread: unreadCount,
     verification: items.filter((n) => n.type === "verification").length,
-    flag:         items.filter((n) => n.type === "flag").length,
-    payment:      items.filter((n) => n.type === "payment").length,
-    review:       items.filter((n) => n.type === "review").length,
-    booking:      items.filter((n) => n.type === "booking").length,
-    system:       items.filter((n) => n.type === "system").length,
+    flag: items.filter((n) => n.type === "flag").length,
+    payment: items.filter((n) => n.type === "payment").length,
+    review: items.filter((n) => n.type === "review").length,
+    booking: items.filter((n) => n.type === "booking").length,
+    system: items.filter((n) => n.type === "system").length,
   };
 
   const TABS = [
-    { key: "all",          label: "All",          count: tabCounts.all },
-    { key: "unread",       label: "Unread",       count: tabCounts.unread },
-    { key: "verification", label: "Verification", count: tabCounts.verification },
-    { key: "flag",         label: "Flags",        count: tabCounts.flag },
-    { key: "payment",      label: "Payments",     count: tabCounts.payment },
-    { key: "review",       label: "Reviews",      count: tabCounts.review },
-    { key: "booking",      label: "Bookings",     count: tabCounts.booking },
-    { key: "system",       label: "System",       count: tabCounts.system },
+    { key: "all", label: "All", count: tabCounts.all },
+    { key: "unread", label: "Unread", count: tabCounts.unread },
+    {
+      key: "verification",
+      label: "Verification",
+      count: tabCounts.verification,
+    },
+    { key: "flag", label: "Flags", count: tabCounts.flag },
+    { key: "payment", label: "Payments", count: tabCounts.payment },
+    { key: "review", label: "Reviews", count: tabCounts.review },
+    { key: "booking", label: "Bookings", count: tabCounts.booking },
+    { key: "system", label: "System", count: tabCounts.system },
   ];
 
   /* ── Actions ── */
   const markRead = (id: string) => {
-    setItems((prev) => prev.map((n) => (n.id === id ? { ...n, read: true } : n)));
+    setItems((prev) =>
+      prev.map((n) => (n.id === id ? { ...n, read: true } : n)),
+    );
   };
 
   const dismiss = (id: string) => {
@@ -462,7 +619,9 @@ export default function NotificationsPage() {
       {/* ── Page header ── */}
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-[#1A1A2E]">Notifications</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-[#1A1A2E]">
+            Notifications
+          </h1>
           <p className="mt-0.5 text-sm text-gray-500">
             {unreadCount > 0
               ? `${unreadCount} unread notification${unreadCount !== 1 ? "s" : ""} · ${items.length} total`
@@ -522,18 +681,23 @@ export default function NotificationsPage() {
           iconColor="text-destructive-500"
           label="Critical"
           value={criticalCount}
-          valueColor={criticalCount > 0 ? "text-destructive-600" : "text-[#1A1A2E]"}
+          valueColor={
+            criticalCount > 0 ? "text-destructive-600" : "text-[#1A1A2E]"
+          }
         />
       </div>
 
       {/* ── Tabs + filters ── */}
-      <div className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm">
+      <div className="overflow-hidden rounded-xl border border-gray-100 overflow-x-auto bg-white shadow-sm">
         {/* Tabs */}
         <div className="overflow-x-auto">
           <CustomTab
             tabs={TABS}
             active={tab}
-            onChange={(k) => { setTab(k as TabKey); resetPage(); }}
+            onChange={(k) => {
+              setTab(k as TabKey);
+              resetPage();
+            }}
             variant="underline"
             className="px-2 pt-1 min-w-max"
           />
@@ -546,13 +710,19 @@ export default function NotificationsPage() {
             <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-gray-400" />
             <input
               value={search}
-              onChange={(e) => { setSearch(e.target.value); resetPage(); }}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                resetPage();
+              }}
               placeholder="Search notifications…"
               className="h-9 w-full rounded-lg border border-gray-200 bg-white pl-9 pr-3 text-sm outline-none placeholder:text-gray-400 focus:border-[#1A1A2E] focus:ring-1 focus:ring-[#1A1A2E] transition-colors"
             />
             {search && (
               <button
-                onClick={() => { setSearch(""); resetPage(); }}
+                onClick={() => {
+                  setSearch("");
+                  resetPage();
+                }}
                 className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
               >
                 <X className="h-3.5 w-3.5" />
@@ -563,23 +733,40 @@ export default function NotificationsPage() {
           {/* Type filter */}
           <FilterDropdown
             label="Type"
-            options={TYPE_FILTERS.map((t) => ({ value: t, label: TYPE_META[t].label }))}
+            options={TYPE_FILTERS.map((t) => ({
+              value: t,
+              label: TYPE_META[t].label,
+            }))}
             value={typeFilter}
-            onChange={(v) => { setTypeFilter(v as NotificationType | ""); resetPage(); }}
+            onChange={(v) => {
+              setTypeFilter(v as NotificationType | "");
+              resetPage();
+            }}
           />
 
           {/* Priority filter */}
           <FilterDropdown
             label="Priority"
-            options={PRIORITY_FILTERS.map((p) => ({ value: p, label: PRIORITY_META[p].label }))}
+            options={PRIORITY_FILTERS.map((p) => ({
+              value: p,
+              label: PRIORITY_META[p].label,
+            }))}
             value={priorityFilter}
-            onChange={(v) => { setPriorityFilter(v as NotificationPriority | ""); resetPage(); }}
+            onChange={(v) => {
+              setPriorityFilter(v as NotificationPriority | "");
+              resetPage();
+            }}
           />
 
           {/* Clear filters */}
           {hasFilters && (
             <button
-              onClick={() => { setSearch(""); setTypeFilter(""); setPriorityFilter(""); resetPage(); }}
+              onClick={() => {
+                setSearch("");
+                setTypeFilter("");
+                setPriorityFilter("");
+                resetPage();
+              }}
               className="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 transition-colors"
             >
               <X className="h-3.5 w-3.5" />
@@ -601,11 +788,17 @@ export default function NotificationsPage() {
                 <BellOff className="h-6 w-6 text-gray-400" />
               </div>
               <p className="text-sm font-semibold text-gray-500">
-                {hasFilters ? "No notifications match your filters." : "No notifications here."}
+                {hasFilters
+                  ? "No notifications match your filters."
+                  : "No notifications here."}
               </p>
               {hasFilters && (
                 <button
-                  onClick={() => { setSearch(""); setTypeFilter(""); setPriorityFilter(""); }}
+                  onClick={() => {
+                    setSearch("");
+                    setTypeFilter("");
+                    setPriorityFilter("");
+                  }}
                   className="text-sm font-semibold text-[#1A1A2E] underline-offset-2 hover:underline"
                 >
                   Clear all filters

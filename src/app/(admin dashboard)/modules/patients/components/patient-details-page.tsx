@@ -25,7 +25,9 @@ interface PatientDetailPageProps {
   patientId: string;
 }
 
-export default function PatientDetailPage({ patientId }: PatientDetailPageProps) {
+export default function PatientDetailPage({
+  patientId,
+}: PatientDetailPageProps) {
   const [activeTab, setActiveTab] = useState<MainTab>("overview");
 
   const patient = patientsData.patients.find((p) => p.id === patientId);
@@ -101,10 +103,7 @@ export default function PatientDetailPage({ patientId }: PatientDetailPageProps)
             Back to patients
           </Link>
           <span>/</span>
-          <Link
-            href="/admin/patients"
-            className="hover:text-[#1A1A2E]"
-          >
+          <Link href="/admin/patients" className="hover:text-[#1A1A2E]">
             Patients
           </Link>
           <span>/</span>
@@ -140,7 +139,7 @@ export default function PatientDetailPage({ patientId }: PatientDetailPageProps)
                     "flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold",
                     patient.status === "Active"
                       ? "bg-emerald-50 text-emerald-600"
-                      : "bg-gray-100 text-gray-500"
+                      : "bg-gray-100 text-gray-500",
                   )}
                 >
                   <span
@@ -148,7 +147,7 @@ export default function PatientDetailPage({ patientId }: PatientDetailPageProps)
                       "h-1.5 w-1.5 rounded-full",
                       patient.status === "Active"
                         ? "bg-emerald-500"
-                        : "bg-gray-400"
+                        : "bg-gray-400",
                     )}
                   />
                   {patient.status}
@@ -210,7 +209,7 @@ export default function PatientDetailPage({ patientId }: PatientDetailPageProps)
             <p
               className={cn(
                 "mt-1 font-bold tracking-tight text-[#1A1A2E]",
-                i === 4 ? "text-lg leading-snug" : "text-2xl"
+                i === 4 ? "text-lg leading-snug" : "text-2xl",
               )}
             >
               {s.value}
@@ -222,7 +221,7 @@ export default function PatientDetailPage({ patientId }: PatientDetailPageProps)
 
       {/* ── Main Tabs ─────────────────────────────────────────────── */}
       <div>
-        <div className="rounded-t-xl border-b border-gray-100 bg-white px-4 pt-1 shadow-sm">
+        <div className="rounded-t-xl border-b border-gray-100 overflow-x-auto bg-white px-4 pt-1 shadow-sm">
           <CustomTab
             tabs={tabs}
             active={activeTab}

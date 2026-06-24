@@ -77,6 +77,7 @@ export interface ConsultationStepOnePayload {
 
 export interface ConsultationStepTwoPayload {
   procedures: number[];
+  consultation_id?: Id;
 }
 
 export interface ConsultationStepThreePayload {
@@ -221,9 +222,13 @@ export const consultationBookingApi = {
     );
   },
   stepSeven: (payload: ConsultationStepSevenPayload) =>
-    api.post<ApiResponse<ConsultationStepResult>, ConsultationStepSevenPayload>(
+    api.post<ApiResponse<unknown>, ConsultationStepSevenPayload>(
       endpoints.bookings.stepSeven,
       payload,
+    ),
+  getConsultation_id: () =>
+    api.get<ApiResponse<ConsultationStepResult>>(
+      endpoints.bookings.get_current_consultation_id,
     ),
 };
 
@@ -234,6 +239,10 @@ export const patientApi = {
     api.patch<ApiResponse<TProfile>, TPayload>(
       endpoints.patient.profile,
       payload,
+    ),
+  consultations: () =>
+    api.get<ApiResponse<ConsultationStepResult>>(
+      endpoints.patient.consultations,
     ),
 };
 
@@ -342,11 +351,16 @@ export const adminApi = {
     api.get<ApiResponse<TDentist>>(endpoints.admin.get_dentist_profile(id)),
   phaseOneApprove: (id: string) =>
     api.post<ApiResponse<unknown>, void>(endpoints.admin.phase_one_approve(id)),
+  phaseOneReject: (id: string, reason: string) =>
+    api.post<ApiResponse<unknown>, { reviewer_notes: string }>(endpoints.admin.phase_one_reject(id), { reviewer_notes: reason }),
   phaseTwoApprove: (id: string) =>
     api.post<ApiResponse<unknown>, void>(endpoints.admin.phase_two_approve(id),),
+  phaseTwoReject: (id: string, reason: string) =>
+    api.post<ApiResponse<unknown>, { reviewer_notes: string }>(endpoints.admin.phase_two_reject(id), { reviewer_notes: reason }),
   phaseThreeApprove: (id: string) =>
-    api.post<ApiResponse<unknown>, void>(endpoints.admin.phase_three_approve(id),
-    ),
+    api.post<ApiResponse<unknown>, void>(endpoints.admin.phase_three_approve(id),),
+  phaseThreeReject: (id: string, reason: string) =>
+    api.post<ApiResponse<unknown>, { reviewer_notes: string }>(endpoints.admin.phase_three_reject(id), { reviewer_notes: reason }),
   listPatients: <TPatient = unknown>(params?: ListParams) =>
     api.get<PaginatedResponse<TPatient>>(endpoints.admin.patients, { params }),
   listBookings: <TBooking = unknown>(params?: ListParams) =>
@@ -380,22 +394,10 @@ export function createResourceApi<
   };
 }
 
-export const bookingApi = createResourceApi(
-  endpoints.bookings.root,
-  endpoints.bookings.byId,
-);
-
-export const consultationApi = createResourceApi(
-  endpoints.consultations.root,
-  endpoints.consultations.byId,
-);
-
-export const publicDentistApi = createResourceApi(
-  endpoints.dentists.root,
-  endpoints.dentists.byId,
-);
-
-export const reviewApi = createResourceApi(
-  endpoints.reviews.root,
-  endpoints.reviews.byId,
-);
+// create global dentist api 
+export const globalDentist = () => {
+  return createResourceApi(
+    endpoints.dentists.root,
+    endpoints.dentists.byId,
+  );
+}

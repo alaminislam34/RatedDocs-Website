@@ -89,7 +89,7 @@ export default function Patients() {
         (p) =>
           p.name.toLowerCase().includes(q) ||
           p.email.toLowerCase().includes(q) ||
-          p.phone.toLowerCase().includes(q)
+          p.phone.toLowerCase().includes(q),
       );
     }
     return list;
@@ -99,7 +99,7 @@ export default function Patients() {
   const currentPage = Math.min(page, totalPages);
   const pageData = filtered.slice(
     (currentPage - 1) * PAGE_SIZE,
-    currentPage * PAGE_SIZE
+    currentPage * PAGE_SIZE,
   );
 
   const handleTabChange = (key: string) => {
@@ -150,9 +150,9 @@ export default function Patients() {
       <CustomStats stats={stats} />
 
       {/* ── Tabs + Table card ─────────────────────────────────────────── */}
-      <div className="rounded-xl border border-gray-100 bg-white shadow-sm">
+      <div className="rounded-xl border border-gray-100  bg-white shadow-sm">
         {/* Tabs row */}
-        <div className="border-b border-gray-100 px-4 pt-1">
+        <div className="border-b border-gray-100 overflow-x-auto px-4 pt-1">
           <CustomTab
             tabs={tabs}
             active={activeTab}
@@ -210,16 +210,23 @@ export default function Patients() {
           <table className="min-w-full">
             <thead>
               <tr className="border-b border-gray-100 bg-gray-50/40">
-                {["Patient", "Phone", "City", "Status", "Total bookings", "Last booking", "Joined", ""].map(
-                  (h, i) => (
-                    <th
-                      key={i}
-                      className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-400"
-                    >
-                      {h}
-                    </th>
-                  )
-                )}
+                {[
+                  "Patient",
+                  "Phone",
+                  "City",
+                  "Status",
+                  "Total bookings",
+                  "Last booking",
+                  "Joined",
+                  "",
+                ].map((h, i) => (
+                  <th
+                    key={i}
+                    className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-400"
+                  >
+                    {h}
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
@@ -236,9 +243,7 @@ export default function Patients() {
                 pageData.map((patient) => (
                   <tr
                     key={patient.id}
-                    onClick={() =>
-                      router.push(`/admin/patients/${patient.id}`)
-                    }
+                    onClick={() => router.push(`/admin/patients/${patient.id}`)}
                     className="cursor-pointer transition-colors hover:bg-gray-50/80"
                   >
                     {/* Patient */}
@@ -271,7 +276,8 @@ export default function Patients() {
                       <span
                         className={cn(
                           "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium",
-                          STATUS_BADGE[patient.status] ?? "bg-gray-100 text-gray-500"
+                          STATUS_BADGE[patient.status] ??
+                            "bg-gray-100 text-gray-500",
                         )}
                       >
                         <span
@@ -279,7 +285,7 @@ export default function Patients() {
                             "h-1.5 w-1.5 rounded-full",
                             patient.status === "Active"
                               ? "bg-emerald-500"
-                              : "bg-gray-400"
+                              : "bg-gray-400",
                           )}
                         />
                         {patient.status}
@@ -311,7 +317,8 @@ export default function Patients() {
         {/* Footer / pagination */}
         <div className="flex items-center justify-between border-t border-gray-100 px-4 py-3">
           <p className="text-sm text-gray-400">
-            Showing {filtered.length === 0 ? 0 : (currentPage - 1) * PAGE_SIZE + 1}–
+            Showing{" "}
+            {filtered.length === 0 ? 0 : (currentPage - 1) * PAGE_SIZE + 1}–
             {Math.min(currentPage * PAGE_SIZE, filtered.length)} of{" "}
             {filtered.length} results
           </p>
@@ -331,7 +338,7 @@ export default function Patients() {
                   "flex h-8 w-8 items-center justify-center rounded-lg text-sm font-medium transition-colors",
                   p === currentPage
                     ? "bg-[#1A1A2E] text-white"
-                    : "border border-gray-200 text-gray-500 hover:bg-gray-50"
+                    : "border border-gray-200 text-gray-500 hover:bg-gray-50",
                 )}
               >
                 {p}

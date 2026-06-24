@@ -115,7 +115,12 @@ export function useUpdateVerificationPhase() {
     mutationFn: (data: { verification_phase: string }) =>
       dentistApi.updateVerificationPhase(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["dentistVerificationProgress"] });
+      return Promise.all([
+        queryClient.invalidateQueries({ queryKey: ["dentistVerificationProgress"] }),
+        queryClient.invalidateQueries({ queryKey: ["licenseVerifyProgress"] }),
+        queryClient.invalidateQueries({ queryKey: ["photoVerifyProgress"] }),
+        queryClient.invalidateQueries({ queryKey: ["idVerifyProgress"] }),
+      ]);
     },
   });
 }
@@ -124,7 +129,12 @@ export default function useDentist() {
   const queryClient = useQueryClient();
 
   const invalidateVerification = () => {
-    queryClient.invalidateQueries({ queryKey: ["dentistVerificationProgress"] });
+    return Promise.all([
+      queryClient.invalidateQueries({ queryKey: ["dentistVerificationProgress"] }),
+      queryClient.invalidateQueries({ queryKey: ["licenseVerifyProgress"] }),
+      queryClient.invalidateQueries({ queryKey: ["photoVerifyProgress"] }),
+      queryClient.invalidateQueries({ queryKey: ["idVerifyProgress"] }),
+    ]);
   };
   
 

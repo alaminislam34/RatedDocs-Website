@@ -101,32 +101,36 @@ export default function ScheduleContent() {
   const [isConfirming, setIsConfirming] = useState(false);
 
   const updateSelection = useCallback(
-    (dentistId: string, updates: Partial<Omit<DentistSelection, "dentistId">>) => {
-      setSelections((prev) =>
-        {
-          const next = prev.map((s) =>
-            s.dentistId === dentistId ? { ...s, ...updates } : s,
-          );
-          saveBookingDraft({
-            scheduleSelections: next.map((selection) => {
-              const dentist = dentists.find((doc) => doc.id === selection.dentistId);
-              return {
-                dentistId: selection.dentistId,
-                backendDentistId:
-                  getDraftBackendDentistId(
-                    getBookingDraft(),
-                    dentist,
-                    next.findIndex((item) => item.dentistId === selection.dentistId),
-                  ),
-                date: selection.date?.toISOString() ?? "",
-                timeSlot: selection.timeSlot,
-                timezone: selection.timezone,
-              };
-            }),
-          });
-          return next;
-        },
-      );
+    (
+      dentistId: string,
+      updates: Partial<Omit<DentistSelection, "dentistId">>,
+    ) => {
+      setSelections((prev) => {
+        const next = prev.map((s) =>
+          s.dentistId === dentistId ? { ...s, ...updates } : s,
+        );
+        saveBookingDraft({
+          scheduleSelections: next.map((selection) => {
+            const dentist = dentists.find(
+              (doc) => doc.id === selection.dentistId,
+            );
+            return {
+              dentistId: selection.dentistId,
+              backendDentistId: getDraftBackendDentistId(
+                getBookingDraft(),
+                dentist,
+                next.findIndex(
+                  (item) => item.dentistId === selection.dentistId,
+                ),
+              ),
+              date: selection.date?.toISOString() ?? "",
+              timeSlot: selection.timeSlot,
+              timezone: selection.timezone,
+            };
+          }),
+        });
+        return next;
+      });
     },
     [dentists],
   );
@@ -152,9 +156,10 @@ export default function ScheduleContent() {
       return;
     }
 
-    const consultationId = consultationIdParam ?? getBookingDraft().consultationId;
+    const consultationId =
+      consultationIdParam ?? getBookingDraft().consultationId;
     if (!consultationId) {
-      toast.error("Consultation draft not found. Please complete booking details first.");
+      toast.error("Consultation session not found. Please try booking again.");
       return;
     }
 
@@ -168,7 +173,9 @@ export default function ScheduleContent() {
     });
 
     if (dentistsPayload.some((item) => !item.dentist)) {
-      toast.error("Could not find backend dentist IDs. Please reselect dentists.");
+      toast.error(
+        "Could not find backend dentist IDs. Please reselect dentists.",
+      );
       return;
     }
 
@@ -184,7 +191,7 @@ export default function ScheduleContent() {
     try {
       setIsConfirming(true);
       await consultationBookingApi.stepSeven({
-        consultation_id: consultationId,
+        consultation_id: Number(consultationId),
         dentists: dentistsPayload.map((item) => ({
           dentist: item.dentist!,
           scheduled_date: item.scheduled_date,
@@ -268,12 +275,15 @@ export default function ScheduleContent() {
             <h2 className="text-[22px] font-black text-[#1A1A2E] mb-2">
               You&apos;re booked with{" "}
               {dentists
-                .map((d, i) => (i === 0 ? d.name : `Dr ${d.name.split(" ").slice(-1)[0]}`))
+                .map((d, i) =>
+                  i === 0 ? d.name : `Dr ${d.name.split(" ").slice(-1)[0]}`,
+                )
                 .join(" and ")}
             </h2>
             <p className="text-[14px] text-[#6B7280] leading-relaxed max-w-sm">
               Your dentist will review your details before the consultation.
-              Please have your photos, any X-rays, and a list of questions ready.
+              Please have your photos, any X-rays, and a list of questions
+              ready.
             </p>
 
             {/* Booked appointments */}

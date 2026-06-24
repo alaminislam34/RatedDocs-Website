@@ -92,9 +92,7 @@ export default function BookingDetailPage({
         <div className="flex items-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-600">
           <XCircle className="h-4 w-4 shrink-0 text-red-500" />
           <div>
-            <p className="text-sm font-semibold">
-              Cancelled · Refund Issued
-            </p>
+            <p className="text-sm font-semibold">Cancelled · Refund Issued</p>
             <p className="text-xs text-red-400">
               ${booking.amount.toLocaleString()} refunded to patient
             </p>
@@ -126,7 +124,9 @@ export default function BookingDetailPage({
           Bookings
         </Link>
         <span>›</span>
-        <span className="font-semibold text-[#1A1A2E]">{booking.booking_id}</span>
+        <span className="font-semibold text-[#1A1A2E]">
+          {booking.booking_id}
+        </span>
       </div>
 
       {/* ── Booking hero + escrow ────────────────────────────────── */}
@@ -139,16 +139,18 @@ export default function BookingDetailPage({
             <span
               className={cn(
                 "rounded-full px-2.5 py-1 text-xs font-semibold",
-                statusBadge(booking.status)
+                statusBadge(booking.status),
               )}
             >
               {booking.status}
             </span>
-            {!isCancelled && booking.booking_stage && booking.booking_stage !== "Payment Released" && (
-              <span className="rounded-full border border-gray-200 bg-gray-50 px-2.5 py-1 text-xs font-medium text-gray-600">
-                {booking.booking_stage}
-              </span>
-            )}
+            {!isCancelled &&
+              booking.booking_stage &&
+              booking.booking_stage !== "Payment Released" && (
+                <span className="rounded-full border border-gray-200 bg-gray-50 px-2.5 py-1 text-xs font-medium text-gray-600">
+                  {booking.booking_stage}
+                </span>
+              )}
           </div>
           <p className="mt-1 text-sm text-gray-400">
             Created {booking.created_date} · {booking.procedure} ·{" "}
@@ -163,7 +165,7 @@ export default function BookingDetailPage({
         {/* Left: tabs + content */}
         <div className="lg:col-span-2">
           {/* Tabs */}
-          <div className="mb-4 rounded-t-xl border-b border-gray-100 bg-white px-4 pt-1 shadow-sm">
+          <div className="mb-4 rounded-t-xl border-b border-gray-100 overflow-x-auto bg-white px-4 pt-1 shadow-sm">
             <CustomTab
               tabs={tabs.map((t) => ({
                 ...t,
@@ -174,9 +176,7 @@ export default function BookingDetailPage({
             />
           </div>
 
-          {activeTab === "overview" && (
-            <BookingOverviewTab booking={booking} />
-          )}
+          {activeTab === "overview" && <BookingOverviewTab booking={booking} />}
           {activeTab === "treatment_plan" && (
             <BookingTreatmentTab booking={booking} />
           )}
@@ -205,7 +205,9 @@ export default function BookingDetailPage({
                     <div className="mt-0.5 shrink-0">
                       {isCancelledStep ? (
                         <div className="flex h-5 w-5 items-center justify-center rounded-full border-2 border-red-400 bg-red-50">
-                          <span className="text-[10px] font-bold text-red-500">✕</span>
+                          <span className="text-[10px] font-bold text-red-500">
+                            ✕
+                          </span>
                         </div>
                       ) : isCompleted ? (
                         isCurrent ? (
@@ -227,8 +229,8 @@ export default function BookingDetailPage({
                           isCompleted || isCurrent
                             ? "text-[#1A1A2E]"
                             : isCancelledStep
-                            ? "text-red-500"
-                            : "text-gray-300"
+                              ? "text-red-500"
+                              : "text-gray-300",
                         )}
                       >
                         {step.step}
@@ -264,7 +266,7 @@ export default function BookingDetailPage({
                     "font-medium",
                     booking.platform_fee.fee_amount !== null
                       ? "text-red-500"
-                      : "text-gray-300"
+                      : "text-gray-300",
                   )}
                 >
                   {booking.platform_fee.fee_amount !== null
@@ -281,7 +283,7 @@ export default function BookingDetailPage({
                     "font-bold",
                     booking.platform_fee.net_to_dentist !== null
                       ? "text-emerald-600"
-                      : "text-gray-300"
+                      : "text-gray-300",
                   )}
                 >
                   {booking.platform_fee.net_to_dentist !== null

@@ -52,18 +52,17 @@ function unwrapProcedureOptions(response: unknown): ProcedureOption[] {
     data?: unknown;
     results?: unknown;
   };
-  const maybeList =
-    Array.isArray(response)
-      ? response
-      : Array.isArray(payload.data)
-        ? payload.data
-        : typeof payload.data === "object" &&
-            payload.data !== null &&
-            Array.isArray((payload.data as { results?: unknown }).results)
-          ? (payload.data as { results: unknown[] }).results
-          : Array.isArray(payload.results)
-            ? payload.results
-            : [];
+  const maybeList = Array.isArray(response)
+    ? response
+    : Array.isArray(payload.data)
+      ? payload.data
+      : typeof payload.data === "object" &&
+          payload.data !== null &&
+          Array.isArray((payload.data as { results?: unknown }).results)
+        ? (payload.data as { results: unknown[] }).results
+        : Array.isArray(payload.results)
+          ? payload.results
+          : [];
 
   return maybeList
     .map((item) => {
@@ -178,9 +177,9 @@ export default function ProcedureSelectionForm() {
                 </span>
               </div>
 
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 {isSelected ? (
-                  <CheckCircle2 className="w-6 h-6 text-[#113254] fill-[#113254] text-white" />
+                  <CheckCircle2 className="w-6 h-6 text-[#113254] fill-[#113254]" />
                 ) : (
                   <Circle className="w-6 h-6 text-[#D1D5DB]" />
                 )}

@@ -114,7 +114,9 @@ function VerificationStatus({
       >
         {isDone
           ? "Complete"
-          : status === "pending" || status === "in_review" || status === "SUBMITTED"
+          : status === "pending" ||
+              status === "in_review" ||
+              status === "SUBMITTED"
             ? "Pending"
             : status === "rejected"
               ? "Rejected"
@@ -134,7 +136,7 @@ export default function DentistDetailPage({
     : dentistId;
 
   const { dentist: apiDentist, isLoading, isError } = useAdminDentist(apiId);
-  console.log("dentisat profile:", apiDentist);
+
   const dentist = useMemo(() => {
     if (!apiDentist) return null;
     return mapApiDentistToUIDentist(apiDentist);
@@ -212,7 +214,6 @@ export default function DentistDetailPage({
 
   return (
     <div className="flex flex-col gap-5">
-      {/* ── Breadcrumb ─────────────────────────────────────────────── */}
       <div className="flex items-center gap-2 text-sm text-gray-500">
         <Link
           href="/admin/dentists"
@@ -225,7 +226,6 @@ export default function DentistDetailPage({
         <span className="font-medium text-[#1A1A2E]">{dentist.name}</span>
       </div>
 
-      {/* ── Hero card ─────────────────────────────────────────────── */}
       <div className="rounded-xl border border-gray-100 bg-white p-5 shadow-sm">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           {/* Left: avatar + name + badges + meta */}
@@ -339,11 +339,9 @@ export default function DentistDetailPage({
         ))}
       </div>
 
-      {/* ── Main tabs + content ───────────────────────────────────── */}
       <div className="flex gap-5">
-        {/* Tab content */}
         <div className="min-w-0 flex-1">
-          <div className="rounded-t-xl border-b border-gray-100 bg-white px-4 pt-1 shadow-sm">
+          <div className="rounded-t-xl border-b border-gray-100 overflow-x-auto bg-white px-4 pt-1 shadow-sm">
             <CustomTab
               tabs={tabs}
               active={activeTab}

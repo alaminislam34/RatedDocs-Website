@@ -62,15 +62,20 @@ function ConsultationCard({
             {consultation.patient_initials}
           </span>
           <div>
-            <p className="text-sm font-bold text-[#1A1A2E]">{consultation.patient_name}</p>
-            <p className="text-xs text-gray-400">{consultation.patient_email}</p>
+            <p className="text-sm font-bold text-[#1A1A2E]">
+              {consultation.patient_name}
+            </p>
+            <p className="text-xs text-gray-400">
+              {consultation.patient_email}
+            </p>
           </div>
         </div>
         {consultation.treatment_plan_status && (
           <span
             className={cn(
               "rounded-full px-2.5 py-0.5 text-xs font-semibold",
-              PLAN_STATUS_BADGE[consultation.treatment_plan_status] ?? "bg-gray-100 text-gray-500"
+              PLAN_STATUS_BADGE[consultation.treatment_plan_status] ??
+                "bg-gray-100 text-gray-500",
             )}
           >
             {consultation.treatment_plan_status}
@@ -106,7 +111,9 @@ function ConsultationCard({
           <p className="text-[10px] font-semibold uppercase tracking-wide text-gray-400">
             Time slot
           </p>
-          <p className="mt-0.5 text-sm text-gray-700">{consultation.time_slot}</p>
+          <p className="mt-0.5 text-sm text-gray-700">
+            {consultation.time_slot}
+          </p>
         </div>
       </div>
 
@@ -120,29 +127,40 @@ function ConsultationCard({
   );
 }
 
-export function DentistConsultationsTab({ consultations }: DentistConsultationsTabProps) {
+export function DentistConsultationsTab({
+  consultations,
+}: DentistConsultationsTabProps) {
   const [activeSubStatus, setActiveSubStatus] = useState<SubStatus>("upcoming");
-  const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
+  const [selectedConsultation, setSelectedConsultation] =
+    useState<Consultation | null>(null);
 
   const counts = {
     upcoming: consultations.filter((c) => c.sub_status === "upcoming").length,
     active: consultations.filter((c) => c.sub_status === "active").length,
-    waiting_estimate: consultations.filter((c) => c.sub_status === "waiting_estimate").length,
+    waiting_estimate: consultations.filter(
+      (c) => c.sub_status === "waiting_estimate",
+    ).length,
   };
 
   const tabs = [
     { key: "upcoming", label: "Upcoming", count: counts.upcoming },
     { key: "active", label: "Active", count: counts.active },
-    { key: "waiting_estimate", label: "Waiting for Treatment estimate", count: counts.waiting_estimate },
+    {
+      key: "waiting_estimate",
+      label: "Waiting for Treatment estimate",
+      count: counts.waiting_estimate,
+    },
   ];
 
-  const filtered = consultations.filter((c) => c.sub_status === activeSubStatus);
+  const filtered = consultations.filter(
+    (c) => c.sub_status === activeSubStatus,
+  );
 
   return (
     <>
       <div className="rounded-xl border border-gray-100 bg-white shadow-sm">
         {/* Sub-tabs */}
-        <div className="border-b border-gray-100 px-4 pt-1">
+        <div className="border-b border-gray-100 overflow-x-auto px-4 pt-1">
           <CustomTab
             tabs={tabs}
             active={activeSubStatus}
