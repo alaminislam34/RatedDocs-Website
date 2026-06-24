@@ -18,8 +18,8 @@ export const endpoints = {
   patient: {
     register: "/auth/signup/",
     login: "/auth/signin/",
-
     profile: "/auth/profile",
+    consultations: "/patient/consultations/",
   },
 
   // todo
@@ -47,8 +47,11 @@ export const endpoints = {
     dentists: "/admin/dentists/",
     get_dentist_profile: (id: string) => `/admin/dentists/${id}/`,
     phase_one_approve: (id: string) => `/admin/dentist-verification/${id}/approve-license/`,
+    phase_one_reject: (id: string) => `/admin/dentist-verification/${id}/reject-license/`,
     phase_two_approve: (id: string) => `/admin/dentist-verification/${id}/approve-operation/`,
-    phase_three_approve: (id: string) => `/admin/dentist-verification/${id}/approve-depth/`,
+    phase_two_reject: (id: string) => `/admin/dentist-verification/${id}/reject-operation/`,
+    phase_three_approve: (id: string) => `/admin/dentist-verification/${id}/approve-clinical/`,
+    phase_three_reject: (id: string) => `/admin/dentist-verification/${id}/reject-clinical/`,
     patients: "/admin/patients",
     bookings: "/admin/bookings",
     reviews: "/admin/reviews",
@@ -76,18 +79,20 @@ export const endpoints = {
     getStepSeven: "/consultations/step-7/", //!! not available yet
     root: "/bookings",
     byId: (id: string | number) => `/bookings/${id}`,
+    get_current_consultation_id: "/consultations/get-id/",
+
   },
   procedures: {
-    root: "/procedures/",
+    root: "/procedure/procedures/",
     byId: (id: string | number) => `/procedures/${id}`,
   },
   consultations: {
-    root: "/consultations",
+    root: "/patient/consultations/",
     byId: (id: string | number) => `/consultations/${id}`,
   },
   dentists: {
-    root: "/dentists",
-    byId: (id: string | number) => `/dentists/${id}`,
+    root: "/patient/dentists/",
+    byId: (id: string | number) => `/patient/dentists/${id}/`,
   },
   patients: {
     root: "/patients",

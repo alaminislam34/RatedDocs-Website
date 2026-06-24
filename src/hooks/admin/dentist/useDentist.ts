@@ -87,7 +87,8 @@ export interface ClinicDepthVerification {
     lat: string;
     lng: string;
   } | string | null;
-  materials?: any;
+  materials?: unknown;
+  procedure_material_verifications?: unknown;
 }
 
 export interface DentistVerification {
@@ -179,38 +180,98 @@ export function useAdminDentist(id: string, options: UseAdminDentistOptions = {}
 }
 
 
-export function useDentistPhaseOneApprove(id: string) {
+export function useDentistPhaseOneApprove(id: string, dentistId?: string) {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: () => adminApi.phaseOneApprove(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin", "dentist", id] });
+      if (dentistId) {
+        queryClient.invalidateQueries({ queryKey: ["admin", "dentist", dentistId] });
+      }
       queryClient.invalidateQueries({ queryKey: ["admin", "dentists"] });
+      queryClient.invalidateQueries({ queryKey: ["admin", "licenseQueue"] });
     },
   });
 }
 
-export function useDentistPhaseTwoApprove(id: string) {
+export function useDentistPhaseOneReject(id: string, dentistId?: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (reason: string) => adminApi.phaseOneReject(id, reason),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin", "dentist", id] });
+      if (dentistId) {
+        queryClient.invalidateQueries({ queryKey: ["admin", "dentist", dentistId] });
+      }
+      queryClient.invalidateQueries({ queryKey: ["admin", "dentists"] });
+      queryClient.invalidateQueries({ queryKey: ["admin", "licenseQueue"] });
+    },
+  });
+}
+
+export function useDentistPhaseTwoApprove(id: string, dentistId?: string) {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: () => adminApi.phaseTwoApprove(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin", "dentist", id] });
+      if (dentistId) {
+        queryClient.invalidateQueries({ queryKey: ["admin", "dentist", dentistId] });
+      }
       queryClient.invalidateQueries({ queryKey: ["admin", "dentists"] });
+      queryClient.invalidateQueries({ queryKey: ["admin", "licenseQueue"] });
     },
   });
 }
 
-export function useDentistPhaseThreeApprove(id: string) {
+export function useDentistPhaseTwoReject(id: string, dentistId?: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (reason: string) => adminApi.phaseTwoReject(id, reason),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin", "dentist", id] });
+      if (dentistId) {
+        queryClient.invalidateQueries({ queryKey: ["admin", "dentist", dentistId] });
+      }
+      queryClient.invalidateQueries({ queryKey: ["admin", "dentists"] });
+      queryClient.invalidateQueries({ queryKey: ["admin", "licenseQueue"] });
+    },
+  });
+}
+
+export function useDentistPhaseThreeApprove(id: string, dentistId?: string) {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: () => adminApi.phaseThreeApprove(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin", "dentist", id] });
+      if (dentistId) {
+        queryClient.invalidateQueries({ queryKey: ["admin", "dentist", dentistId] });
+      }
       queryClient.invalidateQueries({ queryKey: ["admin", "dentists"] });
+      queryClient.invalidateQueries({ queryKey: ["admin", "licenseQueue"] });
+    },
+  });
+}
+
+export function useDentistPhaseThreeReject(id: string, dentistId?: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (reason: string) => adminApi.phaseThreeReject(id, reason),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin", "dentist", id] });
+      if (dentistId) {
+        queryClient.invalidateQueries({ queryKey: ["admin", "dentist", dentistId] });
+      }
+      queryClient.invalidateQueries({ queryKey: ["admin", "dentists"] });
+      queryClient.invalidateQueries({ queryKey: ["admin", "licenseQueue"] });
     },
   });
 }

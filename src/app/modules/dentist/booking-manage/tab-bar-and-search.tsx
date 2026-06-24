@@ -31,11 +31,8 @@ export default function TabBarAndSearch() {
 
   return (
     <div className="w-full">
-      <div className="flex gap-10 border-b border-slate-100">
-        <CustomTabs
-          tabs={tabs}
-          storageKey="booking-tabs"
-        />
+      <div className="flex gap-10 border-b border-slate-100 overflow-x-auto">
+        <CustomTabs tabs={tabs} storageKey="booking-tabs" />
       </div>
 
       <div className="flex flex-wrap items-center gap-3 pb-2 pt-4">

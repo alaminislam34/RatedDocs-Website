@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import { verificationQueue, verificationQueueTotal } from "./overview-data";
 
 export function VerificationQueue() {
+  console.log(verificationQueue);
   return (
     <div className="flex flex-col rounded-xl border border-gray-100 bg-white p-5 shadow-sm h-full">
       {/* Header */}
@@ -17,13 +18,16 @@ export function VerificationQueue() {
       {/* Doctor list */}
       <div className="flex flex-col divide-y divide-gray-50">
         {verificationQueue.map((doc) => (
-          <div key={doc.id} className="flex flex-col gap-2 py-4 first:pt-0 last:pb-0">
+          <div
+            key={doc.id}
+            className="flex flex-col gap-2 py-4 first:pt-0 last:pb-0"
+          >
             <div className="flex items-center gap-3">
               {/* Avatar */}
               <div
                 className={cn(
                   "flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[12px] font-bold text-white",
-                  doc.avatarBg
+                  doc.avatarBg,
                 )}
               >
                 {doc.initials}
@@ -40,7 +44,6 @@ export function VerificationQueue() {
               </div>
             </div>
 
-            {/* Phase badges */}
             <div className="flex items-center gap-1.5 pl-12">
               {doc.phases.map((phase) => (
                 <span

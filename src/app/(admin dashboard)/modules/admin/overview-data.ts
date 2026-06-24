@@ -114,8 +114,6 @@ export const chartData: ChartPoint[] = [
   { date: "Apr 29", bookings: 435, revenue: 46000 },
 ];
 
-// ─── Verification Queue ──────────────────────────────────────────────────────
-
 export const verificationQueue: QueueDoctor[] = [
   {
     id: "1",

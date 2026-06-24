@@ -42,7 +42,17 @@ export function attachInterceptors(client: AxiosInstance) {
   client.interceptors.request.use((config: InternalAxiosRequestConfig) => {
     const token = getAccessToken();
 
-    if (token) {
+    const publicUrls = [
+      endpoints.auth.register,
+      endpoints.auth.login,
+      endpoints.auth.verifyOtp,
+      endpoints.auth.resendOtp,
+      endpoints.auth.refreshToken,
+    ];
+
+    const isPublicUrl = !!(config.url && publicUrls.some(url => config.url === url || (config.url && config.url.endsWith(url))));
+
+    if (token && !isPublicUrl) {
       config.headers.Authorization = `Bearer ${token}`;
     }
 

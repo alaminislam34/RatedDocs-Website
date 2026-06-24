@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useStateContext } from "@/providers/StateProvider";
 import {
@@ -20,13 +20,28 @@ import DentalHistoryForm from "./BookingIntakeForm/DentalHistoryForm";
 import PhotoUploadForm from "./BookingIntakeForm/PhotoUploadForm";
 import XRayUploadForm from "./BookingIntakeForm/XRayUploadForm";
 import { consultationBookingApi, getApiErrorMessage } from "@/lib/api";
-import { Loader2 } from "lucide-react";
+import { Loader2, X } from "lucide-react";
+
+import {
+  useConsultationStepOne,
+  useConsultationStepTwo,
+  useGetConsultationId,
+} from "@/hooks/patient/useConsultationBooking";
 
 const TOTAL_STEPS = 6;
 
 export default function IntakeModal() {
   const [step, setStep] = useState(() => getBookingDraft().currentStep);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLocalSubmitting, setIsLocalSubmitting] = useState(false);
+  const stepOneMutation = useConsultationStepOne();
+  const stepTwoMutation = useConsultationStepTwo();
+  const getConsultationIdMutation = useGetConsultationId();
+  const isSubmitting =
+    stepOneMutation.isPending ||
+    stepTwoMutation.isPending ||
+    getConsultationIdMutation.isPending ||
+    isLocalSubmitting;
+
   const {
     showBookingModal,
     setShowBookingModal,
@@ -34,6 +49,15 @@ export default function IntakeModal() {
     setCompareModalPurpose,
     setSchedule,
   } = useStateContext();
+
+  useEffect(() => {
+    if (showBookingModal === "book" && !getBookingDraft().consultationId) {
+      console.log(
+        "[DEBUG] Booking modal opened & consultation ID missing. Fetching from backend...",
+      );
+      getConsultationIdMutation.mutate();
+    }
+  }, [showBookingModal]);
 
   const progress = (step / TOTAL_STEPS) * 100;
 
@@ -47,12 +71,6 @@ export default function IntakeModal() {
 
     switch (step) {
       case 1: {
-        const { firstName, lastName, dateOfBirth, country } =
-          data.personalInfo;
-        if (!firstName || !lastName || !dateOfBirth || !country) {
-          toast.error("Please fill in all required personal information fields");
-          return false;
-        }
         return true;
       }
       case 2:
@@ -93,32 +111,45 @@ export default function IntakeModal() {
   const getRequiredConsultationId = () => {
     const consultationId = getBookingDraft().consultationId;
     if (!consultationId) {
-      throw new Error("Please complete the previous booking step first.");
+      toast.error("Consultation session not found. Please complete step 1.");
+      throw new Error("Missing consultation ID");
     }
-    return consultationId;
+    const id = Number(consultationId);
+    if (!Number.isFinite(id)) {
+      toast.error("Invalid consultation session. Please restart.");
+      throw new Error("Invalid consultation ID");
+    }
+    return id;
   };
 
   const getResultConsultationId = (response: unknown) => {
-    const payload = response as {
-      data?: {
-        id?: string | number;
-        consultation_id?: string | number;
-        data?: {
-          id?: string | number;
-          consultation_id?: string | number;
-        };
-      };
-      id?: string | number;
-      consultation_id?: string | number;
-    };
+    const payload = response as any;
+    if (!payload) return null;
+
+    if (typeof payload === "number" || typeof payload === "string") {
+      return payload;
+    }
+
+    if (payload.data !== undefined && payload.data !== null) {
+      if (
+        typeof payload.data === "number" ||
+        typeof payload.data === "string"
+      ) {
+        return payload.data;
+      }
+    }
 
     return (
+      payload.consultation?.id ??
+      payload.data?.consultation?.id ??
       payload.data?.consultation_id ??
       payload.data?.id ??
       payload.data?.data?.consultation_id ??
       payload.data?.data?.id ??
       payload.consultation_id ??
       payload.id ??
+      (typeof payload.consultation === "number" || typeof payload.consultation === "string" ? payload.consultation : null) ??
+      (typeof payload.data?.consultation === "number" || typeof payload.data?.consultation === "string" ? payload.data.consultation : null) ??
       null
     );
   };
@@ -127,20 +158,37 @@ export default function IntakeModal() {
     const data = getBookingData();
 
     if (step === 1) {
-      const response = await consultationBookingApi.stepOne({
+      const response = await stepOneMutation.mutateAsync({
         first_name: data.personalInfo.firstName,
         last_name: data.personalInfo.lastName,
         country: data.personalInfo.country,
         date_of_birth: data.personalInfo.dateOfBirth,
       });
       const consultationId = getResultConsultationId(response);
-      if (consultationId) setConsultationId(consultationId);
+      console.log(
+        "[DEBUG] submitCurrentStep: Extracted Consultation ID:",
+        consultationId,
+      );
+      if (consultationId) {
+        setConsultationId(consultationId);
+      } else {
+        console.warn(
+          "[DEBUG] submitCurrentStep: No consultation ID found in response:",
+          response,
+        );
+      }
       return;
     }
 
     if (step === 2) {
-      await consultationBookingApi.stepTwo({
+      const consultationId = getBookingDraft().consultationId;
+      if (!consultationId) {
+        toast.error("Consultation session not found. Please complete step 1.");
+        throw new Error("Missing consultation ID");
+      }
+      await stepTwoMutation.mutateAsync({
         procedures: data.procedureIds,
+        consultation_id: Number(consultationId),
       });
       return;
     }
@@ -192,13 +240,14 @@ export default function IntakeModal() {
     if (!validateStep()) return;
 
     const draft = getBookingDraft();
+    console.log("[DEBUG] handleNext: current step =", step, "draft =", draft);
     if (step > 1 && !draft.consultationId) {
-      toast.error("Please complete the first step before continuing.");
+      toast.error("Consultation session not found. Please complete step 1 first.");
       return;
     }
 
     try {
-      setIsSubmitting(true);
+      setIsLocalSubmitting(true);
       await submitCurrentStep();
       markBookingStepComplete(step);
 
@@ -216,7 +265,7 @@ export default function IntakeModal() {
     } catch (error) {
       toast.error(getApiErrorMessage(error));
     } finally {
-      setIsSubmitting(false);
+      setIsLocalSubmitting(false);
     }
   };
 
@@ -230,12 +279,24 @@ export default function IntakeModal() {
 
   return (
     <Dialog open={showBookingModal === "book"} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-212 max-h-[90vh] overflow-y-auto w-full p-0 border-none rounded-xl bg-white">
+      <DialogContent
+        className="sm:max-w-212 max-h-[90vh] overflow-y-auto w-full p-0 border-none rounded-xl bg-white"
+        onPointerDownOutside={(e) => e.preventDefault()}
+        onEscapeKeyDown={(e) => e.preventDefault()}
+      >
         {/* Header */}
-        <div className="sticky top-0 z-10 bg-white px-8 py-6 border-b border-[#F3F4F6]">
+        <div className="sticky top-0 z-10 bg-white px-8 py-6 border-b border-[#F3F4F6] flex items-center justify-between">
           <DialogTitle className="text-[20px] font-bold text-[#1A1A2E]">
             Book Consultation
           </DialogTitle>
+          <button
+            type="button"
+            onClick={handleClose}
+            className="p-2 text-[#6B7280] hover:text-[#1A1A2E] hover:bg-[#F3F4F6] rounded-lg transition-colors"
+            aria-label="Close modal"
+          >
+            <X className="size-5" />
+          </button>
         </div>
 
         <div className="p-8">

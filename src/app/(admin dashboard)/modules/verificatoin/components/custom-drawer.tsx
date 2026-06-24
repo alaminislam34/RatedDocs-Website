@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { CheckCircle2, Clock, Lock, MapPin, ShieldCheck, X, XCircle } from "lucide-react";
+import { CheckCircle2, Clock, Lock, MapPin, ShieldCheck, X, XCircle, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { PhaseKey, VerificationDentist } from "../types";
 import { PHASE_TABS } from "./drawer/constants";
@@ -14,6 +14,8 @@ interface CustomDrawerProps {
   onClose: () => void;
   onApprove?: (id: number, phase: PhaseKey) => void;
   onReject?: (id: number, phase: PhaseKey) => void;
+  isApprovePending?: boolean;
+  isRejectPending?: boolean;
 }
 
 function getPhaseData(dentist: VerificationDentist, phase: PhaseKey) {
@@ -28,6 +30,8 @@ export function CustomDrawer({
   onClose,
   onApprove,
   onReject,
+  isApprovePending = false,
+  isRejectPending = false,
 }: CustomDrawerProps) {
   const [selectedPhase, setSelectedPhase] = useState<{
     dentistId: number;
@@ -209,16 +213,28 @@ export function CustomDrawer({
         {isPendingPhase && (
           <div className="flex shrink-0 flex-col gap-3 border-t border-gray-100 bg-white px-5 py-4 sm:flex-row">
             <button
+              disabled={isRejectPending || isApprovePending}
               onClick={() => onReject?.(dentist.id, activePhase)}
-              className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-red-200 bg-white px-4 py-2.5 text-sm font-semibold text-red-600 transition-colors hover:bg-red-50"
+              className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-red-200 bg-white px-4 py-2.5 text-sm font-semibold text-red-600 transition-colors hover:bg-red-50 disabled:opacity-50"
             >
-              <XCircle className="h-4 w-4" /> Reject & Request Changes
+              {isRejectPending ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <XCircle className="h-4 w-4" />
+              )}
+              Reject & Request Changes
             </button>
             <button
+              disabled={isApprovePending || isRejectPending}
               onClick={() => onApprove?.(dentist.id, activePhase)}
-              className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-[#1A1A2E] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#1A1A2E]/90"
+              className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-[#1A1A2E] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#1A1A2E]/90 disabled:opacity-50"
             >
-              <CheckCircle2 className="h-4 w-4" /> Approve Phase
+              {isApprovePending ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <CheckCircle2 className="h-4 w-4" />
+              )}
+              Approve Phase
             </button>
           </div>
         )}
