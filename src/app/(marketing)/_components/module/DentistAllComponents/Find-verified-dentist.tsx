@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import dynamic from "next/dynamic";
 
@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { useStateContext } from "@/providers/StateProvider";
 
 import DentistCard from "./DentistCard";
+import DentistCardSkeleton from "./DentistCardSkeleton";
 import FilterSidebar from "./SideBar";
 import FilterSheet from "./FilterSheet";
 import TopBar from "./TopBar";
@@ -16,17 +17,74 @@ import CompareStickyBar from "./CompareStickyBar";
 
 import {
   Dentist,
+  dentists as mockDentists,
   cityOptions,
   countryOptions,
   procedureOptions,
 } from "./types";
 import { useDentistFilters } from "@/hooks/dentist/useDentistFilters";
 import { getAccessToken } from "@/lib/auth/session";
+import { useGlobalDentist } from "@/hooks/global/useGlobal";
 
 const DentistMap = dynamic(() => import("./Map/DentistMap"), { ssr: false });
 
 export default function FindDentist() {
-  const filters = useDentistFilters();
+  const { data, isLoading } = useGlobalDentist();
+
+  const mapBackendDentistToFrontend = (d: any): Dentist => {
+    let minPrice = 0;
+    if (d.procedures && d.procedures.length > 0) {
+      const prices = d.procedures
+        .map((p: any) => parseFloat(p.price))
+        .filter((p: number) => !isNaN(p) && p > 0);
+      if (prices.length > 0) {
+        minPrice = Math.min(...prices);
+      }
+    }
+
+    const name = d.full_name || (d.user ? `${d.user.first_name} ${d.user.last_name}` : "Dentist");
+
+    return {
+      id: String(d.id),
+      backendId: d.id,
+      name,
+      slug: d.slug || name.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+      specialty: d.specialty || "DENTIST",
+      imageSeed: String(d.id),
+      rating: d.rating_avg !== undefined ? d.rating_avg : 0,
+      reviewCount: d.total_reviews !== undefined ? d.total_reviews : 0,
+      image: d.image || "/images/smile-1.png",
+      location: d.dentist_address?.[0]
+        ? `${d.dentist_address[0].city}, ${d.dentist_address[0].country}`
+        : "Mexico City, Mexico",
+      city: d.dentist_address?.[0]?.city || "Mexico City",
+      country: d.dentist_address?.[0]?.country || "Mexico",
+      price: minPrice || 950,
+      rdvScore: d.rdv_score !== undefined ? d.rdv_score : 0,
+      verified: d.is_verified || false,
+      procedures: d.procedures ? d.procedures.map((p: any) => p.procedure_name) : [],
+      tags: d.tags || [],
+      languages: d.languages || ["English", "Spanish"],
+      licenseNo: d.license_no || "",
+      experience: d.experience_years || 0,
+      coords: {
+        lat: Number(d.dentist_address?.[0]?.latitude) || 19.4326,
+        lng: Number(d.dentist_address?.[0]?.longitude) || -99.1332,
+      },
+    };
+  };
+
+  const mappedDentists = useMemo(() => {
+    const rawList = Array.isArray(data)
+      ? data
+      : (data && Array.isArray((data as any).data) ? (data as any).data : []);
+
+    const allDentists = rawList.map(mapBackendDentistToFrontend);
+
+    return allDentists.length > 0 ? allDentists : mockDentists;
+  }, [data]);
+
+  const filters = useDentistFilters(mappedDentists);
 
   const [activeDentistId, setActiveDentistId] = useState<string | null>(null);
   const [isCompareMode, setIsCompareMode] = useState(false);
@@ -198,18 +256,24 @@ export default function FindDentist() {
                 )}
 
                 <div className="grid gap-4">
-                  {filters.filteredDentists.map((dentist: Dentist) => (
-                    <DentistCard
-                      key={dentist.id}
-                      dentist={dentist}
-                      isCompareMode={isCompareMode}
-                      isSelectedForCompare={compareList.some(
-                        (item) => item.id === dentist.id,
-                      )}
-                      onCompareToggle={() => handleCompareToggle(dentist)}
-                      onPrimaryAction={() => setActiveDentistId(dentist.id)}
-                    />
-                  ))}
+                  {isLoading ? (
+                    Array.from({ length: 3 }).map((_, i) => (
+                      <DentistCardSkeleton key={i} />
+                    ))
+                  ) : (
+                    filters.filteredDentists.map((dentist: Dentist) => (
+                      <DentistCard
+                        key={dentist.id}
+                        dentist={dentist}
+                        isCompareMode={isCompareMode}
+                        isSelectedForCompare={compareList.some(
+                          (item) => item.id === dentist.id,
+                        )}
+                        onCompareToggle={() => handleCompareToggle(dentist)}
+                        onPrimaryAction={() => setActiveDentistId(dentist.id)}
+                      />
+                    ))
+                  )}
                 </div>
               </div>
 

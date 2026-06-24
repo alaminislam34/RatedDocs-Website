@@ -1,12 +1,21 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { BarChart2, Clock, CheckCircle2, XCircle, Loader2 } from "lucide-react";
 import { CustomTab } from "@/app/(admin dashboard)/modules/shared/custom-tab";
 import { VerificationCard } from "./components/verification-card";
 import { CustomDrawer } from "./components/custom-drawer";
 import useAdmin from "@/hooks/admin/user/useAdmin";
 import type { QueueStatus, VerificationDentist } from "./types";
+import toast from "react-hot-toast";
+import {
+  useDentistPhaseOneApprove,
+  useDentistPhaseOneReject,
+  useDentistPhaseTwoApprove,
+  useDentistPhaseTwoReject,
+  useDentistPhaseThreeApprove,
+  useDentistPhaseThreeReject,
+} from "@/hooks/admin/dentist/useDentist";
 import {
   API_STATUS_BY_QUEUE_STATUS,
   normalizeLicenseQueue,
@@ -57,6 +66,84 @@ export default function VerificationQueue() {
     useState<VerificationDentist | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
+  const dentistIdStr = selectedDentist ? String(selectedDentist.id) : "";
+  const actualDentistId = selectedDentist
+    ? String(selectedDentist.dentist)
+    : "";
+
+  const approvePhase1 = useDentistPhaseOneApprove(
+    dentistIdStr,
+    actualDentistId,
+  );
+  const rejectPhase1 = useDentistPhaseOneReject(dentistIdStr, actualDentistId);
+
+  const approvePhase2 = useDentistPhaseTwoApprove(
+    dentistIdStr,
+    actualDentistId,
+  );
+  const rejectPhase2 = useDentistPhaseTwoReject(dentistIdStr, actualDentistId);
+
+  const approvePhase3 = useDentistPhaseThreeApprove(
+    dentistIdStr,
+    actualDentistId,
+  );
+  const rejectPhase3 = useDentistPhaseThreeReject(
+    dentistIdStr,
+    actualDentistId,
+  );
+
+  const isApprovePending =
+    approvePhase1.isPending ||
+    approvePhase2.isPending ||
+    approvePhase3.isPending;
+  const isRejectPending =
+    rejectPhase1.isPending || rejectPhase2.isPending || rejectPhase3.isPending;
+
+  const handleApprove = useCallback(
+    async (id: number, phase: "ph1" | "ph2" | "ph3") => {
+      const toastId = toast.loading("Approving phase...");
+      try {
+        if (phase === "ph1") {
+          await approvePhase1.mutateAsync();
+        } else if (phase === "ph2") {
+          await approvePhase2.mutateAsync();
+        } else if (phase === "ph3") {
+          await approvePhase3.mutateAsync();
+        }
+        toast.success("Phase approved successfully!", { id: toastId });
+        setDrawerOpen(false);
+      } catch (err: any) {
+        toast.error(err?.message || "Failed to approve phase.", {
+          id: toastId,
+        });
+      }
+    },
+    [approvePhase1, approvePhase2, approvePhase3],
+  );
+
+  const handleReject = useCallback(
+    async (id: number, phase: "ph1" | "ph2" | "ph3") => {
+      const reason = window.prompt("Please enter the reason for rejection:");
+      if (!reason || !reason.trim()) return;
+
+      const toastId = toast.loading("Rejecting phase...");
+      try {
+        if (phase === "ph1") {
+          await rejectPhase1.mutateAsync(reason.trim());
+        } else if (phase === "ph2") {
+          await rejectPhase2.mutateAsync(reason.trim());
+        } else if (phase === "ph3") {
+          await rejectPhase3.mutateAsync(reason.trim());
+        }
+        toast.success("Phase rejected successfully!", { id: toastId });
+        setDrawerOpen(false);
+      } catch (err: any) {
+        toast.error(err?.message || "Failed to reject phase.", { id: toastId });
+      }
+    },
+    [rejectPhase1, rejectPhase2, rejectPhase3],
+  );
+
   const licenseQueueParams = useMemo(
     () => ({
       page,
@@ -73,6 +160,16 @@ export default function VerificationQueue() {
     () => normalizeLicenseQueue(getLicenseQueue.data),
     [getLicenseQueue.data],
   );
+
+  // Sync selected dentist with updated query queue data
+  useEffect(() => {
+    if (selectedDentist) {
+      const updated = mappedLicenses.find((d) => d.id === selectedDentist.id);
+      if (updated) {
+        setSelectedDentist(updated);
+      }
+    }
+  }, [mappedLicenses, selectedDentist?.id]);
 
   const filtered = useMemo(
     () =>
@@ -157,7 +254,7 @@ export default function VerificationQueue() {
 
         {/* Tabs + list */}
         <div className="rounded-xl border border-gray-100 bg-white shadow-sm">
-          <div className="border-b border-gray-100 px-4 pt-1">
+          <div className="border-b border-gray-100 overflow-x-auto px-4 pt-1">
             <CustomTab
               tabs={tabs}
               active={activeTab}
@@ -225,6 +322,10 @@ export default function VerificationQueue() {
         dentist={selectedDentist}
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
+        onApprove={handleApprove}
+        onReject={handleReject}
+        isApprovePending={isApprovePending}
+        isRejectPending={isRejectPending}
       />
     </>
   );

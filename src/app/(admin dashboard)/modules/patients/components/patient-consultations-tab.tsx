@@ -46,7 +46,11 @@ function DentistCard({ c }: { c: Consultation }) {
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-gray-200 text-sm font-semibold text-gray-500">
-            {c.dentist_name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
+            {c.dentist_name
+              .split(" ")
+              .map((n) => n[0])
+              .join("")
+              .slice(0, 2)}
           </div>
         )}
       </div>
@@ -67,11 +71,13 @@ function DentistCard({ c }: { c: Consultation }) {
                 "h-3.5 w-3.5",
                 i < c.rating
                   ? "fill-amber-400 text-amber-400"
-                  : "fill-gray-200 text-gray-200"
+                  : "fill-gray-200 text-gray-200",
               )}
             />
           ))}
-          <span className="text-xs text-gray-400">({c.review_count} Ratings)</span>
+          <span className="text-xs text-gray-400">
+            ({c.review_count} Ratings)
+          </span>
         </div>
         {/* Verified */}
         {c.verified && (
@@ -101,15 +107,19 @@ export function PatientConsultationsTab({
   const tabs = [
     { key: "upcoming", label: "Upcoming", count: upcoming.length },
     { key: "active", label: "Active", count: active.length },
-    { key: "estimate_updates", label: "Estimate Updates", count: estimates.length },
+    {
+      key: "estimate_updates",
+      label: "Estimate Updates",
+      count: estimates.length,
+    },
   ];
 
   const currentList =
     activeTab === "upcoming"
       ? upcoming
       : activeTab === "active"
-      ? active
-      : estimates;
+        ? active
+        : estimates;
 
   const formatDate = (dateStr: string) => {
     const d = new Date(dateStr);
@@ -124,7 +134,7 @@ export function PatientConsultationsTab({
   return (
     <div className="rounded-xl border border-gray-100 bg-white shadow-sm">
       {/* Sub-tabs */}
-      <div className="border-b border-gray-100 px-4 pt-1">
+      <div className="border-b border-gray-100 overflow-x-auto px-4 pt-1">
         <CustomTab
           tabs={tabs}
           active={activeTab}
@@ -224,7 +234,9 @@ export function PatientConsultationsTab({
                           <p className="text-xl font-bold text-[#1A1A2E]">
                             {c.time_remaining}
                           </p>
-                          <p className="text-xs text-gray-400">Time remaining</p>
+                          <p className="text-xs text-gray-400">
+                            Time remaining
+                          </p>
                         </div>
                       )}
                     </>

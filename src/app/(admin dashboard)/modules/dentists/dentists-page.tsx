@@ -216,7 +216,10 @@ export const mapSpecialty = (s?: string): string => {
   return "General";
 };
 
-function getFileNameFromUrl(url: string | null | undefined, fallback: string): string {
+function getFileNameFromUrl(
+  url: string | null | undefined,
+  fallback: string,
+): string {
   if (!url) return fallback;
   try {
     const parts = url.split("/");
@@ -231,7 +234,8 @@ export const mapVerificationStatus = (status?: string): string => {
   const upper = status.toUpperCase();
   if (upper === "APPROVED" || upper === "VERIFIED") return "complete";
   if (upper === "REJECTED") return "rejected";
-  if (upper === "SUBMITTED" || upper === "SUBMIT" || upper === "PENDING") return "SUBMITTED";
+  if (upper === "SUBMITTED" || upper === "SUBMIT" || upper === "PENDING")
+    return "SUBMITTED";
   return "not_started";
 };
 
@@ -249,9 +253,15 @@ export function mapApiDentistToUIDentist(d: AdminDentist): Dentist {
   ) {
     status = "rejected";
   } else if (
-    ["PENDING", "SUBMIT", "SUBMITTED"].includes(d.dentist_verification?.license_verification || "") ||
-    ["PENDING", "SUBMIT", "SUBMITTED"].includes(d.dentist_verification?.operations_verification || "") ||
-    ["PENDING", "SUBMIT", "SUBMITTED"].includes(d.dentist_verification?.clinical_verification || "")
+    ["PENDING", "SUBMIT", "SUBMITTED"].includes(
+      d.dentist_verification?.license_verification || "",
+    ) ||
+    ["PENDING", "SUBMIT", "SUBMITTED"].includes(
+      d.dentist_verification?.operations_verification || "",
+    ) ||
+    ["PENDING", "SUBMIT", "SUBMITTED"].includes(
+      d.dentist_verification?.clinical_verification || "",
+    )
   ) {
     status = "pending";
   }
@@ -280,43 +290,76 @@ export function mapApiDentistToUIDentist(d: AdminDentist): Dentist {
   }
   const avatarColor = colors[Math.abs(hash) % colors.length];
 
+  // Extract Phase 1 Files
+  const phase1Files = [];
+  const license = d.dentist_verification?.dentist_license_verification;
+  if (license?.file) {
+    phase1Files.push({
+      name: getFileNameFromUrl(license.file, "Dental License Certificate"),
+      size: "",
+      type: "pdf",
+      url: license.file,
+    });
+  }
+  if (license?.professional_headshot) {
+    phase1Files.push({
+      name: getFileNameFromUrl(
+        license.professional_headshot,
+        "Professional Headshot",
+      ),
+      size: "",
+      type: "image",
+      url: license.professional_headshot,
+    });
+  }
+
   // Extract Phase 2 Files
   const phase2Files = [];
-  const steril = d.dentist_verification?.operation_verification?.sterilization_verification;
+  const steril =
+    d.dentist_verification?.operation_verification?.sterilization_verification;
   if (steril?.jci_certificate) {
     phase2Files.push({
       name: getFileNameFromUrl(steril.jci_certificate, "JCI Certificate"),
       size: "",
-      type: "pdf"
+      type: "pdf",
+      url: steril.jci_certificate,
     });
   }
   if (steril?.walkthrough_video) {
     phase2Files.push({
-      name: getFileNameFromUrl(steril.walkthrough_video, "Sterilization Walkthrough"),
+      name: getFileNameFromUrl(
+        steril.walkthrough_video,
+        "Sterilization Walkthrough",
+      ),
       size: "",
-      type: "video"
+      type: "video",
+      url: steril.walkthrough_video,
     });
   }
 
   // Extract Phase 3 specialties / categories
-  let materials = [];
-  try {
-    const rawMaterials = d.dentist_verification?.clinical_path_verification?.materials;
-    materials = typeof rawMaterials === "string"
-      ? JSON.parse(rawMaterials)
-      : rawMaterials || [];
-  } catch (e) {
-    materials = d.dentist_verification?.clinical_path_verification?.materials || [];
-  }
-
-  const phase3Categories = (materials || []).map((mat: any) => {
-    let procName = `Procedure #${mat.own_procedure}`;
-    if (d.dentist_verification?.operation_verification?.procedures_feature) {
-      const match = d.dentist_verification.operation_verification.procedures_feature.find(
-        (p: any) => p.id === mat.own_procedure || p.procedure === mat.own_procedure
-      );
-      if (match) {
-        procName = match.procedure_name;
+  const rawMaterials =
+    (d.dentist_verification?.clinical_path_verification
+      ?.procedure_material_verifications as any[]) || [];
+  const phase3Categories = (rawMaterials || []).map((mat: any) => {
+    let procName = "Unknown Procedure";
+    const ownProc = mat.own_procedure;
+    if (ownProc) {
+      if (typeof ownProc === "object") {
+        procName = ownProc.procedure_name || `Procedure #${ownProc.id}`;
+      } else {
+        procName = `Procedure #${ownProc}`;
+        if (
+          d.dentist_verification?.operation_verification?.procedures_feature
+        ) {
+          const match =
+            d.dentist_verification.operation_verification.procedures_feature.find(
+              (p: any) => p.id === ownProc || p.procedure === ownProc,
+            );
+          if (match) {
+            procName = match.procedure_name;
+          }
+        }
       }
     }
 
@@ -325,34 +368,38 @@ export function mapApiDentistToUIDentist(d: AdminDentist): Dentist {
       catFiles.push({
         name: getFileNameFromUrl(mat.ce_certificate, "CE Certificate"),
         size: "",
-        type: "pdf"
+        type: "pdf",
+        url: mat.ce_certificate,
       });
     }
     if (mat.material_brands) {
       catFiles.push({
         name: getFileNameFromUrl(mat.material_brands, "Material Brands"),
         size: "",
-        type: "pdf"
+        type: "pdf",
+        url: mat.material_brands,
       });
     }
     if (mat.invoice) {
       catFiles.push({
         name: getFileNameFromUrl(mat.invoice, "Invoice"),
         size: "",
-        type: "pdf"
+        type: "pdf",
+        url: mat.invoice,
       });
     }
     if (mat.protocol_pdf) {
       catFiles.push({
         name: getFileNameFromUrl(mat.protocol_pdf, "Protocol PDF"),
         size: "",
-        type: "pdf"
+        type: "pdf",
+        url: mat.protocol_pdf,
       });
     }
 
     return {
       name: procName,
-      files: catFiles
+      files: catFiles,
     };
   });
 
@@ -392,7 +439,7 @@ export function mapApiDentistToUIDentist(d: AdminDentist): Dentist {
       },
       verification: {
         phase1: {
-          id: d.dentist_verification?.dentist_license_verification?.id,
+          id: d.dentist_verification?.id,
           label: "Phase 1 — Identity",
           status: mapVerificationStatus(
             d.dentist_verification?.license_verification,
@@ -408,16 +455,21 @@ export function mapApiDentistToUIDentist(d: AdminDentist): Dentist {
           registration_no:
             d.dentist_verification?.dentist_license_verification
               ?.registration_no || "—",
-          files: [],
+          files: phase1Files,
         },
         phase2: {
-          id: d.dentist_verification?.operation_verification?.id,
+          id: d.dentist_verification?.id,
           label: "Phase 2 — Operations",
           status: mapVerificationStatus(
             d.dentist_verification?.operations_verification,
           ),
-          rejection_reason: d.dentist_verification?.operation_verification?.reviewer_notes || null,
-          services: (d.dentist_verification?.operation_verification?.procedures_feature || []).map((p) => ({
+          rejection_reason:
+            d.dentist_verification?.operation_verification?.reviewer_notes ||
+            null,
+          services: (
+            d.dentist_verification?.operation_verification
+              ?.procedures_feature || []
+          ).map((p) => ({
             name: p.procedure_name,
             description: p.option_notes || "",
             price: parseFloat(p.price) || 0,
@@ -425,15 +477,18 @@ export function mapApiDentistToUIDentist(d: AdminDentist): Dentist {
           files: phase2Files,
         },
         phase3: {
-          id: d.dentist_verification?.clinical_path_verification?.id,
+          id: d.dentist_verification?.id,
           label: "Phase 3 — Clinical",
           status: mapVerificationStatus(
             d.dentist_verification?.clinical_verification,
           ),
-          clinic_location: d.dentist_verification?.clinical_path_verification?.clinic_address
-            ? (typeof d.dentist_verification.clinical_path_verification.clinic_address === "string"
-                ? d.dentist_verification.clinical_path_verification.clinic_address
-                : d.dentist_verification.clinical_path_verification.clinic_address.address || "—")
+          clinic_location: d.dentist_verification?.clinical_path_verification
+            ?.clinic_address
+            ? typeof d.dentist_verification.clinical_path_verification
+                .clinic_address === "string"
+              ? d.dentist_verification.clinical_path_verification.clinic_address
+              : d.dentist_verification.clinical_path_verification.clinic_address
+                  .address || "—"
             : "—",
           categories: phase3Categories,
         },
@@ -582,7 +637,7 @@ export default function DentistsPage() {
   return (
     <div className="flex flex-col gap-5">
       {/* ── Page Header ──────────────────────────────────────────────── */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-wrap gap-3 items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-[#1A1A2E]">
             Dentists
@@ -592,7 +647,7 @@ export default function DentistsPage() {
             performance.
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <button className="flex h-9 items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-4 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50">
             <Upload className="h-4 w-4" />
             Import CSV
@@ -608,13 +663,12 @@ export default function DentistsPage() {
         </div>
       </div>
 
-      {/* ── Stats ────────────────────────────────────────────────────── */}
       <CustomStats stats={stats} />
 
       {/* ── Tabs + Table ─────────────────────────────────────────────── */}
       <div className="rounded-xl border border-gray-100 bg-white shadow-sm">
         {/* Tabs */}
-        <div className="border-b border-gray-100 px-4 pt-1">
+        <div className="border-b border-gray-100 overflow-x-auto px-4 pt-1">
           <CustomTab
             tabs={tabs}
             active={activeTab}
@@ -643,7 +697,7 @@ export default function DentistsPage() {
                 setSpecialty(e.target.value);
                 setPage(1);
               }}
-              className="h-9 appearance-none rounded-lg border border-gray-200 bg-white pl-3 pr-8 text-sm text-gray-700 outline-none focus:border-[#1A1A2E]"
+              className="h-9 appearance-none rounded-lg border border-gray-200 w-full bg-white pl-3 pr-8 text-sm text-gray-700 outline-none focus:border-[#1A1A2E]"
             >
               {SPECIALTIES.map((s) => (
                 <option key={s} value={s}>
@@ -660,7 +714,7 @@ export default function DentistsPage() {
                 setCity(e.target.value);
                 setPage(1);
               }}
-              className="h-9 appearance-none rounded-lg border border-gray-200 bg-white pl-3 pr-8 text-sm text-gray-700 outline-none focus:border-[#1A1A2E]"
+              className="h-9 appearance-none rounded-lg border border-gray-200 w-full bg-white pl-3 pr-8 text-sm text-gray-700 outline-none focus:border-[#1A1A2E]"
             >
               {CITIES.map((c) => (
                 <option key={c} value={c}>

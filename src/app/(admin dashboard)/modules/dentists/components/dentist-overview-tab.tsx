@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   FileText,
   Video,
@@ -16,8 +16,11 @@ import { ApprovePhaseModal } from "./approve-phase-modal";
 import { RejectPhaseModal } from "./reject-phase-modal";
 import {
   useDentistPhaseOneApprove,
+  useDentistPhaseOneReject,
   useDentistPhaseTwoApprove,
+  useDentistPhaseTwoReject,
   useDentistPhaseThreeApprove,
+  useDentistPhaseThreeReject,
 } from "@/hooks/admin/dentist/useDentist";
 
 type VerificationPhase = {
@@ -29,12 +32,12 @@ type VerificationPhase = {
   city?: string;
   registration_authority?: string;
   registration_no?: string;
-  files?: Array<{ name: string; size: string; type: string }>;
+  files?: Array<{ name: string; size: string; type: string; url?: string }>;
   services?: Array<{ name: string; description: string; price: number }>;
   clinic_location?: string;
   categories?: Array<{
     name: string;
-    files: Array<{ name: string; size: string; type: string }>;
+    files: Array<{ name: string; size: string; type: string; url?: string }>;
   }>;
 };
 
@@ -51,14 +54,16 @@ function FileAttachment({
   name,
   size,
   type,
+  url,
 }: {
   name: string;
   size: string;
   type: string;
+  url?: string;
 }) {
   const isVideo = type === "video";
-  return (
-    <div className="flex items-center gap-3 rounded-xl border border-gray-100 bg-gray-50/50 px-4 py-3">
+  const content = (
+    <>
       <div
         className={cn(
           "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg",
@@ -73,19 +78,40 @@ function FileAttachment({
       </div>
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-medium text-gray-700">{name}</p>
-        <p className="text-xs text-gray-400">{size}</p>
+        <p className="text-xs text-gray-400">{size || "Click to view document"}</p>
       </div>
-      <button className="text-gray-400 transition-colors hover:text-gray-600">
-        <svg className="h-4 w-4" viewBox="0 0 16 16" fill="none">
-          <path
-            d="M4 8h8M8 4l4 4-4 4"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </button>
+      {url && (
+        <span className="text-gray-400 transition-colors hover:text-gray-600">
+          <svg className="h-4 w-4" viewBox="0 0 16 16" fill="none">
+            <path
+              d="M4 8h8M8 4l4 4-4 4"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
+      )}
+    </>
+  );
+
+  if (url) {
+    return (
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-3 rounded-xl border border-gray-100 bg-gray-50/50 px-4 py-3 hover:bg-gray-100 transition-colors cursor-pointer"
+      >
+        {content}
+      </a>
+    );
+  }
+
+  return (
+    <div className="flex items-center gap-3 rounded-xl border border-gray-100 bg-gray-50/50 px-4 py-3">
+      {content}
     </div>
   );
 }
@@ -146,7 +172,7 @@ function ClinicCategory({
   files,
 }: {
   name: string;
-  files: Array<{ name: string; size: string; type: string }>;
+  files: Array<{ name: string; size: string; type: string; url?: string }>;
 }) {
   const [expanded, setExpanded] = useState(name === "Implants");
 
@@ -174,6 +200,7 @@ function ClinicCategory({
                 name={f.name}
                 size={f.size}
                 type={f.type}
+                url={f.url}
               />
             ))
           )}
@@ -201,7 +228,7 @@ export function DentistOverviewTab({
     open: false,
     phase: null,
   });
-
+  console.log(verification);
   const [phaseStatuses, setPhaseStatuses] = useState({
     phase1: verification.phase1.status,
     phase2: verification.phase2.status,
@@ -211,19 +238,34 @@ export function DentistOverviewTab({
   const [rejectionReasons, setRejectionReasons] = useState({
     phase1: verification.phase1.rejection_reason ?? null,
     phase2: verification.phase2.rejection_reason ?? null,
-    phase3: null as string | null,
+    phase3: verification.phase3.rejection_reason ?? null,
   });
+
+  useEffect(() => {
+    setPhaseStatuses({
+      phase1: verification.phase1.status,
+      phase2: verification.phase2.status,
+      phase3: verification.phase3.status,
+    });
+    setRejectionReasons({
+      phase1: verification.phase1.rejection_reason ?? null,
+      phase2: verification.phase2.rejection_reason ?? null,
+      phase3: verification.phase3.rejection_reason ?? null,
+    });
+  }, [verification]);
 
   const phase1Id = String(verification.phase1.id || "");
   const phase2Id = String(verification.phase2.id || "");
   const phase3Id = String(verification.phase3.id || "");
 
-  const approvePhase1 = useDentistPhaseOneApprove(phase1Id);
-  const approvePhase2 = useDentistPhaseTwoApprove(phase2Id);
-  const approvePhase3 = useDentistPhaseThreeApprove(phase3Id);
+  const approvePhase1 = useDentistPhaseOneApprove(phase1Id, dentistId);
+  const rejectPhase1 = useDentistPhaseOneReject(phase1Id, dentistId);
+  const approvePhase2 = useDentistPhaseTwoApprove(phase2Id, dentistId);
+  const rejectPhase2 = useDentistPhaseTwoReject(phase2Id, dentistId);
+  const approvePhase3 = useDentistPhaseThreeApprove(phase3Id, dentistId);
+  const rejectPhase3 = useDentistPhaseThreeReject(phase3Id, dentistId);
 
-  const isPendingReview = (status: string) =>
-    status === "pending" || status === "in_review";
+  console.log(verification);
   const isSubmitted = (status: string) => status === "SUBMITTED";
   const handleApprove = () => {
     if (!approveModal.phase) return;
@@ -247,9 +289,23 @@ export function DentistOverviewTab({
 
   const handleReject = (reason: string) => {
     if (!rejectModal.phase) return;
-    setPhaseStatuses((prev) => ({ ...prev, [rejectModal.phase!]: "rejected" }));
-    setRejectionReasons((prev) => ({ ...prev, [rejectModal.phase!]: reason }));
-    setRejectModal({ open: false, phase: null });
+    const phase = rejectModal.phase;
+
+    const onSuccess = () => {
+      setPhaseStatuses((prev) => ({ ...prev, [phase]: "rejected" }));
+      setRejectionReasons((prev) => ({ ...prev, [phase]: reason }));
+      setRejectModal({ open: false, phase: null });
+    };
+
+    if (phase === "phase1" && phase1Id) {
+      rejectPhase1.mutate(reason, { onSuccess });
+    } else if (phase === "phase2" && phase2Id) {
+      rejectPhase2.mutate(reason, { onSuccess });
+    } else if (phase === "phase3" && phase3Id) {
+      rejectPhase3.mutate(reason, { onSuccess });
+    } else {
+      onSuccess();
+    }
   };
 
   const phase2 = verification.phase2;
@@ -324,6 +380,7 @@ export function DentistOverviewTab({
                 name={f.name}
                 size={f.size}
                 type={f.type}
+                url={f.url}
               />
             ))}
           </div>
@@ -417,6 +474,7 @@ export function DentistOverviewTab({
                 name={f.name}
                 size={f.size}
                 type={f.type}
+                url={f.url}
               />
             ))}
           </div>
@@ -450,7 +508,8 @@ export function DentistOverviewTab({
           )}
         </div>
 
-        {!isSubmitted(phaseStatuses.phase3) && phaseStatuses.phase3 !== "complete" ? (
+        {!isSubmitted(phaseStatuses.phase3) &&
+        phaseStatuses.phase3 !== "complete" ? (
           <div className="py-8 text-center">
             <p className="text-sm font-semibold text-gray-500">
               Phase 3 not yet started
@@ -502,6 +561,11 @@ export function DentistOverviewTab({
         }
         onClose={() => setRejectModal({ open: false, phase: null })}
         onConfirm={handleReject}
+        isPending={
+          rejectPhase1.isPending ||
+          rejectPhase2.isPending ||
+          rejectPhase3.isPending
+        }
       />
     </div>
   );

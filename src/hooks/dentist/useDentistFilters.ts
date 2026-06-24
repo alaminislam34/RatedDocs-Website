@@ -1,11 +1,11 @@
 "use client";
 
-import { Dentist, dentists } from "@/app/(marketing)/_components/module/DentistAllComponents/types";
+import { Dentist, dentists as defaultDentists } from "@/app/(marketing)/_components/module/DentistAllComponents/types";
 import { useState, useMemo } from "react";
 
 export const defaultPriceRange: [number, number] = [900, 1800];
 
-export function useDentistFilters() {
+export function useDentistFilters(initialDentists: Dentist[] = defaultDentists) {
   const [query, setQuery] = useState("");
   const [viewMode, setViewMode] = useState<"list" | "map" | "filter">("list");
   const [procedure, setProcedure] = useState("All Procedures");
@@ -22,12 +22,12 @@ export function useDentistFilters() {
   const [showVerifiedOnly, setShowVerifiedOnly] = useState(true);
 
   const filteredDentists = useMemo(() => {
-    return dentists.filter((dentist: Dentist) => {
+    return initialDentists.filter((dentist: Dentist) => {
       const matchesQuery =
         !query || dentist.name.toLowerCase().includes(query.toLowerCase());
       const matchesProcedure =
         procedure === "All Procedures" ||
-        dentist.procedures.includes(procedure);
+        dentist.procedures.some((p: string) => p.toLowerCase().includes(procedure.toLowerCase()));
       const matchesCountry =
         country === "All Countries" || dentist.country === country;
       const matchesCity = city === "All Cities" || dentist.city === city;
@@ -67,6 +67,7 @@ export function useDentistFilters() {
       );
     });
   }, [
+    initialDentists,
     query,
     procedure,
     country,

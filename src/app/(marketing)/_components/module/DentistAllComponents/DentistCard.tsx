@@ -18,7 +18,6 @@ type DentistCardProps = {
   isSelectedForCompare?: boolean;
   onCompareToggle?: () => void;
   onPrimaryAction?: () => void;
-
 };
 
 export default function DentistCard({
@@ -55,7 +54,8 @@ export default function DentistCard({
               <Image
                 src={dentist.image || "/placeholder-avatar.png"}
                 alt={dentist.name}
-                fill
+                width={80}
+                height={80}
                 className="object-cover"
               />
             </div>

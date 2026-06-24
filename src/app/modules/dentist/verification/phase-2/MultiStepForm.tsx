@@ -42,28 +42,34 @@ export default function MultiStepForm() {
   useEffect(() => {
     if (isAlreadySubmitted && progressData?.data) {
       const serverData = progressData.data as any;
-      
+
       let procedures = [];
       try {
-        procedures = typeof serverData.procedures === "string" 
-          ? JSON.parse(serverData.procedures) 
-          : serverData.procedures || [];
+        procedures =
+          typeof serverData.procedures === "string"
+            ? JSON.parse(serverData.procedures)
+            : serverData.procedures || [];
       } catch (e) {
         procedures = serverData.procedures || [];
       }
 
       let guarantee = {} as any;
       try {
-        guarantee = typeof serverData.guarantee === "string"
-          ? JSON.parse(serverData.guarantee)
-          : serverData.guarantee || {};
+        guarantee =
+          typeof serverData.guarantee === "string"
+            ? JSON.parse(serverData.guarantee)
+            : serverData.guarantee || {};
       } catch (e) {
         guarantee = serverData.guarantee || {};
       }
 
       methods.reset({
-        jciCertificate: serverData.jci_certificate ? new File([], "JCI Certificate") : null,
-        videoWalkthrough: serverData.walkthrough_video ? new File([], "Video Walkthrough") : null,
+        jciCertificate: serverData.jci_certificate
+          ? new File([], "JCI Certificate")
+          : null,
+        videoWalkthrough: serverData.walkthrough_video
+          ? new File([], "Video Walkthrough")
+          : null,
         procedures: procedures.map((p: any) => ({
           id: p.procedure_id,
           name: p.procedure_name || p.name,
