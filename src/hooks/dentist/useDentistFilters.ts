@@ -3,7 +3,7 @@
 import { Dentist, dentists as defaultDentists } from "@/app/(marketing)/_components/module/DentistAllComponents/types";
 import { useState, useMemo } from "react";
 
-export const defaultPriceRange: [number, number] = [900, 1800];
+export const defaultPriceRange: [number, number] = [0, 1800];
 
 export function useDentistFilters(initialDentists: Dentist[] = defaultDentists) {
   const [query, setQuery] = useState("");

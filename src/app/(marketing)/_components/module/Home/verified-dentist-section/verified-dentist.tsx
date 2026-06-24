@@ -26,93 +26,6 @@ export default function VerifiedDentists() {
   } = useStateContext();
 
   const { data, error, isLoading } = useGlobalDentist();
-  console.log("data", data);
-  /*
-  [
-    {
-        "id": 11,
-        "full_name": "Al Amin Islam",
-        "specialty": "DENTIST",
-        "bio": "",
-        "experience_years": 12,
-        "rating_avg": 0,
-        "total_reviews": 0,
-        "rdv_score": 0,
-        "response_time_avg": 0,
-        "is_verified": true,
-        "user": {
-            "id": 20,
-            "first_name": "Al",
-            "last_name": "Islam",
-            "email": "alaminislam4122.bd@gmail.com",
-            "phone": "+8801821858917",
-            "is_verified": true
-        },
-        "clinic": null,
-        "dentist_address": [
-            {
-                "city": "new-york",
-                "country": "uk"
-            }
-        ],
-        "procedures": [
-            {
-                "id": 5,
-                "procedure_name": "Procedure 02",
-                "price": "250.00",
-                "currency": "USD"
-            },
-            {
-                "id": 6,
-                "procedure_name": "Procedure 03",
-                "price": "0.00",
-                "currency": "USD"
-            }
-        ]
-    },
-    {
-        "id": 12,
-        "full_name": "Al Amin Islam",
-        "specialty": "DENTIST",
-        "bio": null,
-        "experience_years": 15,
-        "rating_avg": 0,
-        "total_reviews": 0,
-        "rdv_score": 0,
-        "response_time_avg": 0,
-        "is_verified": true,
-        "user": {
-            "id": 22,
-            "first_name": "Al",
-            "last_name": "Islam",
-            "email": "alamin_dentist@gmail.com",
-            "phone": "+8801821858917",
-            "is_verified": true
-        },
-        "clinic": null,
-        "dentist_address": [
-            {
-                "city": "new-york",
-                "country": "uk"
-            }
-        ],
-        "procedures": [
-            {
-                "id": 7,
-                "procedure_name": "Procedure 02",
-                "price": "250.00",
-                "currency": "USD"
-            },
-            {
-                "id": 8,
-                "procedure_name": "Procedure 03",
-                "price": "2540.00",
-                "currency": "USD"
-            }
-        ]
-    }
-]
-  */
 
   const mapBackendDentistToFrontend = (d: any): any => {
     let minPrice = 0;
@@ -162,11 +75,16 @@ export default function VerifiedDentists() {
   };
 
   useEffect(() => {
-    const rawList = Array.isArray(data)
-      ? data
-      : data && Array.isArray((data as any).data)
-        ? (data as any).data
-        : [];
+    const payload = data as any;
+    const rawList = Array.isArray(payload)
+      ? payload
+      : Array.isArray(payload?.data)
+        ? payload.data
+        : Array.isArray(payload?.results)
+          ? payload.results
+          : Array.isArray(payload?.data?.results)
+            ? payload.data.results
+            : [];
 
     const allDentists = rawList.map(mapBackendDentistToFrontend);
 

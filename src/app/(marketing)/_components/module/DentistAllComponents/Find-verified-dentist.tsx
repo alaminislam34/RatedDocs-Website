@@ -30,7 +30,7 @@ const DentistMap = dynamic(() => import("./Map/DentistMap"), { ssr: false });
 
 export default function FindDentist() {
   const { data, isLoading } = useGlobalDentist();
-
+  console.log(data);
   const mapBackendDentistToFrontend = (d: any): Dentist => {
     let minPrice = 0;
     if (d.procedures && d.procedures.length > 0) {
@@ -42,7 +42,9 @@ export default function FindDentist() {
       }
     }
 
-    const name = d.full_name || (d.user ? `${d.user.first_name} ${d.user.last_name}` : "Dentist");
+    const name =
+      d.full_name ||
+      (d.user ? `${d.user.first_name} ${d.user.last_name}` : "Dentist");
 
     return {
       id: String(d.id),
@@ -62,7 +64,9 @@ export default function FindDentist() {
       price: minPrice || 950,
       rdvScore: d.rdv_score !== undefined ? d.rdv_score : 0,
       verified: d.is_verified || false,
-      procedures: d.procedures ? d.procedures.map((p: any) => p.procedure_name) : [],
+      procedures: d.procedures
+        ? d.procedures.map((p: any) => p.procedure_name)
+        : [],
       tags: d.tags || [],
       languages: d.languages || ["English", "Spanish"],
       licenseNo: d.license_no || "",
@@ -75,9 +79,16 @@ export default function FindDentist() {
   };
 
   const mappedDentists = useMemo(() => {
-    const rawList = Array.isArray(data)
-      ? data
-      : (data && Array.isArray((data as any).data) ? (data as any).data : []);
+    const payload = data as any;
+    const rawList = Array.isArray(payload)
+      ? payload
+      : Array.isArray(payload?.data)
+        ? payload.data
+        : Array.isArray(payload?.results)
+          ? payload.results
+          : Array.isArray(payload?.data?.results)
+            ? payload.data.results
+            : [];
 
     const allDentists = rawList.map(mapBackendDentistToFrontend);
 
@@ -256,24 +267,22 @@ export default function FindDentist() {
                 )}
 
                 <div className="grid gap-4">
-                  {isLoading ? (
-                    Array.from({ length: 3 }).map((_, i) => (
-                      <DentistCardSkeleton key={i} />
-                    ))
-                  ) : (
-                    filters.filteredDentists.map((dentist: Dentist) => (
-                      <DentistCard
-                        key={dentist.id}
-                        dentist={dentist}
-                        isCompareMode={isCompareMode}
-                        isSelectedForCompare={compareList.some(
-                          (item) => item.id === dentist.id,
-                        )}
-                        onCompareToggle={() => handleCompareToggle(dentist)}
-                        onPrimaryAction={() => setActiveDentistId(dentist.id)}
-                      />
-                    ))
-                  )}
+                  {isLoading
+                    ? Array.from({ length: 3 }).map((_, i) => (
+                        <DentistCardSkeleton key={i} />
+                      ))
+                    : filters.filteredDentists.map((dentist: Dentist) => (
+                        <DentistCard
+                          key={dentist.id}
+                          dentist={dentist}
+                          isCompareMode={isCompareMode}
+                          isSelectedForCompare={compareList.some(
+                            (item) => item.id === dentist.id,
+                          )}
+                          onCompareToggle={() => handleCompareToggle(dentist)}
+                          onPrimaryAction={() => setActiveDentistId(dentist.id)}
+                        />
+                      ))}
                 </div>
               </div>
 
