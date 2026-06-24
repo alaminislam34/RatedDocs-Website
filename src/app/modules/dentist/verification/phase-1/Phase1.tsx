@@ -109,7 +109,6 @@ export default function Phase1() {
       },
       {
         onSuccess: () => {
-          toast.success("License verification details submitted!");
           setVerificationCompletedStep(1);
         },
         onError: (error: unknown) => {

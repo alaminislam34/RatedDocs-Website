@@ -35,7 +35,7 @@ function Avatar({
     <span
       className={cn(
         "inline-flex shrink-0 items-center justify-center rounded-full font-semibold text-white",
-        size === "sm" ? "h-8 w-8 text-xs" : "h-9 w-9 text-sm"
+        size === "sm" ? "h-8 w-8 text-xs" : "h-9 w-9 text-sm",
       )}
       style={{ backgroundColor: color }}
     >
@@ -61,9 +61,9 @@ export default function Booking() {
     };
   }, []);
 
-  const tabs = (["All", "In Progress", "Completed", "Cancelled"] as StatusFilter[]).map(
-    (s) => ({ key: s, label: s, count: counts[s] })
-  );
+  const tabs = (
+    ["All", "In Progress", "Completed", "Cancelled"] as StatusFilter[]
+  ).map((s) => ({ key: s, label: s, count: counts[s] }));
 
   const filtered = useMemo(() => {
     let list = bookingsData.bookings as Booking[];
@@ -75,7 +75,7 @@ export default function Booking() {
           b.booking_id.toLowerCase().includes(q) ||
           b.patient.name.toLowerCase().includes(q) ||
           b.dentist.name.toLowerCase().includes(q) ||
-          b.procedure.toLowerCase().includes(q)
+          b.procedure.toLowerCase().includes(q),
       );
     }
     return list;
@@ -96,9 +96,15 @@ export default function Booking() {
       {/* ── Stats ─────────────────────────────────────────────────────── */}
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         {[
-          { label: "TOTAL BOOKING", value: meta.total_bookings.toLocaleString() },
+          {
+            label: "TOTAL BOOKING",
+            value: meta.total_bookings.toLocaleString(),
+          },
           { label: "CANCELLATIONS", value: meta.cancellations.toString() },
-          { label: "COMPLETED MTD", value: meta.completed_mtd.toLocaleString() },
+          {
+            label: "COMPLETED MTD",
+            value: meta.completed_mtd.toLocaleString(),
+          },
         ].map((s) => (
           <div
             key={s.label}
@@ -117,7 +123,7 @@ export default function Booking() {
       {/* ── Tabs + Table card ─────────────────────────────────────────── */}
       <div className="rounded-xl border border-gray-100 bg-white shadow-sm">
         {/* Tabs */}
-        <div className="border-b border-gray-100 px-4 pt-1">
+        <div className="border-b border-gray-100 overflow-x-auto px-4 pt-1">
           <CustomTab
             tabs={tabs}
             active={activeTab}
@@ -163,22 +169,33 @@ export default function Booking() {
           <table className="min-w-full">
             <thead>
               <tr className="border-b border-gray-100 bg-gray-50/40">
-                {["BOOKING ID", "PATIENT", "DENTIST", "PROCEDURE", "STATUS", "ESCROW", "AMOUNT", "DATE", ""].map(
-                  (h) => (
-                    <th
-                      key={h}
-                      className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wide text-gray-400"
-                    >
-                      {h}
-                    </th>
-                  )
-                )}
+                {[
+                  "BOOKING ID",
+                  "PATIENT",
+                  "DENTIST",
+                  "PROCEDURE",
+                  "STATUS",
+                  "ESCROW",
+                  "AMOUNT",
+                  "DATE",
+                  "",
+                ].map((h) => (
+                  <th
+                    key={h}
+                    className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wide text-gray-400"
+                  >
+                    {h}
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={9} className="py-16 text-center text-sm text-gray-400">
+                  <td
+                    colSpan={9}
+                    className="py-16 text-center text-sm text-gray-400"
+                  >
                     No bookings found
                   </td>
                 </tr>
@@ -231,7 +248,7 @@ export default function Booking() {
                       <span
                         className={cn(
                           "inline-flex rounded-full px-2.5 py-1 text-xs font-medium",
-                          STATUS_BADGE[b.status] ?? "bg-gray-100 text-gray-500"
+                          STATUS_BADGE[b.status] ?? "bg-gray-100 text-gray-500",
                         )}
                       >
                         {b.status}
@@ -243,7 +260,8 @@ export default function Booking() {
                         <span
                           className={cn(
                             "inline-flex rounded-full px-2.5 py-1 text-xs font-medium",
-                            ESCROW_BADGE[b.escrow_status] ?? "bg-gray-100 text-gray-500"
+                            ESCROW_BADGE[b.escrow_status] ??
+                              "bg-gray-100 text-gray-500",
                           )}
                         >
                           {b.escrow_status}

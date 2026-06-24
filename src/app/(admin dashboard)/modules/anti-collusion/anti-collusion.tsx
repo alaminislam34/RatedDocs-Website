@@ -2,8 +2,14 @@
 
 import { useState, useMemo } from "react";
 import {
-  FileText, Activity, OctagonAlert, CalendarDays,
-  Search, ChevronDown, Eye, SearchCheck,
+  FileText,
+  Activity,
+  OctagonAlert,
+  CalendarDays,
+  Search,
+  ChevronDown,
+  Eye,
+  SearchCheck,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import toast from "react-hot-toast";
@@ -14,7 +20,12 @@ import { ArchiveConfirmModal } from "./components/archive-confirm-modal";
 import { ReactivateConfirmModal } from "./components/reactivate-confirm-modal";
 
 /* ─── Types ───────────────────────────────────────────────────────────────── */
-export type DentistStatus = "suspended" | "warning" | "clean" | "cleared" | "removed";
+export type DentistStatus =
+  | "suspended"
+  | "warning"
+  | "clean"
+  | "cleared"
+  | "removed";
 
 export type Flag = {
   flag_number: number;
@@ -55,11 +66,22 @@ export type Dentist = {
 type TabKey = "all" | "warning" | "suspended" | "archive";
 
 /* ─── Helpers ─────────────────────────────────────────────────────────────── */
-function Avatar({ initials, color, size = "md" }: { initials: string; color: string; size?: "sm" | "md" }) {
+function Avatar({
+  initials,
+  color,
+  size = "md",
+}: {
+  initials: string;
+  color: string;
+  size?: "sm" | "md";
+}) {
   const sz = size === "sm" ? "h-8 w-8 text-xs" : "h-9 w-9 text-sm";
   return (
     <span
-      className={cn("inline-flex shrink-0 items-center justify-center rounded-full font-bold text-white", sz)}
+      className={cn(
+        "inline-flex shrink-0 items-center justify-center rounded-full font-bold text-white",
+        sz,
+      )}
       style={{ backgroundColor: color }}
     >
       {initials}
@@ -74,7 +96,7 @@ function FlagBadge({ count, threshold }: { count: number; threshold: number }) {
     <span
       className={cn(
         "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-bold",
-        maxed ? "bg-red-100 text-red-600" : "bg-amber-100 text-amber-700"
+        maxed ? "bg-red-100 text-red-600" : "bg-amber-100 text-amber-700",
       )}
     >
       {count}/{threshold}
@@ -82,18 +104,46 @@ function FlagBadge({ count, threshold }: { count: number; threshold: number }) {
   );
 }
 
-const STATUS_CONFIG: Record<DentistStatus, { label: string; dot: string; badge: string }> = {
-  suspended: { label: "Suspended", dot: "bg-red-500", badge: "bg-red-50 text-red-600 border-red-200" },
-  warning: { label: "Warning", dot: "bg-amber-500", badge: "bg-amber-50 text-amber-700 border-amber-200" },
-  clean: { label: "Clean", dot: "bg-emerald-500", badge: "bg-emerald-50 text-emerald-700 border-emerald-200" },
-  cleared: { label: "Cleared", dot: "bg-teal-500", badge: "bg-teal-50 text-teal-700 border-teal-200" },
-  removed: { label: "Removed", dot: "bg-gray-400", badge: "bg-gray-50 text-gray-500 border-gray-200" },
+const STATUS_CONFIG: Record<
+  DentistStatus,
+  { label: string; dot: string; badge: string }
+> = {
+  suspended: {
+    label: "Suspended",
+    dot: "bg-red-500",
+    badge: "bg-red-50 text-red-600 border-red-200",
+  },
+  warning: {
+    label: "Warning",
+    dot: "bg-amber-500",
+    badge: "bg-amber-50 text-amber-700 border-amber-200",
+  },
+  clean: {
+    label: "Clean",
+    dot: "bg-emerald-500",
+    badge: "bg-emerald-50 text-emerald-700 border-emerald-200",
+  },
+  cleared: {
+    label: "Cleared",
+    dot: "bg-teal-500",
+    badge: "bg-teal-50 text-teal-700 border-teal-200",
+  },
+  removed: {
+    label: "Removed",
+    dot: "bg-gray-400",
+    badge: "bg-gray-50 text-gray-500 border-gray-200",
+  },
 };
 
 function StatusBadge({ status }: { status: DentistStatus }) {
   const cfg = STATUS_CONFIG[status];
   return (
-    <span className={cn("inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-semibold", cfg.badge)}>
+    <span
+      className={cn(
+        "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-semibold",
+        cfg.badge,
+      )}
+    >
       <span className={cn("h-1.5 w-1.5 rounded-full", cfg.dot)} />
       {cfg.label}
     </span>
@@ -101,7 +151,11 @@ function StatusBadge({ status }: { status: DentistStatus }) {
 }
 
 /* ─── Country Dropdown ────────────────────────────────────────────────────── */
-function CountryDropdown({ countries, value, onChange }: {
+function CountryDropdown({
+  countries,
+  value,
+  onChange,
+}: {
   countries: string[];
   value: string;
   onChange: (v: string) => void;
@@ -113,27 +167,48 @@ function CountryDropdown({ countries, value, onChange }: {
         onClick={() => setOpen((o) => !o)}
         className={cn(
           "flex items-center gap-2 rounded-lg border px-3.5 py-2 text-sm font-medium transition-colors",
-          open ? "border-[#1A1A2E] bg-gray-50" : "border-gray-200 bg-white text-gray-600 hover:border-gray-300"
+          open
+            ? "border-[#1A1A2E] bg-gray-50"
+            : "border-gray-200 bg-white text-gray-600 hover:border-gray-300",
         )}
       >
         {value || "All countries"}
-        <ChevronDown className={cn("h-3.5 w-3.5 text-gray-400 transition-transform", open && "rotate-180")} />
+        <ChevronDown
+          className={cn(
+            "h-3.5 w-3.5 text-gray-400 transition-transform",
+            open && "rotate-180",
+          )}
+        />
       </button>
       {open && (
         <>
           <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
           <div className="absolute top-full z-20 mt-1 min-w-40 rounded-xl border border-gray-100 bg-white py-1 shadow-lg">
             <button
-              onClick={() => { onChange(""); setOpen(false); }}
-              className={cn("w-full px-4 py-2 text-left text-sm hover:bg-gray-50 transition-colors", !value ? "font-semibold text-[#1A1A2E]" : "text-gray-600")}
+              onClick={() => {
+                onChange("");
+                setOpen(false);
+              }}
+              className={cn(
+                "w-full px-4 py-2 text-left text-sm hover:bg-gray-50 transition-colors",
+                !value ? "font-semibold text-[#1A1A2E]" : "text-gray-600",
+              )}
             >
               All countries
             </button>
             {countries.map((c) => (
               <button
                 key={c}
-                onClick={() => { onChange(c); setOpen(false); }}
-                className={cn("w-full px-4 py-2 text-left text-sm hover:bg-gray-50 transition-colors", value === c ? "font-semibold text-[#1A1A2E]" : "text-gray-600")}
+                onClick={() => {
+                  onChange(c);
+                  setOpen(false);
+                }}
+                className={cn(
+                  "w-full px-4 py-2 text-left text-sm hover:bg-gray-50 transition-colors",
+                  value === c
+                    ? "font-semibold text-[#1A1A2E]"
+                    : "text-gray-600",
+                )}
               >
                 {c}
               </button>
@@ -146,7 +221,12 @@ function CountryDropdown({ countries, value, onChange }: {
 }
 
 /* ─── Stat Card ───────────────────────────────────────────────────────────── */
-function StatCard({ icon, label, value, valueColor = "text-[#1A1A2E]" }: {
+function StatCard({
+  icon,
+  label,
+  value,
+  valueColor = "text-[#1A1A2E]",
+}: {
   icon: React.ReactNode;
   label: string;
   value: number;
@@ -155,8 +235,14 @@ function StatCard({ icon, label, value, valueColor = "text-[#1A1A2E]" }: {
   return (
     <div className="flex items-start justify-between rounded-xl border border-gray-100 bg-white p-5 shadow-sm">
       <div>
-        <p className="text-[11px] font-semibold uppercase tracking-wide text-gray-400">{label}</p>
-        <p className={cn("mt-1.5 text-3xl font-bold tracking-tight", valueColor)}>{value}</p>
+        <p className="text-[11px] font-semibold uppercase tracking-wide text-gray-400">
+          {label}
+        </p>
+        <p
+          className={cn("mt-1.5 text-3xl font-bold tracking-tight", valueColor)}
+        >
+          {value}
+        </p>
       </div>
       <span className="mt-0.5 text-gray-300">{icon}</span>
     </div>
@@ -164,7 +250,13 @@ function StatCard({ icon, label, value, valueColor = "text-[#1A1A2E]" }: {
 }
 
 /* ─── Mobile Card ─────────────────────────────────────────────────────────── */
-function DentistCard({ dentist, onView }: { dentist: Dentist; onView: () => void }) {
+function DentistCard({
+  dentist,
+  onView,
+}: {
+  dentist: Dentist;
+  onView: () => void;
+}) {
   const isSuspended = dentist.status === "suspended";
   return (
     <div className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
@@ -174,19 +266,29 @@ function DentistCard({ dentist, onView }: { dentist: Dentist; onView: () => void
           <div className="flex items-start justify-between gap-2">
             <div>
               <p className="font-bold text-[#1A1A2E]">{dentist.name}</p>
-              <p className="text-xs text-gray-400">{dentist.dentist_id} · {dentist.country}</p>
+              <p className="text-xs text-gray-400">
+                {dentist.dentist_id} · {dentist.country}
+              </p>
             </div>
             <StatusBadge status={dentist.status} />
           </div>
           <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500">
             <span className="flex items-center gap-1.5">
-              Flags: <FlagBadge count={dentist.flag_count} threshold={dentist.flag_threshold} />
+              Flags:{" "}
+              <FlagBadge
+                count={dentist.flag_count}
+                threshold={dentist.flag_threshold}
+              />
             </span>
             {dentist.last_flag_date && (
               <span>Last flag: {dentist.last_flag_date}</span>
             )}
             {dentist.days_until_reset != null && (
-              <span className={cn(dentist.reset_urgent ? "text-red-500 font-semibold" : "")}>
+              <span
+                className={cn(
+                  dentist.reset_urgent ? "text-red-500 font-semibold" : "",
+                )}
+              >
                 Resets in {dentist.days_until_reset}d
               </span>
             )}
@@ -200,10 +302,14 @@ function DentistCard({ dentist, onView }: { dentist: Dentist; onView: () => void
             "flex w-full items-center justify-center gap-2 rounded-lg py-2 text-sm font-semibold transition-colors",
             isSuspended
               ? "bg-[#1A1A2E] text-white hover:bg-[#1A1A2E]/90"
-              : "border border-gray-200 bg-white text-[#1A1A2E] hover:bg-gray-50"
+              : "border border-gray-200 bg-white text-[#1A1A2E] hover:bg-gray-50",
           )}
         >
-          {isSuspended ? <SearchCheck className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+          {isSuspended ? (
+            <SearchCheck className="h-3.5 w-3.5" />
+          ) : (
+            <Eye className="h-3.5 w-3.5" />
+          )}
           {isSuspended ? "Investigate" : "View"}
         </button>
       </div>
@@ -213,23 +319,32 @@ function DentistCard({ dentist, onView }: { dentist: Dentist; onView: () => void
 
 /* ─── Main Page ───────────────────────────────────────────────────────────── */
 export default function AntiCollusion() {
-  const [dentists, setDentists] = useState<Dentist[]>(antiCollusionData.dentists as unknown as Dentist[]);
+  const [dentists, setDentists] = useState<Dentist[]>(
+    antiCollusionData.dentists as unknown as Dentist[],
+  );
   const [activeTab, setActiveTab] = useState<TabKey>("all");
   const [search, setSearch] = useState("");
   const [countryFilter, setCountryFilter] = useState("");
 
   const [drawerDentist, setDrawerDentist] = useState<Dentist | null>(null);
   const [archiveTarget, setArchiveTarget] = useState<Dentist | null>(null);
-  const [reactivateTarget, setReactivateTarget] = useState<Dentist | null>(null);
+  const [reactivateTarget, setReactivateTarget] = useState<Dentist | null>(
+    null,
+  );
 
   const meta = antiCollusionData.meta;
 
   /* live counts from state */
   const warningCount = dentists.filter((d) => d.status === "warning").length;
-  const suspendedCount = dentists.filter((d) => d.status === "suspended").length;
+  const suspendedCount = dentists.filter(
+    (d) => d.status === "suspended",
+  ).length;
   const archiveCount = dentists.filter((d) => d.status === "removed").length;
 
-  const allCountries = useMemo(() => [...new Set(dentists.map((d) => d.country))].sort(), [dentists]);
+  const allCountries = useMemo(
+    () => [...new Set(dentists.map((d) => d.country))].sort(),
+    [dentists],
+  );
 
   const tabs = [
     { key: "all", label: "All", count: dentists.length },
@@ -240,14 +355,20 @@ export default function AntiCollusion() {
 
   const filtered = useMemo(() => {
     let list = dentists;
-    if (activeTab === "warning") list = list.filter((d) => d.status === "warning");
-    else if (activeTab === "suspended") list = list.filter((d) => d.status === "suspended");
-    else if (activeTab === "archive") list = list.filter((d) => d.status === "removed");
+    if (activeTab === "warning")
+      list = list.filter((d) => d.status === "warning");
+    else if (activeTab === "suspended")
+      list = list.filter((d) => d.status === "suspended");
+    else if (activeTab === "archive")
+      list = list.filter((d) => d.status === "removed");
 
     if (search) {
       const q = search.toLowerCase();
       list = list.filter(
-        (d) => d.name.toLowerCase().includes(q) || d.dentist_id.toLowerCase().includes(q) || d.country.toLowerCase().includes(q)
+        (d) =>
+          d.name.toLowerCase().includes(q) ||
+          d.dentist_id.toLowerCase().includes(q) ||
+          d.country.toLowerCase().includes(q),
       );
     }
     if (countryFilter) list = list.filter((d) => d.country === countryFilter);
@@ -255,7 +376,9 @@ export default function AntiCollusion() {
   }, [dentists, activeTab, search, countryFilter]);
 
   const updateDentist = (id: string, patch: Partial<Dentist>) =>
-    setDentists((prev) => prev.map((d) => (d.id === id ? { ...d, ...patch } : d)));
+    setDentists((prev) =>
+      prev.map((d) => (d.id === id ? { ...d, ...patch } : d)),
+    );
 
   /* handlers */
   const handleSaveNotes = (dentist: Dentist, notes: string) => {
@@ -264,8 +387,21 @@ export default function AntiCollusion() {
   };
 
   const handleReinstate = (dentist: Dentist) => {
-    updateDentist(dentist.id, { status: "warning", suspended_date: null, investigation_opened: null });
-    setDrawerDentist((prev) => prev ? { ...prev, status: "warning", suspended_date: null, investigation_opened: null } : null);
+    updateDentist(dentist.id, {
+      status: "warning",
+      suspended_date: null,
+      investigation_opened: null,
+    });
+    setDrawerDentist((prev) =>
+      prev
+        ? {
+            ...prev,
+            status: "warning",
+            suspended_date: null,
+            investigation_opened: null,
+          }
+        : null,
+    );
     toast.success(`${dentist.name} has been reinstated.`);
   };
 
@@ -275,12 +411,25 @@ export default function AntiCollusion() {
 
   const handleArchiveConfirm = () => {
     if (!archiveTarget) return;
-    const today = new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
-    updateDentist(archiveTarget.id, { status: "removed", suspended_date: null, archived_date: today });
+    const today = new Date().toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+    updateDentist(archiveTarget.id, {
+      status: "removed",
+      suspended_date: null,
+      archived_date: today,
+    });
     setDrawerDentist((prev) =>
       prev?.id === archiveTarget.id
-        ? { ...prev, status: "removed", suspended_date: null, archived_date: today }
-        : prev
+        ? {
+            ...prev,
+            status: "removed",
+            suspended_date: null,
+            archived_date: today,
+          }
+        : prev,
     );
     toast.success(`${archiveTarget.name} has been archived.`);
     setArchiveTarget(null);
@@ -292,11 +441,14 @@ export default function AntiCollusion() {
 
   const handleReactivateConfirm = () => {
     if (!reactivateTarget) return;
-    updateDentist(reactivateTarget.id, { status: "clean", archived_date: null });
+    updateDentist(reactivateTarget.id, {
+      status: "clean",
+      archived_date: null,
+    });
     setDrawerDentist((prev) =>
       prev?.id === reactivateTarget.id
         ? { ...prev, status: "clean", archived_date: null }
-        : prev
+        : prev,
     );
     toast.success(`${reactivateTarget.name} has been reactivated.`);
     setReactivateTarget(null);
@@ -307,9 +459,12 @@ export default function AntiCollusion() {
       <div className="flex flex-col gap-5 pb-8">
         {/* Header */}
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-[#1A1A2E]">Anti-Collusion</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-[#1A1A2E]">
+            Anti-Collusion
+          </h1>
           <p className="mt-0.5 text-sm text-gray-500">
-            Monitor price variance flags and manage dentist suspension decisions.
+            Monitor price variance flags and manage dentist suspension
+            decisions.
           </p>
         </div>
 
@@ -342,11 +497,15 @@ export default function AntiCollusion() {
         {/* Table card */}
         <div className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm">
           {/* Tabs */}
-          <div className="border-b border-gray-100">
+          <div className="border-b border-gray-100 overflow-x-auto">
             <CustomTab
               tabs={tabs}
               active={activeTab}
-              onChange={(k) => { setActiveTab(k as TabKey); setSearch(""); setCountryFilter(""); }}
+              onChange={(k) => {
+                setActiveTab(k as TabKey);
+                setSearch("");
+                setCountryFilter("");
+              }}
             />
           </div>
 
@@ -373,8 +532,19 @@ export default function AntiCollusion() {
             <table className="min-w-full">
               <thead>
                 <tr className="border-b border-gray-50 bg-gray-50/50">
-                  {["DENTIST", "COUNTRY", "FLAG COUNT", "LAST FLAG DATE", "DAYS UNTIL RESET", "STATUS", "ACTION"].map((h) => (
-                    <th key={h} className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wide text-gray-400">
+                  {[
+                    "DENTIST",
+                    "COUNTRY",
+                    "FLAG COUNT",
+                    "LAST FLAG DATE",
+                    "DAYS UNTIL RESET",
+                    "STATUS",
+                    "ACTION",
+                  ].map((h) => (
+                    <th
+                      key={h}
+                      className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wide text-gray-400"
+                    >
                       {h}
                     </th>
                   ))}
@@ -383,37 +553,62 @@ export default function AntiCollusion() {
               <tbody className="divide-y divide-gray-50">
                 {filtered.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="px-4 py-14 text-center text-sm text-gray-400">
+                    <td
+                      colSpan={7}
+                      className="px-4 py-14 text-center text-sm text-gray-400"
+                    >
                       No dentists match your filters.
                     </td>
                   </tr>
                 ) : (
                   filtered.map((d) => (
-                    <tr key={d.id} className="transition-colors hover:bg-gray-50/60">
+                    <tr
+                      key={d.id}
+                      className="transition-colors hover:bg-gray-50/60"
+                    >
                       {/* Dentist */}
                       <td className="px-4 py-3.5">
                         <div className="flex items-center gap-3">
-                          <Avatar initials={d.initials} color={d.avatar_color} />
+                          <Avatar
+                            initials={d.initials}
+                            color={d.avatar_color}
+                          />
                           <div>
-                            <p className="text-sm font-bold text-[#1A1A2E]">{d.name}</p>
-                            <p className="text-xs text-gray-400">{d.dentist_id}</p>
+                            <p className="text-sm font-bold text-[#1A1A2E]">
+                              {d.name}
+                            </p>
+                            <p className="text-xs text-gray-400">
+                              {d.dentist_id}
+                            </p>
                           </div>
                         </div>
                       </td>
                       {/* Country */}
-                      <td className="px-4 py-3.5 text-sm text-gray-600">{d.country}</td>
+                      <td className="px-4 py-3.5 text-sm text-gray-600">
+                        {d.country}
+                      </td>
                       {/* Flag Count */}
                       <td className="px-4 py-3.5">
-                        <FlagBadge count={d.flag_count} threshold={d.flag_threshold} />
+                        <FlagBadge
+                          count={d.flag_count}
+                          threshold={d.flag_threshold}
+                        />
                       </td>
                       {/* Last Flag Date */}
                       <td className="px-4 py-3.5 text-sm text-gray-500">
-                        {d.last_flag_date ?? <span className="text-gray-300">—</span>}
+                        {d.last_flag_date ?? (
+                          <span className="text-gray-300">—</span>
+                        )}
                       </td>
                       {/* Days Until Reset */}
                       <td className="px-4 py-3.5 text-sm">
                         {d.days_until_reset != null ? (
-                          <span className={cn("font-medium", d.reset_urgent ? "text-red-500" : "text-gray-600")}>
+                          <span
+                            className={cn(
+                              "font-medium",
+                              d.reset_urgent ? "text-red-500" : "text-gray-600",
+                            )}
+                          >
                             Resets in {d.days_until_reset}d
                           </span>
                         ) : (
@@ -454,10 +649,16 @@ export default function AntiCollusion() {
           {/* Mobile cards */}
           <div className="flex flex-col gap-3 p-4 md:hidden">
             {filtered.length === 0 ? (
-              <p className="py-8 text-center text-sm text-gray-400">No dentists match your filters.</p>
+              <p className="py-8 text-center text-sm text-gray-400">
+                No dentists match your filters.
+              </p>
             ) : (
               filtered.map((d) => (
-                <DentistCard key={d.id} dentist={d} onView={() => setDrawerDentist(d)} />
+                <DentistCard
+                  key={d.id}
+                  dentist={d}
+                  onView={() => setDrawerDentist(d)}
+                />
               ))
             )}
           </div>
