@@ -342,11 +342,18 @@ export const adminApi = {
     api.get<ApiResponse<TDentist>>(endpoints.admin.get_dentist_profile(id)),
   phaseOneApprove: (id: string) =>
     api.post<ApiResponse<unknown>, void>(endpoints.admin.phase_one_approve(id)),
+  phaseOneReject: (id: string) =>
+    api.post<ApiResponse<unknown>, void>(endpoints.admin.phase_one_reject(id),),
   phaseTwoApprove: (id: string) =>
     api.post<ApiResponse<unknown>, void>(endpoints.admin.phase_two_approve(id),),
+  phaseTwoReject: (id: string) =>
+    api.post<ApiResponse<unknown>, void>(endpoints.admin.phase_two_reject(id),),
   phaseThreeApprove: (id: string) =>
     api.post<ApiResponse<unknown>, void>(endpoints.admin.phase_three_approve(id),
     ),
+  
+  phaseThreeReject: (id: string) =>
+    api.post<ApiResponse<unknown>, void>(endpoints.admin.phase_three_reject(id),),
   listPatients: <TPatient = unknown>(params?: ListParams) =>
     api.get<PaginatedResponse<TPatient>>(endpoints.admin.patients, { params }),
   listBookings: <TBooking = unknown>(params?: ListParams) =>
