@@ -17,8 +17,8 @@ export const endpoints = {
   patient: {
     register: "/auth/signup/",
     login: "/auth/signin/",
-
     profile: "/auth/profile",
+    consultations: "/patient/consultations/",
   },
 
   // todo
@@ -78,13 +78,15 @@ export const endpoints = {
     getStepSeven: "/consultations/step-7/", //!! not available yet
     root: "/bookings",
     byId: (id: string | number) => `/bookings/${id}`,
+    get_current_consultation_id: "/consultations/get-id/",
+
   },
   procedures: {
-    root: "/procedures/",
+    root: "/procedure/procedures/",
     byId: (id: string | number) => `/procedures/${id}`,
   },
   consultations: {
-    root: "/consultations",
+    root: "/patient/consultations/",
     byId: (id: string | number) => `/consultations/${id}`,
   },
   dentists: {

@@ -77,6 +77,7 @@ export interface ConsultationStepOnePayload {
 
 export interface ConsultationStepTwoPayload {
   procedures: number[];
+  consultation_id?: Id;
 }
 
 export interface ConsultationStepThreePayload {
@@ -221,9 +222,13 @@ export const consultationBookingApi = {
     );
   },
   stepSeven: (payload: ConsultationStepSevenPayload) =>
-    api.post<ApiResponse<ConsultationStepResult>, ConsultationStepSevenPayload>(
+    api.post<ApiResponse<unknown>, ConsultationStepSevenPayload>(
       endpoints.bookings.stepSeven,
       payload,
+    ),
+  getConsultation_id: () =>
+    api.get<ApiResponse<ConsultationStepResult>>(
+      endpoints.bookings.get_current_consultation_id,
     ),
 };
 
@@ -234,6 +239,10 @@ export const patientApi = {
     api.patch<ApiResponse<TProfile>, TPayload>(
       endpoints.patient.profile,
       payload,
+    ),
+  consultations: () =>
+    api.get<ApiResponse<ConsultationStepResult>>(
+      endpoints.patient.consultations,
     ),
 };
 
