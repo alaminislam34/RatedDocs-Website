@@ -78,7 +78,9 @@ function FileAttachment({
       </div>
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-medium text-gray-700">{name}</p>
-        <p className="text-xs text-gray-400">{size || "Click to view document"}</p>
+        <p className="text-xs text-gray-400">
+          {size || "Click to view document"}
+        </p>
       </div>
       {url && (
         <span className="text-gray-400 transition-colors hover:text-gray-600">
@@ -267,6 +269,7 @@ export function DentistOverviewTab({
 
   console.log(verification);
   const isSubmitted = (status: string) => status === "SUBMITTED";
+
   const handleApprove = () => {
     if (!approveModal.phase) return;
     const phase = approveModal.phase;
@@ -314,7 +317,6 @@ export function DentistOverviewTab({
 
   return (
     <div className="flex flex-col gap-4">
-      {/* ── Phase 1: Identity ──────────────────────────────────────── */}
       <div className="rounded-xl border border-gray-100 bg-white p-5 shadow-sm">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
           <div className="flex flex-wrap items-center gap-2">
@@ -387,7 +389,6 @@ export function DentistOverviewTab({
         )}
       </div>
 
-      {/* ── Phase 2: Operations ────────────────────────────────────── */}
       <div className="rounded-xl border border-gray-100 bg-white p-5 shadow-sm">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
           <div className="flex flex-wrap items-center gap-2">
