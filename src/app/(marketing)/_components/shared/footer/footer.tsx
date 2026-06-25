@@ -65,7 +65,7 @@ export default function Footer() {
                 </Link>
               ))}
             </div>
-            <button
+            {/* <button
               onClick={() => setKolModalOpen(true)}
               className="inline-flex items-center overflow-hidden rounded-xl transition-opacity hover:opacity-90 active:scale-[0.98] bg-transparent text-white border-white border cursor-pointer px-4 space-x-2"
             >
@@ -76,7 +76,7 @@ export default function Footer() {
                 className="size-6 p-1 rounded-md bg-[#E3A32A] text-primary"
                 strokeWidth={2.5}
               />
-            </button>
+            </button> */}
           </div>
 
           {/* Quick Links */}

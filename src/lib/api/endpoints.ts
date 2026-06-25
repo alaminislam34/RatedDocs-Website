@@ -1,7 +1,7 @@
-export const API_BASE_URL = 
+export const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://52.60.153.12:8004/api/v1";
 // process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://csd33v80-8004.inc1.devtunnels.ms/api/v1";
-  
+
 export const endpoints = {
   auth: {
     register: "/auth/signup/",
@@ -27,7 +27,7 @@ export const endpoints = {
     profile: "/auth/profile",
     professionalDetails: "/dentist/enter-professional-details/",
     verificationProgress: "/dentist/verification-progress/",
-    updateVerificationPhase: "/dentist/update-verification-phase/", // body: { "verification_phase": "COMPLETE"}
+    updateVerificationPhase: "/dentist/update-verification-phase/",
     // verification step
     stepOne: "/dentist/verification-step/license/",
     stepOneCheck: "/dentist/verification-step/license/",

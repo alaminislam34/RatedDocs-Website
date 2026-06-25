@@ -85,7 +85,10 @@ export default function SigninModal() {
 
   return (
     <Dialog open={showSigninModal} onOpenChange={setShowSigninModal}>
-      <DialogContent className="sm:max-w-150 max-h-[95vh] overflow-y-auto rounded-xl border-none p-8 gap-0">
+      <DialogContent
+        onPointerDownOutside={(e) => e.preventDefault()}
+        onEscapeKeyDown={(e) => e.preventDefault()}
+        className="sm:max-w-150 max-h-[95vh] overflow-y-auto backdrop-blur-xl rounded-xl border-none p-8 gap-0">
         <DialogHeader className="mb-8 text-left">
           <DialogTitle className="mb-2 text-[32px] font-semibold leading-tight text-[#1A1A2E]">
             Sign in
