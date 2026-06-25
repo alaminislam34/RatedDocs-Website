@@ -6,6 +6,11 @@ import {
   getBookingData,
   getBookingDraft,
   getFrontSmileFile,
+  getWideSmileFile,
+  getUpperArchFile,
+  getLowerArchFile,
+  getLeftSideFile,
+  getRightSideFile,
   getXrayFile,
   markBookingStepComplete,
   setBookingCurrentStep,
@@ -96,6 +101,14 @@ export default function IntakeModal() {
           toast.error("Please upload your front smile photo");
           return false;
         }
+        if (!getWideSmileFile()) {
+          toast.error("Please upload your wide smile photo");
+          return false;
+        }
+        if (!getLowerArchFile()) {
+          toast.error("Please upload your lower arch photo");
+          return false;
+        }
         return true;
       case 6:
         if (!getXrayFile()) {
@@ -148,8 +161,14 @@ export default function IntakeModal() {
       payload.data?.data?.id ??
       payload.consultation_id ??
       payload.id ??
-      (typeof payload.consultation === "number" || typeof payload.consultation === "string" ? payload.consultation : null) ??
-      (typeof payload.data?.consultation === "number" || typeof payload.data?.consultation === "string" ? payload.data.consultation : null) ??
+      (typeof payload.consultation === "number" ||
+      typeof payload.consultation === "string"
+        ? payload.consultation
+        : null) ??
+      (typeof payload.data?.consultation === "number" ||
+      typeof payload.data?.consultation === "string"
+        ? payload.data.consultation
+        : null) ??
       null
     );
   };
@@ -217,10 +236,20 @@ export default function IntakeModal() {
 
     if (step === 5) {
       const frontSmile = getFrontSmileFile();
+      const wideSmile = getWideSmileFile();
+      const lowerArch = getLowerArchFile();
       if (!frontSmile) throw new Error("Please upload your front smile photo");
+      if (!wideSmile) throw new Error("Please upload your wide smile photo");
+      if (!lowerArch) throw new Error("Please upload your lower arch photo");
+
       await consultationBookingApi.stepFive({
         consultation_id: getRequiredConsultationId(),
         front_smile: frontSmile,
+        wide_smile: wideSmile,
+        upper_arch: getUpperArchFile(),
+        lower_arch: lowerArch,
+        left_side: getLeftSideFile(),
+        right_side: getRightSideFile(),
       });
       return;
     }
@@ -240,9 +269,10 @@ export default function IntakeModal() {
     if (!validateStep()) return;
 
     const draft = getBookingDraft();
-    console.log("[DEBUG] handleNext: current step =", step, "draft =", draft);
     if (step > 1 && !draft.consultationId) {
-      toast.error("Consultation session not found. Please complete step 1 first.");
+      toast.error(
+        "Consultation session not found. Please complete step 1 first.",
+      );
       return;
     }
 
@@ -257,7 +287,6 @@ export default function IntakeModal() {
       }
 
       updateBookingData({ currentStep: TOTAL_STEPS });
-      toast.success("Your consultation details are saved.");
       setShowBookingModal(null);
       setCompareModalPurpose("postBooking");
       setSchedule(true);
@@ -280,7 +309,7 @@ export default function IntakeModal() {
   return (
     <Dialog open={showBookingModal === "book"} onOpenChange={handleClose}>
       <DialogContent
-        className="sm:max-w-212 max-h-[90vh] overflow-y-auto w-full p-0 border-none rounded-xl bg-white"
+        className="sm:max-w-212 max-h-[90vh] overflow-y-auto w-11/12 mx-auto p-0 border-none rounded-xl bg-white"
         onPointerDownOutside={(e) => e.preventDefault()}
         onEscapeKeyDown={(e) => e.preventDefault()}
       >

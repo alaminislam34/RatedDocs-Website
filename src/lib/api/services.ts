@@ -1,6 +1,7 @@
-import { LoginPayload, OtpPayload, RegisterPayload } from "@/hooks/authentication/auth.interface";
+import { LoginPayload, OtpPayload, RegisterPayload, userLoginPayload } from "@/hooks/authentication/auth.interface";
 import { api, type ApiResponse, type PaginatedResponse } from "./client";
 import { endpoints } from "./endpoints";
+import { Consultation } from "@/types/patient_portal.interface";
 
 type Id = string | number;
 export type ListParams = Record<string, string | number | boolean | undefined>;
@@ -123,6 +124,11 @@ export const authApi = {
       endpoints.auth.login,
       payload,
     ),
+  userLogin: (payload: userLoginPayload) =>
+    api.post<ApiResponse<AuthResult>, userLoginPayload>(
+      endpoints.auth.userLogin,
+      payload,
+    ),
   verifyOtp: (payload: OtpPayload) =>
     api.post<ApiResponse<AuthResult>, OtpPayload>(
       endpoints.auth.verifyOtp,
@@ -200,10 +206,23 @@ export const consultationBookingApi = {
       endpoints.bookings.stepFour,
       payload,
     ),
-  stepFive: (payload: { consultation_id: Id; front_smile: File }) => {
+  stepFive: (payload: {
+    consultation_id: Id;
+    front_smile: File;
+    wide_smile: File;
+    upper_arch?: File | null;
+    lower_arch: File;
+    left_side?: File | null;
+    right_side?: File | null;
+  }) => {
     const formData = new FormData();
     formData.append("consultation_id", String(payload.consultation_id));
     formData.append("front_smile", payload.front_smile);
+    formData.append("wide_smile", payload.wide_smile);
+    formData.append("lower_arch", payload.lower_arch);
+    if (payload.upper_arch) formData.append("upper_arch", payload.upper_arch);
+    if (payload.left_side) formData.append("left_side", payload.left_side);
+    if (payload.right_side) formData.append("right_side", payload.right_side);
 
     return api.upload<ApiResponse<ConsultationStepResult>>(
       endpoints.bookings.stepFive,
@@ -241,7 +260,7 @@ export const patientApi = {
       payload,
     ),
   consultations: () =>
-    api.get<ApiResponse<ConsultationStepResult>>(
+    api.get<ApiResponse<Consultation[]>>(
       endpoints.patient.consultations,
     ),
 };

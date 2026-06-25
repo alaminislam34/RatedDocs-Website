@@ -190,6 +190,8 @@ export default function ScheduleContent() {
 
     try {
       setIsConfirming(true);
+      // console.log("Dentist ID: ", Number(consultationId));
+      // console.log("Dentists Payload: ", dentistsPayload);
       await consultationBookingApi.stepSeven({
         consultation_id: Number(consultationId),
         dentists: dentistsPayload.map((item) => ({

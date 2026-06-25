@@ -1,3 +1,5 @@
+import { ConsultationStatus } from "@/types/patient_portal.interface";
+
 export interface TreatmentPlan {
   id: string;
   slug: string;
@@ -175,7 +177,7 @@ export const treatmentPlansData: TreatmentPlan[] = [
 export interface ConsultationFlowItem {
   id: string;
   slug: string;
-  status: "upcoming" | "active" | "missed" | "completed";
+  status: ConsultationStatus;
   doctor: {
     name: string;
     specialty: string;
@@ -198,11 +200,11 @@ export interface ConsultationFlowItem {
 }
 
 export const consultationFlowData: ConsultationFlowItem[] = [
-  // ── Upcoming ─────────────────────────────────────────────────────────────────
+  //ConsultationStatus.SCHEDULED─────────────────────────────────────────────────────────────────
   {
     id: "consultation-004",
     slug: "dr-alex-hemsworth",
-    status: "upcoming",
+    status: ConsultationStatus.SCHEDULED,
     doctor: {
       name: "Dr. Alex Hemsworth",
       specialty: "Implantologist",
@@ -225,7 +227,7 @@ export const consultationFlowData: ConsultationFlowItem[] = [
   {
     id: "consultation-005",
     slug: "dr-sarah-jenkins",
-    status: "upcoming",
+    status: ConsultationStatus.SCHEDULED,
     doctor: {
       name: "Dr. Sarah Jenkins",
       specialty: "Periodontist",
@@ -249,7 +251,7 @@ export const consultationFlowData: ConsultationFlowItem[] = [
   {
     id: "consultation-001",
     slug: "dr-eliza-mick",
-    status: "active",
+    status: ConsultationStatus.DRAFT,
     doctor: {
       name: "Dr. Eliza Mick",
       specialty: "Orthodontist",
@@ -272,7 +274,7 @@ export const consultationFlowData: ConsultationFlowItem[] = [
   {
     id: "consultation-002",
     slug: "dr-eliza-mick-reschedule",
-    status: "missed",
+    status: ConsultationStatus.CANCELLED,
     doctor: {
       name: "Dr. Eliza Mick",
       specialty: "Orthodontist",
@@ -298,7 +300,7 @@ export const consultationFlowData: ConsultationFlowItem[] = [
   {
     id: "consultation-003",
     slug: "dr-eliza-will",
-    status: "completed",
+    status: ConsultationStatus.COMPLETED,
     doctor: {
       name: "Dr. Eliza Will",
       specialty: "Consultant Dentist",

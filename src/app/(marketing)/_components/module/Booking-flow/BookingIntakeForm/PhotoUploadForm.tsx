@@ -2,7 +2,20 @@
 import { useRef, useState } from "react";
 import { Trash2, Upload } from "lucide-react";
 import GuidelinesModal from "./GuidelinesModal";
-import { setFrontSmileFile } from "@/lib/storage/bookingService";
+import {
+  setFrontSmileFile,
+  setWideSmileFile,
+  setUpperArchFile,
+  setLowerArchFile,
+  setLeftSideFile,
+  setRightSideFile,
+  getFrontSmileFile,
+  getWideSmileFile,
+  getUpperArchFile,
+  getLowerArchFile,
+  getLeftSideFile,
+  getRightSideFile,
+} from "@/lib/storage/bookingService";
 
 interface PhotoSlot {
   file: File | null;
@@ -27,12 +40,26 @@ function makeSlots(count: number): PhotoSlot[] {
 
 export default function PhotoUploadForm() {
   const [showGuidelines, setShowGuidelines] = useState(false);
-  const [requiredSlots, setRequiredSlots] = useState<PhotoSlot[]>(
-    makeSlots(REQUIRED_LABELS.length),
-  );
-  const [recommendedSlots, setRecommendedSlots] = useState<PhotoSlot[]>(
-    makeSlots(RECOMMENDED_LABELS.length),
-  );
+  const [requiredSlots, setRequiredSlots] = useState<PhotoSlot[]>(() => {
+    const front = getFrontSmileFile();
+    const wide = getWideSmileFile();
+    const lower = getLowerArchFile();
+    return [
+      { file: front, preview: front ? URL.createObjectURL(front) : null },
+      { file: wide, preview: wide ? URL.createObjectURL(wide) : null },
+      { file: lower, preview: lower ? URL.createObjectURL(lower) : null },
+    ];
+  });
+  const [recommendedSlots, setRecommendedSlots] = useState<PhotoSlot[]>(() => {
+    const upper = getUpperArchFile();
+    const left = getLeftSideFile();
+    const right = getRightSideFile();
+    return [
+      { file: upper, preview: upper ? URL.createObjectURL(upper) : null },
+      { file: left, preview: left ? URL.createObjectURL(left) : null },
+      { file: right, preview: right ? URL.createObjectURL(right) : null },
+    ];
+  });
 
   const setSlot = (
     setter: React.Dispatch<React.SetStateAction<PhotoSlot[]>>,
@@ -93,6 +120,8 @@ export default function PhotoUploadForm() {
               onFile={(file) => {
                 setSlot(setRequiredSlots, i, file);
                 if (i === 0) setFrontSmileFile(file);
+                else if (i === 1) setWideSmileFile(file);
+                else if (i === 2) setLowerArchFile(file);
               }}
             />
           ))}
@@ -113,7 +142,12 @@ export default function PhotoUploadForm() {
               key={i}
               label={label}
               slot={recommendedSlots[i]}
-              onFile={(file) => setSlot(setRecommendedSlots, i, file)}
+              onFile={(file) => {
+                setSlot(setRecommendedSlots, i, file);
+                if (i === 0) setUpperArchFile(file);
+                else if (i === 1) setLeftSideFile(file);
+                else if (i === 2) setRightSideFile(file);
+              }}
             />
           ))}
         </div>

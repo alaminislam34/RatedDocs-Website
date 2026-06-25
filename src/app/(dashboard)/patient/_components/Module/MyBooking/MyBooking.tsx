@@ -31,27 +31,30 @@ export default function MyBooking() {
         ? completed
         : rejected;
 
-  const emptyMessages: Record<string, { title: string; description: string }> = {
-    "in-progress": {
-      title: "No Treatment Bookings Yet",
-      description:
-        "You haven't booked any treatments yet. Once you schedule a consultation, your treatment details will appear here.",
-    },
-    completed: {
-      title: "No Completed Bookings",
-      description:
-        "Your completed treatment bookings will appear here once a treatment has been finished.",
-    },
-    rejected: {
-      title: "No Rejected Bookings",
-      description:
-        "Any treatment bookings that were rejected or cancelled will appear here.",
-    },
-  };
+  const emptyMessages: Record<string, { title: string; description: string }> =
+    {
+      "in-progress": {
+        title: "No Treatment Bookings Yet",
+        description:
+          "You haven't booked any treatments yet. Once you schedule a consultation, your treatment details will appear here.",
+      },
+      completed: {
+        title: "No Completed Bookings",
+        description:
+          "Your completed treatment bookings will appear here once a treatment has been finished.",
+      },
+      rejected: {
+        title: "No Rejected Bookings",
+        description:
+          "Any treatment bookings that were rejected or cancelled will appear here.",
+      },
+    };
 
   return (
     <div>
-      <p className="text-2xl lg:text-3xl text-[#1A1A2E] font-bold">My Bookings</p>
+      <p className="text-2xl lg:text-3xl text-[#1A1A2E] font-bold">
+        My Bookings
+      </p>
 
       <div className="mt-4">
         <ToggleButton value={activeTab} onChange={setActiveTab} tabs={TABS} />
@@ -72,12 +75,20 @@ export default function MyBooking() {
   );
 }
 
-function EmptyState({ title, description }: { title: string; description: string }) {
+function EmptyState({
+  title,
+  description,
+}: {
+  title: string;
+  description: string;
+}) {
   return (
     <div className="flex flex-col items-center justify-center py-20 gap-3 text-center">
       <CalendarOff className="size-12 text-[#0F3659] opacity-60" />
       <h3 className="text-lg font-bold text-[#1A1A2E]">{title}</h3>
-      <p className="text-sm text-slate-500 max-w-xs leading-relaxed">{description}</p>
+      <p className="text-sm text-slate-500 max-w-xs leading-relaxed">
+        {description}
+      </p>
     </div>
   );
 }

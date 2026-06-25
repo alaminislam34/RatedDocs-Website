@@ -11,3 +11,12 @@ export const useGlobalDentist = () => {
 
     return { data, isLoading, error }
 }
+
+export const useGetDentistById = (id: string) => {
+    const { data, isLoading, error } = useQuery({
+        queryKey: ["dentistId", id],
+        queryFn: () => globalDentist().getById(id),
+    })
+
+    return { data, isLoading, error }
+}

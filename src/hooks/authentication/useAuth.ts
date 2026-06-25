@@ -2,7 +2,7 @@
 
 import { useMutation } from "@tanstack/react-query";
 import { authApi } from "@/lib/api";
-import { LoginPayload, OtpPayload, RegisterPayload } from "./auth.interface";
+import { LoginPayload, OtpPayload, RegisterPayload, userLoginPayload } from "./auth.interface";
 import { ApiResponse, AuthResult } from "@/lib/api";
 import { clearAuthSession, getRefreshToken, setAuthSession } from "@/lib/auth/session";
 
@@ -62,6 +62,12 @@ export default function useAuth() {
     onSuccess: (response, variables) => persistSession(response, variables.role),
   });
 
+  const userLoginMutation = useMutation({
+    mutationFn: (data: userLoginPayload) =>
+      authApi.userLogin(data),
+    onSuccess: (response) => persistSession(response),
+  });
+
   const otpVerifyMutation = useMutation({
     mutationFn: (data: OtpPayload) => authApi.verifyOtp(data),
     onSuccess: (response) => persistSession(response),
@@ -98,6 +104,11 @@ export default function useAuth() {
     loginError: loginMutation.error,
     otpVerifyError: otpVerifyMutation.error,
     resendOtpError: resendOtpMutation.error,
-    logoutError: logoutMutation.error
+    logoutError: logoutMutation.error,
+
+    userLoginMutation,
+    isUserLoginLoading: userLoginMutation.isPending,
+    isUserLoginError: userLoginMutation.isError,
+    userLoginError: userLoginMutation.error,
   };
 }

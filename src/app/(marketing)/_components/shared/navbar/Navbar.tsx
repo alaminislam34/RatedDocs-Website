@@ -40,10 +40,10 @@ const French = () => (
   />
 );
 
-const German = () => (
+const Turkish = () => (
   <Image
-    src={"/images/flags/germany.png"}
-    alt="DE Flag"
+    src={"/images/flags/turkey.png"}
+    alt="TR Flag"
     width={20}
     height={20}
   />
@@ -58,10 +58,23 @@ const Arabic = () => (
   />
 );
 
-const Urdu = () => (
+const Spanish = () => (
+  <Image src={"/images/flags/spain.png"} alt="ES Flag" width={20} height={20} />
+);
+
+const Albanian = () => (
   <Image
-    src={"/images/flags/pakistan.png"}
-    alt="Pakistan Flag"
+    src={"/images/flags/albania.png"}
+    alt="AL Flag"
+    width={20}
+    height={20}
+  />
+);
+
+const Portuguese = () => (
+  <Image
+    src={"/images/flags/portuges.png"}
+    alt="PT Flag"
     width={20}
     height={20}
   />
@@ -115,11 +128,27 @@ export default function Navbar() {
 
   const languages = [
     { code: "EN", name: "English (US)", flag: <English /> },
-    { code: "BN", name: "Bangla", flag: <Bangla /> },
+    // { code: "BN", name: "Bangla", flag: <Bangla /> },
     { code: "FR", name: "French", flag: <French /> },
-    { code: "DE", name: "German", flag: <German /> },
-    { code: "AR", name: "Arabic", flag: <Arabic /> },
-    { code: "UR", name: "Urdu", flag: <Urdu /> },
+    // { code: "DE", name: "German", flag: <German /> },
+    // { code: "AR", name: "Arabic", flag: <Arabic /> },
+    // { code: "UR", name: "Urdu", flag: <Urdu /> },
+    { code: "ES", name: "Spanish", flag: <Spanish /> },
+    {
+      code: "TR",
+      name: "Turkish",
+      flag: <Turkish />,
+    },
+    {
+      code: "AL",
+      name: "Albanian",
+      flag: <Albanian />,
+    },
+    {
+      code: "PT",
+      name: "Portuguese",
+      flag: <Portuguese />,
+    },
   ];
 
   const isDetailsPage =
@@ -280,7 +309,6 @@ export default function Navbar() {
                       Join as a Doctor
                     </Link>
                   </div>
-
                 )}
               </>
             )}
@@ -304,7 +332,7 @@ export default function Navbar() {
                     className={cn(
                       "flex items-center gap-3 px-3 py-2 text-sm text-slate-700 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors focus:bg-slate-50 focus:outline-none",
                       selectedLang.code === lang.code &&
-                      "bg-[#F4F9FD] text-[#10436B] font-bold",
+                        "bg-[#F4F9FD] text-[#10436B] font-bold",
                     )}
                   >
                     {lang.flag}
@@ -438,8 +466,6 @@ export default function Navbar() {
                   >
                     Join as a Doctor
                   </Link>
-
-
                 </>
               )}
               <DropdownMenu>
@@ -461,7 +487,7 @@ export default function Navbar() {
                       className={cn(
                         "flex items-center gap-3 px-3 py-2 text-sm text-slate-700 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors focus:bg-slate-50 focus:outline-none",
                         selectedLang.code === lang.code &&
-                        "bg-[#F4F9FD] text-[#10436B] font-bold",
+                          "bg-[#F4F9FD] text-[#10436B] font-bold",
                       )}
                     >
                       {lang.flag}
