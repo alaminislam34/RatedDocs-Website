@@ -70,8 +70,8 @@ const Urdu = () => (
 const navConfig = [
   { label: "Home", href: "/" },
   { label: "Find a Dentist", href: "/find-dentist" },
-  { label: "About us", href: "/about-us", hasDropdown: true },
-  { label: "Guarantee", href: "/guarantee", hasDropdown: true },
+  { label: "About us", href: "/about-us", hasDropdown: false },
+  { label: "Guarantee", href: "/guarantee", hasDropdown: false },
 ];
 
 export default function Navbar() {
@@ -122,7 +122,6 @@ export default function Navbar() {
     { code: "UR", name: "Urdu", flag: <Urdu /> },
   ];
 
-  // Path detection to render specific layouts requested in Figma mockups
   const isDetailsPage =
     pathname.startsWith("/find-dentist/") && pathname !== "/find-dentist";
   const isSchedulePage = pathname === "/schedule";
@@ -189,10 +188,8 @@ export default function Navbar() {
             />
           </div>
 
-          {/* Actions Menu */}
           <div className="flex items-center gap-3 animate-in fade-in duration-300">
             {isAuthenticated ? (
-              /* Logged In User Dropdown */
               <DropdownMenu>
                 <DropdownMenuTrigger className="flex items-center gap-2 p-1 pr-3 rounded-full bg-slate-50 border border-slate-100 hover:bg-slate-100 focus:outline-none transition-all duration-200">
                   <Avatar className="h-8 w-8 border border-slate-200 shadow-sm">
@@ -241,7 +238,6 @@ export default function Navbar() {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              /* Logged Out Actions Based on Route */
               <>
                 {(isDetailsPage || isSchedulePage) && (
                   <button
@@ -270,49 +266,54 @@ export default function Navbar() {
                 )}
 
                 {!isDetailsPage && !isSchedulePage && !isFindDentistPage && (
-                  <Link
-                    href="/register-doctor"
-                    className="hidden sm:block rounded-full bg-[#10436B] px-5 py-2 text-sm font-semibold text-white transition-all hover:bg-[#0b2d49] hover:shadow-md active:scale-95 shadow-sm"
-                  >
-                    Join as a Doctor
-                  </Link>
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => setShowSigninModal(true)}
+                      className="text-[14px] font-semibold text-[#10436B] hover:text-[#0b2d49] transition-colors px-3 py-2 rounded-lg hover:bg-slate-50"
+                    >
+                      Sign In
+                    </button>
+                    <Link
+                      href="/register-doctor"
+                      className="hidden sm:block rounded-full bg-[#10436B] px-5 py-2 text-sm font-semibold text-white transition-all hover:bg-[#0b2d49] hover:shadow-md active:scale-95 shadow-sm"
+                    >
+                      Join as a Doctor
+                    </Link>
+                  </div>
+
                 )}
               </>
             )}
 
-            {/* Premium Language Dropdown - Visible on routes other than details/schedule/find-dentist */}
-            {!isDetailsPage && !isSchedulePage && !isFindDentistPage && (
-              <DropdownMenu>
-                <DropdownMenuTrigger className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-slate-100 hover:bg-slate-50 focus:outline-none transition-all duration-200 bg-white">
-                  {selectedLang.flag}
-                  <span className="text-[13px] font-bold text-slate-700">
-                    {selectedLang.code}
-                  </span>
-                  <ChevronDown size={12} className="text-slate-400" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  align="end"
-                  className="w-44 bg-white border border-slate-100 shadow-xl rounded-xl p-1.5 mt-1 animate-in fade-in-50 slide-in-from-top-1"
-                >
-                  {languages.map((lang) => (
-                    <DropdownMenuItem
-                      key={lang.code}
-                      onClick={() => setSelectedLang(lang)}
-                      className={cn(
-                        "flex items-center gap-3 px-3 py-2 text-sm text-slate-700 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors focus:bg-slate-50 focus:outline-none",
-                        selectedLang.code === lang.code &&
-                          "bg-[#F4F9FD] text-[#10436B] font-bold",
-                      )}
-                    >
-                      {lang.flag}
-                      <span>{lang.name}</span>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )}
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-slate-100 hover:bg-slate-50 focus:outline-none transition-all duration-200 bg-white">
+                {selectedLang.flag}
+                <span className="text-[13px] font-bold text-slate-700">
+                  {selectedLang.code}
+                </span>
+                <ChevronDown size={12} className="text-slate-400" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="end"
+                className="w-44 bg-white border border-slate-100 shadow-xl rounded-xl p-1.5 mt-1 animate-in fade-in-50 slide-in-from-top-1"
+              >
+                {languages.map((lang) => (
+                  <DropdownMenuItem
+                    key={lang.code}
+                    onClick={() => setSelectedLang(lang)}
+                    className={cn(
+                      "flex items-center gap-3 px-3 py-2 text-sm text-slate-700 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors focus:bg-slate-50 focus:outline-none",
+                      selectedLang.code === lang.code &&
+                      "bg-[#F4F9FD] text-[#10436B] font-bold",
+                    )}
+                  >
+                    {lang.flag}
+                    <span>{lang.name}</span>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
 
-            {/* Mobile Drawer Menu Toggle */}
             <button
               className="lg:hidden p-1 text-slate-600 hover:text-slate-900 transition-colors focus:outline-none"
               onClick={() => setIsOpen(!isOpen)}
@@ -438,34 +439,37 @@ export default function Navbar() {
                     Join as a Doctor
                   </Link>
 
-                  {/* Language Selection list in Mobile menu */}
-                  <div className="border-t border-slate-100 pt-4 mt-2">
-                    <p className="text-xs text-slate-400 font-semibold mb-3 uppercase tracking-wider">
-                      Select Language
-                    </p>
-                    <div className="grid grid-cols-2 gap-2">
-                      {languages.map((lang) => (
-                        <button
-                          key={lang.code}
-                          onClick={() => {
-                            setSelectedLang(lang);
-                            setIsOpen(false);
-                          }}
-                          className={cn(
-                            "flex items-center gap-2 p-2.5 rounded-xl border text-xs font-semibold transition-all",
-                            selectedLang.code === lang.code
-                              ? "border-[#10436B] bg-[#F4F9FD] text-[#10436B]"
-                              : "border-slate-200 text-slate-600 hover:bg-slate-50",
-                          )}
-                        >
-                          {lang.flag}
-                          <span>{lang.name}</span>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
+
                 </>
               )}
+              <DropdownMenu>
+                <DropdownMenuTrigger className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-slate-100 hover:bg-slate-50 focus:outline-none transition-all duration-200 bg-white">
+                  {selectedLang.flag}
+                  <span className="text-[13px] font-bold text-slate-700">
+                    {selectedLang.code}
+                  </span>
+                  <ChevronDown size={12} className="text-slate-400" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  align="start"
+                  className="w-44 bg-white border border-slate-100 shadow-xl rounded-xl p-1.5 mt-1 animate-in fade-in-50 slide-in-from-top-1"
+                >
+                  {languages.map((lang) => (
+                    <DropdownMenuItem
+                      key={lang.code}
+                      onClick={() => setSelectedLang(lang)}
+                      className={cn(
+                        "flex items-center gap-3 px-3 py-2 text-sm text-slate-700 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors focus:bg-slate-50 focus:outline-none",
+                        selectedLang.code === lang.code &&
+                        "bg-[#F4F9FD] text-[#10436B] font-bold",
+                      )}
+                    >
+                      {lang.flag}
+                      <span>{lang.name}</span>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           )}
         </div>

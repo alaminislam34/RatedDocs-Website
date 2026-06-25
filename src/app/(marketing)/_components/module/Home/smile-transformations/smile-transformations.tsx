@@ -74,7 +74,7 @@ export default function SmileTransformations() {
             </p>
           </div>
 
-          <Button
+          {/* <Button
             size={"lg"}
             className="self-start md:self-auto bg-primary text-white text-sm font-medium px-4 rounded-lg flex items-center gap-2 transition-colors duration-200"
           >
@@ -82,7 +82,7 @@ export default function SmileTransformations() {
             <span className="bg-[#FDB022] text-black rounded p-0.5 flex items-center justify-center size-4">
               <ArrowUpRight className="size-3 stroke-3" />
             </span>
-          </Button>
+          </Button> */}
         </div>
 
         {/* Desktop Grid / Mobile Responsive Slider Container */}
