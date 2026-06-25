@@ -48,7 +48,7 @@ export function RescheduleConsultationModal({
   const [selectedSlot, setSelectedSlot] = useState(TIME_SLOTS[0]);
 
   const selectedDate = useMemo(() => {
-    return consultation.status === "missed"
+    return (consultation.status as string) === "missed"
       ? "Thursday 16 April 2026"
       : consultation.date;
   }, [consultation.date, consultation.status]);

@@ -98,14 +98,17 @@ export default function FindDentist() {
   const filters = useDentistFilters(mappedDentists);
 
   const [activeDentistId, setActiveDentistId] = useState<string | null>(null);
-  const [isCompareMode, setIsCompareMode] = useState(false);
   const [compareList, setCompareList] = useState<Dentist[]>([]);
   const [showMapFilters, setShowMapFilters] = useState(false);
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
-  // App global state context
-  const { setShowSignupModal, setDentistsToCompare, setShowPersonalizeModal } =
-    useStateContext();
+  const {
+    isCompareMode,
+    setIsCompareMode,
+    setShowSignupModal,
+    setDentistsToCompare,
+    setShowPersonalizeModal,
+  } = useStateContext();
 
   const handleCompareToggle = (dentist: Dentist) => {
     const exists = compareList.some((item) => item.id === dentist.id);

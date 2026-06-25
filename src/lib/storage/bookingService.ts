@@ -84,16 +84,31 @@ const INITIAL_BOOKING_DRAFT: BookingDraft = {
 };
 
 let frontSmileFile: File | null = null;
+let wideSmileFile: File | null = null;
+let upperArchFile: File | null = null;
+let lowerArchFile: File | null = null;
+let leftSideFile: File | null = null;
+let rightSideFile: File | null = null;
 let xrayFile: File | null = null;
 
 const canUseStorage = () => typeof window !== "undefined";
 
 function stripFiles(draft: BookingDraft): BookingFormData {
+  const required: File[] = [];
+  if (frontSmileFile) required.push(frontSmileFile);
+  if (wideSmileFile) required.push(wideSmileFile);
+  if (lowerArchFile) required.push(lowerArchFile);
+
+  const recommended: File[] = [];
+  if (upperArchFile) recommended.push(upperArchFile);
+  if (leftSideFile) recommended.push(leftSideFile);
+  if (rightSideFile) recommended.push(rightSideFile);
+
   return {
     ...draft,
     photos: {
-      required: frontSmileFile ? [frontSmileFile] : [],
-      recommended: [],
+      required,
+      recommended,
     },
     xray: xrayFile,
   };
@@ -290,6 +305,46 @@ export function getFrontSmileFile() {
   return frontSmileFile;
 }
 
+export function setWideSmileFile(file: File | null) {
+  wideSmileFile = file;
+}
+
+export function getWideSmileFile() {
+  return wideSmileFile;
+}
+
+export function setUpperArchFile(file: File | null) {
+  upperArchFile = file;
+}
+
+export function getUpperArchFile() {
+  return upperArchFile;
+}
+
+export function setLowerArchFile(file: File | null) {
+  lowerArchFile = file;
+}
+
+export function getLowerArchFile() {
+  return lowerArchFile;
+}
+
+export function setLeftSideFile(file: File | null) {
+  leftSideFile = file;
+}
+
+export function getLeftSideFile() {
+  return leftSideFile;
+}
+
+export function setRightSideFile(file: File | null) {
+  rightSideFile = file;
+}
+
+export function getRightSideFile() {
+  return rightSideFile;
+}
+
 export function setXrayFile(file: File | null) {
   xrayFile = file;
 }
@@ -304,6 +359,11 @@ export function updateXrayNotes(notes: string) {
 
 export function clearBookingData() {
   frontSmileFile = null;
+  wideSmileFile = null;
+  upperArchFile = null;
+  lowerArchFile = null;
+  leftSideFile = null;
+  rightSideFile = null;
   xrayFile = null;
 
   if (canUseStorage()) {

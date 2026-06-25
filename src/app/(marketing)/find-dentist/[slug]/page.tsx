@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import dynamic from "next/dynamic";
-import { dentists } from "../../_components/module/DentistAllComponents/types";
+import { useGetDentistById } from "@/hooks/global/useGlobal";
 
 const DentistProfile = dynamic(
   () =>
@@ -13,17 +13,10 @@ const DentistProfile = dynamic(
 
 export default function ViewDentistProfile() {
   const params = useParams();
-  const [mounted, setMounted] = useState(false);
-
-  // Prevent hydration mismatch by waiting for mount
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null; // Or a loading skeleton
-
   const slug = params?.slug as string;
-  const dentist = dentists.find((d) => d.id === slug);
+
+  const { data: dentist, isLoading, error } = useGetDentistById(slug);
+  console.log(dentist);
 
   if (!dentist) {
     return (

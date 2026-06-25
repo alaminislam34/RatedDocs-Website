@@ -17,6 +17,11 @@ export interface LoginPayload {
   role: "PATIENT" | "DENTIST" | "ADMIN";
 }
 
+export interface userLoginPayload {
+  email: string;
+  password: string;
+}
+
 export interface OtpPayload {
   email: string;
   otp: string;

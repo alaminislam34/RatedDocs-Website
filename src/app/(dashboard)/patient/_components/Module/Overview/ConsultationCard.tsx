@@ -29,7 +29,7 @@ export function ConsultationCard({
     isoDate: consultation.isoDate,
   };
 
-  const showRescheduleAction = consultation.status === "missed";
+  const showRescheduleAction = (consultation.status as string) === "missed";
 
   return (
     <>
@@ -66,7 +66,9 @@ export function ConsultationCard({
 
               <div className="flex flex-wrap items-center gap-2 text-[12px] font-medium text-[#9CA3AF]">
                 <span className="flex items-center gap-1 text-[#113254] font-semibold">
-                  <span className="text-[13px]">{consultation.doctor.rating}</span>
+                  <span className="text-[13px]">
+                    {consultation.doctor.rating}
+                  </span>
                   <span className="flex items-center gap-0.5 text-[#F5B000]">
                     {Array.from({ length: 5 }).map((_, index) => (
                       <Star key={index} className="size-3.5 fill-current" />
@@ -82,8 +84,12 @@ export function ConsultationCard({
               </div>
 
               <div className="inline-flex items-center gap-1.5 rounded-lg border border-[#CEE0F4] px-3 py-1.5 text-[#1A1A2E]">
-                <span className="text-[14px] font-black">{consultation.rdvScore}</span>
-                <span className="text-[11px] font-medium text-[#6B7280]">RDV Score</span>
+                <span className="text-[14px] font-black">
+                  {consultation.rdvScore}
+                </span>
+                <span className="text-[11px] font-medium text-[#6B7280]">
+                  RDV Score
+                </span>
               </div>
             </div>
           </div>
@@ -95,7 +101,9 @@ export function ConsultationCard({
             <p className="text-[15px] font-bold text-[#1A1A2E]">
               {consultation.procedure}
             </p>
-            <p className="text-[13px] text-[#6B7280]">{consultation.timezone}</p>
+            <p className="text-[13px] text-[#6B7280]">
+              {consultation.timezone}
+            </p>
           </div>
 
           <div className="space-y-1 lg:text-right">
@@ -115,7 +123,9 @@ export function ConsultationCard({
 
         <div className="mt-5 flex flex-col gap-4 border-t border-[#EEF2F6] pt-5 sm:flex-row sm:items-end sm:justify-between">
           <div className="space-y-1">
-            <p className="text-[15px] font-bold text-[#1A1A2E]">{consultation.date}</p>
+            <p className="text-[15px] font-bold text-[#1A1A2E]">
+              {consultation.date}
+            </p>
             <p className="text-[13px] font-medium text-[#6B7280]">
               {consultation.time} · {consultation.duration}
             </p>
@@ -134,7 +144,9 @@ export function ConsultationCard({
               type="button"
               onClick={onPrimaryAction}
               className={`w-full rounded-xl px-6 py-3 text-[14px] font-bold text-white transition-all active:scale-95 sm:w-auto ${
-                showRescheduleAction ? "bg-[#113254] hover:bg-[#0d2844]" : "bg-[#113254] hover:bg-[#0d2844]"
+                showRescheduleAction
+                  ? "bg-[#113254] hover:bg-[#0d2844]"
+                  : "bg-[#113254] hover:bg-[#0d2844]"
               }`}
             >
               {consultation.primaryActionLabel}

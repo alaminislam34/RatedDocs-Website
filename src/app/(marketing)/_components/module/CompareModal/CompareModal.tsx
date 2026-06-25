@@ -56,24 +56,24 @@ export default function CompareModal() {
     if (!showCompareModal) return;
 
     const timeoutId = window.setTimeout(() => {
-    if (dentistsToCompare.length > 0) {
-      setDentists(dentistsToCompare);
-      setSelectedIds(dentistsToCompare.map((d) => d.id));
-      return;
-    }
+      if (dentistsToCompare.length > 0) {
+        setDentists(dentistsToCompare);
+        setSelectedIds(dentistsToCompare.map((d) => d.id));
+        return;
+      }
 
-    // Fallback: load from storage (postBooking flow or direct open)
-    const stored = getDentistsFromStorage();
-    if (isPostBooking && selectedDentistId) {
-      const main = stored.find((d) => d.id === selectedDentistId);
-      const others = stored.filter((d) => d.id !== selectedDentistId);
-      const list = main ? [main, ...others.slice(0, 2)] : stored.slice(0, 3);
-      setDentists(list);
-      setSelectedIds([selectedDentistId]);
-    } else {
-      setDentists(stored.slice(0, 3));
-      setSelectedIds([]);
-    }
+      // Fallback: load from storage (postBooking flow or direct open)
+      const stored = getDentistsFromStorage();
+      if (isPostBooking && selectedDentistId) {
+        const main = stored.find((d) => d.id === selectedDentistId);
+        const others = stored.filter((d) => d.id !== selectedDentistId);
+        const list = main ? [main, ...others.slice(0, 2)] : stored.slice(0, 3);
+        setDentists(list);
+        setSelectedIds([selectedDentistId]);
+      } else {
+        setDentists(stored.slice(0, 3));
+        setSelectedIds([]);
+      }
     }, 0);
 
     return () => window.clearTimeout(timeoutId);
@@ -86,7 +86,7 @@ export default function CompareModal() {
       return [...prev, id];
     });
   };
-// please here add some console to debug this function
+  // please here add some console to debug this function
   const handleBook = () => {
     if (selectedIds.length === 0) return;
     setSelectedDentistId(selectedIds[0]);
@@ -131,7 +131,7 @@ export default function CompareModal() {
 
   return (
     <Dialog open={showCompareModal} onOpenChange={setShowCompareModal}>
-      <DialogContent className="sm:max-w-4xl w-full p-0 rounded-xl overflow-hidden bg-white max-h-[92vh] flex flex-col">
+      <DialogContent className="sm:max-w-4xl w-11/12 mx-auto p-0 rounded-xl overflow-hidden bg-white max-h-[92vh] flex flex-col">
         <DialogTitle className="sr-only">
           {isPostBooking
             ? "Your personalised estimates are ready"

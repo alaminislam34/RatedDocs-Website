@@ -1,6 +1,13 @@
 "use client";
 
-import { createContext, useContext, useEffect, useRef, Suspense } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  Suspense,
+  useState,
+} from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useAppStore } from "@/store/useAppStore";
 import { initializeDentistData } from "@/lib/storage/dentistData";
@@ -62,6 +69,8 @@ interface StateContextType {
   setIsNewestFirst: (isNewest: boolean | ((prev: boolean) => boolean)) => void;
   showSigninModal: boolean;
   setShowSigninModal: (show: boolean) => void;
+  isCompareMode: boolean;
+  setIsCompareMode: (isCompareMode: boolean) => void;
 }
 
 export const StateContext = createContext<StateContextType | undefined>(
@@ -165,6 +174,7 @@ export const StateProvider: React.FC<{ children: React.ReactNode }> = ({
   const pathname = usePathname();
   const router = useRouter();
   const pendingModalRef = useRef<AppModalType | undefined>(undefined);
+  const [isCompareMode, setIsCompareMode] = useState(false);
 
   const setUrlModal = (modal: AppModalType) => {
     const currentSearchParams =
@@ -291,6 +301,8 @@ export const StateProvider: React.FC<{ children: React.ReactNode }> = ({
     setSearchQuery: store.setSearchQuery,
     isNewestFirst: store.isNewestFirst,
     setIsNewestFirst: store.setIsNewestFirst,
+    isCompareMode,
+    setIsCompareMode,
   };
 
   return (

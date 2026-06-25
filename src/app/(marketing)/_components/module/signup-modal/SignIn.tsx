@@ -18,11 +18,11 @@ import {
 } from "@/components/ui/dialog";
 import { useStateContext } from "@/providers/StateProvider";
 import useAuth from "@/hooks/authentication/useAuth";
-import { loginSchema } from "@/hooks/patient/schema";
+import { userLoginSchema } from "@/hooks/patient/schema";
 import { getApiErrorMessage } from "@/lib/api";
 import { TOAST_STYLE } from "./Signup-Modal";
 
-type LoginFormData = z.infer<typeof loginSchema>;
+type LoginFormData = z.infer<typeof userLoginSchema>;
 
 export default function SigninModal() {
   const {
@@ -30,10 +30,11 @@ export default function SigninModal() {
     setShowSigninModal,
     setShowSignupModal,
     setShowPersonalizeModal,
+    isCompareMode,
   } = useStateContext();
 
   const [showPassword, setShowPassword] = useState(false);
-  const { loginMutation, isLoginLoading } = useAuth();
+  const { userLoginMutation, isUserLoginLoading } = useAuth();
 
   const {
     register,
@@ -43,20 +44,19 @@ export default function SigninModal() {
     formState: { errors },
     reset,
   } = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(userLoginSchema),
     defaultValues: {
       email: "",
       password: "",
-      role: "PATIENT",
     },
   });
 
   const onSubmit = (data: LoginFormData) => {
     clearErrors("root");
 
-    loginMutation.mutate(data, {
+    userLoginMutation.mutate(data, {
       onSuccess: () => {
-        toast.success("Welcome back!", { style: TOAST_STYLE });
+        toast.success("Login successfully!", { style: TOAST_STYLE });
         reset();
         setShowSigninModal(false);
         setShowPersonalizeModal(true);
@@ -70,11 +70,11 @@ export default function SigninModal() {
     });
   };
 
-  const handleSocialLogin = (provider: string) => {
-    toast.success(`Signed in with ${provider}!`, { style: TOAST_STYLE });
-    setShowSigninModal(false);
-    setShowPersonalizeModal(true);
-  };
+  // const handleSocialLogin = (provider: string) => {
+  //   toast.success(`Signed in with ${provider}!`, { style: TOAST_STYLE });
+  //   setShowSigninModal(false);
+  //   setShowPersonalizeModal(true);
+  // };
 
   const switchToSignup = () => {
     setShowSigninModal(false);
@@ -88,10 +88,11 @@ export default function SigninModal() {
       <DialogContent
         onPointerDownOutside={(e) => e.preventDefault()}
         onEscapeKeyDown={(e) => e.preventDefault()}
-        className="sm:max-w-150 max-h-[95vh] overflow-y-auto backdrop-blur-xl rounded-xl border-none p-8 gap-0">
+        className="sm:max-w-150 max-h-[95vh] overflow-y-auto backdrop-blur-xl rounded-xl border-none p-8 gap-0"
+      >
         <DialogHeader className="mb-8 text-left">
           <DialogTitle className="mb-2 text-[32px] font-semibold leading-tight text-[#1A1A2E]">
-            Sign in
+            Sign in {isCompareMode ? "for comparison" : ""}
           </DialogTitle>
           <DialogDescription className="text-[16px] leading-snug text-[#6B7280]">
             Welcome back! Sign in to manage your appointments and consultations.
@@ -101,7 +102,7 @@ export default function SigninModal() {
         <div className="mb-4 space-y-3">
           <button
             type="button"
-            onClick={() => handleSocialLogin("Google")}
+            // onClick={() => handleSocialLogin("Google")}
             className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-xl bg-[#F3F4F6] px-4 py-2.5 transition-colors duration-200 hover:bg-[#E5E7EB] lg:py-3.5"
           >
             <FcGoogle className="text-2xl" />
@@ -110,7 +111,7 @@ export default function SigninModal() {
 
           <button
             type="button"
-            onClick={() => handleSocialLogin("Apple")}
+            // onClick={() => handleSocialLogin("Apple")}
             className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-xl bg-[#F3F4F6] px-4 py-2.5 transition-colors duration-200 hover:bg-[#E5E7EB] lg:py-3.5"
           >
             <FaApple className="text-2xl text-black" />
@@ -119,7 +120,7 @@ export default function SigninModal() {
 
           <button
             type="button"
-            onClick={() => handleSocialLogin("Facebook")}
+            // onClick={() => handleSocialLogin("Facebook")}
             className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-xl bg-[#F3F4F6] px-4 py-2.5 transition-colors duration-200 hover:bg-[#E5E7EB] lg:py-3.5"
           >
             <FaFacebook className="text-2xl text-[#1877F2]" />
@@ -203,10 +204,10 @@ export default function SigninModal() {
 
           <button
             type="submit"
-            disabled={isLoginLoading}
+            disabled={isUserLoginLoading}
             className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-[#113254] py-4 text-lg font-semibold text-white transition-all duration-200 hover:bg-[#0d2844] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {isLoginLoading ? (
+            {isUserLoginLoading ? (
               <>
                 <Loader2 className="size-5 animate-spin" />
                 Signing in...
@@ -219,7 +220,7 @@ export default function SigninModal() {
 
         {/* Footer Toggle Link */}
         <p className="mt-6 text-center text-sm text-[#6B7280]">
-          Don&apos;t have an account?{" "}
+          Don&apos;t have an account?
           <button
             type="button"
             onClick={switchToSignup}

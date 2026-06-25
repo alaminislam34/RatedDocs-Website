@@ -5,7 +5,14 @@ import SearchTags from "./search-tags";
 
 export default function CtaSearchSection() {
   return (
-    <section style={{ backgroundImage: `url('/images/cta.png')`, backgroundPosition: "center", backgroundSize: "cover" }} className="relative w-full py-24 ">
+    <section
+      style={{
+        backgroundImage: `url('/images/cta.png')`,
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+      }}
+      className="relative w-full py-24 "
+    >
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-linear-to-b from-black/10 to-transparent" />
       </div>
@@ -17,8 +24,9 @@ export default function CtaSearchSection() {
             <span className="text-[10px] text-white italic">✓</span>
           </div>
           <span className="text-white text-sm font-medium">
-            Over <span className="text-[#E3A32A] font-bold">2400+</span>{" "}
-            Verified Dentists Worldwide
+            {/* todo: get total dentists */}
+            Over <span className="text-[#E3A32A] font-bold">0</span> Verified
+            Dentists Worldwide
           </span>
         </div>
 

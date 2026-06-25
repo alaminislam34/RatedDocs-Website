@@ -7,6 +7,7 @@ import {
 } from "@/lib/storage/bookingService";
 import { getApiErrorMessage, procedureApi } from "@/lib/api";
 import toast from "react-hot-toast";
+import ProcedureSelectionSkeleton from "./ProcedureSelectionFormSkeleton";
 
 const procedures = [
   {
@@ -142,12 +143,7 @@ export default function ProcedureSelectionForm() {
         What procedure are you interested in?
       </h2>
 
-      {isLoading && (
-        <div className="mb-4 flex items-center gap-2 text-sm font-medium text-[#6B7280]">
-          <Loader2 className="size-4 animate-spin" />
-          Loading procedures...
-        </div>
-      )}
+      {isLoading && <ProcedureSelectionSkeleton />}
 
       <div className="space-y-4">
         {procedureOptions.map((item) => {

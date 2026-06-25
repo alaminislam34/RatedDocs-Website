@@ -68,13 +68,15 @@ export default function SignupModal() {
   });
 
   const onSubmit = async (data: SignupFormData) => {
-
     try {
-      const res = await registerMutation.mutateAsync(data)
+      const res = await registerMutation.mutateAsync(data);
       if (res) {
-        toast.success("Account created successfully. Please verify your email.", {
-          style: TOAST_STYLE,
-        });
+        toast.success(
+          "Account created successfully. Please verify your email.",
+          {
+            style: TOAST_STYLE,
+          },
+        );
         setPendingEmail(data.email);
         reset();
         setShowSignupModal(false);
@@ -85,10 +87,10 @@ export default function SignupModal() {
     }
   };
 
-  const handleSocialSignup = (provider: string) => {
-    toast.success(`Signed up with ${provider}!`, { style: TOAST_STYLE });
-    setShowPersonalizeModal(true);
-  };
+  // const handleSocialSignup = (provider: string) => {
+  //   toast.success(`Signed up with ${provider}!`, { style: TOAST_STYLE });
+  //   setShowPersonalizeModal(true);
+  // };
 
   const handleOtpVerified = () => {
     setShowOtpModal(false);
@@ -102,7 +104,8 @@ export default function SignupModal() {
         <DialogContent
           onPointerDownOutside={(e) => e.preventDefault()}
           onEscapeKeyDown={(e) => e.preventDefault()}
-          className="sm:max-w-150 max-h-[95vh] overflow-y-auto backdrop-blur-xl rounded-xl border-none p-8 gap-0">
+          className="sm:max-w-150 max-h-[95vh] overflow-y-auto backdrop-blur-xl rounded-xl border-none p-8 gap-0"
+        >
           <DialogHeader className="mb-8 text-left">
             <DialogTitle className="mb-2 text-[32px] font-semibold leading-tight text-[#1A1A2E]">
               Sign up
@@ -115,7 +118,7 @@ export default function SignupModal() {
 
           <div className="mb-4 space-y-3">
             <button
-              onClick={() => handleSocialSignup("Google")}
+              // onClick={() => handleSocialSignup("Google")}
               className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-xl bg-[#F3F4F6] px-4 py-2.5 transition-colors duration-200 hover:bg-[#E5E7EB] lg:py-3.5"
             >
               <FcGoogle className="text-2xl" />
@@ -123,7 +126,7 @@ export default function SignupModal() {
             </button>
 
             <button
-              onClick={() => handleSocialSignup("Apple")}
+              // onClick={() => handleSocialSignup("Apple")}
               className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-xl bg-[#F3F4F6] px-4 py-2.5 transition-colors duration-200 hover:bg-[#E5E7EB] lg:py-3.5"
             >
               <FaApple className="text-2xl text-black" />
@@ -131,7 +134,7 @@ export default function SignupModal() {
             </button>
 
             <button
-              onClick={() => handleSocialSignup("Facebook")}
+              // onClick={() => handleSocialSignup("Facebook")}
               className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-xl bg-[#F3F4F6] px-4 py-2.5 transition-colors duration-200 hover:bg-[#E5E7EB] lg:py-3.5"
             >
               <FaFacebook className="text-2xl text-[#1877F2]" />
