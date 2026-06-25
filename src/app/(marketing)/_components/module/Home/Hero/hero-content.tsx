@@ -17,7 +17,7 @@ export default function HeroContent() {
       </div>
 
       <p className="text-sm font-medium text-gray-400">
-        Trusted by <span className="font-bold text-[#10436B]">Over 2400+</span> Dentists Worldwide
+        Trusted by <span className="font-bold text-[#10436B]">0</span> Dentists Worldwide
       </p>
     </div>
   );
